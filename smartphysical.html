@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Physical</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg: #080c14;
+      --surface: #0e1624;
+      --card: #14202e;
+      --border: #1f3144;
+      --text: #f0f4f8;
+      --muted: #7a8fa6;
+      --gold: #d4a14b;
+      --gold-glow: rgba(212,161,75,0.15);
+      --radius: 18px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 76px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 12px 20px; background: var(--bg); position: sticky; top: 0; z-index: 20; }
+    .topbar-days { display: flex; gap: 8px; }
+    .topbar-days span { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); border-radius: 50%; transition: all 0.2s; }
+    .topbar-days .today { background: var(--gold); color: #080c14; box-shadow: 0 0 12px var(--gold-glow); }
+    .topbar-right { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--muted); }
+    .topbar-right .weather-icon { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .topbar-right .sep { opacity: 0.4; }
+
+    .banner {
+      background: linear-gradient(145deg, #1c2a3a, #0e1624);
+      border: 1px solid var(--gold); border-radius: var(--radius);
+      margin: 8px 20px 22px 20px; padding: 32px 20px 26px 20px;
+      text-align: center; cursor: pointer;
+      transition: transform 0.2s; box-shadow: 0 8px 24px rgba(212,161,75,0.08);
+      position: relative; overflow: hidden;
+    }
+    .banner:active { transform: scale(0.98); }
+    .banner .app-name { font-size: 16px; font-weight: 800; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .banner .icon { width: 64px; height: 64px; border-radius: 50%; background: var(--gold-glow); border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; box-shadow: 0 0 30px rgba(212,161,75,0.1); }
+    .banner .icon svg { width: 32px; height: 32px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .banner .aluno { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .banner .aluno span { color: var(--gold); }
+    .banner .hint { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; opacity: 0.7; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 0 20px 20px 20px; }
+    .btn-dash {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      color: var(--text);
+    }
+    .btn-dash:active { transform: scale(0.96); border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow); }
+    .btn-dash .icon-circle { width: 48px; height: 48px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(212,161,75,0.2); }
+    .btn-dash .icon-circle svg { width: 26px; height: 26px; stroke: #080c14; fill: none; stroke-width: 2.5; }
+    .btn-dash .label { font-size: 15px; font-weight: 700; line-height: 1.3; letter-spacing: 0.2px; }
+
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(14, 22, 36, 0.92); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-around; align-items: center;
+      padding: 8px 0 env(safe-area-inset-bottom, 8px) 0;
+      height: 68px; z-index: 50; box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    }
+    .bottom-item { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; padding: 4px 8px; transition: color 0.2s; flex: 1; max-width: 72px; position: relative; }
+    .bottom-item svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 2; transition: stroke 0.2s; }
+    .bottom-item.active { color: var(--gold); }
+    .bottom-item.active svg { stroke: var(--gold); }
+    .bottom-item:active { transform: scale(0.92); }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    .internal-header { padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px); }
+    .back-btn { background: rgba(212,161,75,0.08); border: 1px solid var(--gold); color: var(--gold); border-radius: 10px; padding: 6px 14px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; text-transform: uppercase; transition: all 0.2s; font-family: inherit; }
+    .back-btn:active { transform: scale(0.95); }
+    .internal-title { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+    .internal-content { padding: 20px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+    .ex-list-container { padding: 14px; }
+    .ex-item-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; }
+    .ex-item-card:active { transform: scale(0.98); }
+    .ex-item-thumb { width: 60px; height: 60px; border-radius: 10px; background: #000; overflow: hidden; flex: none; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size:22px; }
+    .ex-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .ex-item-info { flex: 1; min-width: 0; }
+    .ex-item-info .title { font-size: 15px; font-weight: 800; color: #fff; margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ex-item-info .app-name { font-size: 11px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin: 0 0 2px; letter-spacing: .04em; }
+    .ex-item-info .muscle { font-size: 12px; color: var(--muted); margin: 0; }
+    .check-badge { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; color: #080c14; font-weight: 800; font-size: 14px; flex: none; margin-right: 4px; }
+    .chev-icon { color: var(--muted); font-size: 18px; flex: none; }
+
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 18px; background: var(--bg); }
+    .cat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 12px; text-align: center; color: var(--text); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 80px; }
+    .cat-card:active { transform: scale(0.97); border-color: var(--gold); }
+    .cat-card b { font-size: 15px; font-weight: 800; display: block; margin-bottom: 2px; color: var(--gold); }
+    .cat-card span { font-size: 11px; color: var(--muted); }
+
+    .dieta-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 8px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+    .dieta-card:active { transform: scale(0.98); }
+    .dieta-card .dieta-nome { font-weight: 700; font-size: 15px; }
+    .dieta-card .dieta-num { background: var(--gold); color: #080c14; padding: 2px 10px; border-radius: 20px; font-weight: 800; font-size: 12px; }
+
+    .receita-imagem { width: 100%; height: 220px; object-fit: cover; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface); }
+    .receita-detalhe .ingredientes, .receita-detalhe .instrucoes { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; white-space: pre-line; font-size: 13px; color: #d1d5db; line-height: 1.6; position: relative; }
+    .receita-detalhe .ingredientes strong, .receita-detalhe .instrucoes strong { color: var(--gold); display: block; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .btn-copiar { background: var(--gold); color: #080c14; border: none; border-radius: 8px; padding: 6px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; transition: all 0.2s; float: right; margin-top: -6px; }
+    .btn-copiar:active { transform: scale(0.95); }
+
+    .view-detalhe-container { padding: 16px; background: var(--bg); min-height: 100vh; }
+    .detalhe-top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .btn-voltar-texto { background: none; border: none; color: var(--gold); font-size: 12px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: .05em; padding: 0; }
+    .btn-voltar-texto .circle-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(212,161,75,.1); display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold); }
+    .btn-voltar-texto .circle-icon svg { width: 16px; height: 16px; stroke: var(--gold); stroke-width: 3; fill: none; }
+    .btn-fav { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .detalhe-title { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; }
+    .detalhe-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+    .tags-row-custom { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tag-custom { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; letter-spacing: .05em; }
+    .tag-custom.dark { background: #161d27; color: var(--muted); }
+    .tag-custom.gold { background: #3d2a16; color: var(--gold); border: 1px solid rgba(212,161,75,.2); }
+    .gif-box-card { width: 100%; height: 320px; background: #0a0e17; border-radius: 18px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid var(--border); }
+    .gif-box-card img { max-width: 95%; max-height: 95%; object-fit: contain; }
+    .gif-box-card .fallback-msg { color: #8892a3; font-size: 13px; text-align: center; padding: 20px; line-height: 1.5; }
+    .gif-label { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(4px); }
+    .sec-label { font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; margin: 20px 0 10px; }
+    .info-card-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 14px; }
+    .info-card-icon { width: 48px; height: 48px; border-radius: 12px; background: #080c14; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); flex: none; }
+    .info-card-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .info-card-text h4 { margin: 0 0 2px; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .info-card-text p { margin: 0; font-size: 15px; font-weight: 800; color: #fff; }
+    .text-instructions { font-size: 13px; color: #d1d5db; line-height: 1.6; margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; white-space: pre-line; }
+
+    .metric-row-edit { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+    .metric-edit-item { flex: 1; min-width: 70px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .metric-edit-item label { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; }
+    .metric-edit-item input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gold); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 4px 0; outline: none; }
+    .metric-edit-item input:focus { border-bottom-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
+
+    .dias-vertical { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+    .dia-vertical-item { background: var(--card); border: 1px solid var(--gold); border-radius: var(--radius); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+    .dia-vertical-item:active { transform: scale(0.98); }
+    .dia-vertical-item .dia-nome { font-weight: 800; font-size: 16px; color: var(--gold); }
+    .dia-vertical-item .dia-qtd { font-size: 13px; color: var(--muted); }
+
+    .perfil-edit { padding: 20px; }
+    .perfil-edit .campo { margin-bottom: 16px; }
+    .perfil-edit .campo label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); font-weight: 800; margin-bottom: 4px; }
+    .perfil-edit .campo input, .perfil-edit .campo textarea { width: 100%; padding: 10px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; font-weight: 500; outline: none; font-family: inherit; }
+    .perfil-edit .campo input:focus, .perfil-edit .campo textarea:focus { border-color: var(--gold); }
+    .perfil-edit .campo textarea { min-height: 80px; resize: vertical; }
+    .btn-salvar-perfil { width: 100%; padding: 14px; background: var(--gold); color: #080c14; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+    .btn-salvar-perfil:active { transform: scale(0.98); }
+
+    .notas-area { padding: 20px; }
+    .notas-area textarea { width: 100%; min-height: 300px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; color: var(--text); font-size: 15px; font-family: inherit; line-height: 1.6; resize: vertical; outline: none; }
+    .notas-area textarea:focus { border-color: var(--gold); }
+    .btn-salvar-notas { width: 100%; padding: 14px; background: var(--gold); color: #080c14; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 12px; }
+    .btn-salvar-notas:active { transform: scale(0.98); }
+
+    .pagamento-area { padding: 20px; }
+    .pagamento-area .info-pix { background: var(--card); border: 1px solid var(--gold); border-radius: 14px; padding: 16px; margin-bottom: 20px; text-align: center; }
+    .pagamento-area .info-pix strong { color: var(--gold); display: block; font-size: 18px; margin-bottom: 6px; }
+    .pagamento-area .info-pix span { font-size: 14px; color: var(--muted); }
+    .pagamento-area .info-pix .chave-pix { color: #fff; font-weight: 700; font-size: 16px; margin-top: 4px; }
+    .pagamento-area .campo { margin-bottom: 16px; }
+    .pagamento-area .campo label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); font-weight: 800; margin-bottom: 4px; }
+    .pagamento-area .campo input { width: 100%; padding: 10px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; outline: none; }
+    .pagamento-area .campo input:focus { border-color: var(--gold); }
+    .btn-salvar-pagamento { width: 100%; padding: 14px; background: var(--gold); color: #080c14; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+    .btn-salvar-pagamento:active { transform: scale(0.98); }
+
+    .btn-voltar-abaixo { width: 100%; padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--muted); font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; margin-top: 10px; text-align: center; }
+    .btn-voltar-abaixo:active { transform: scale(0.98); background: var(--card); }
+
+    .day-selector { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .day-btn { flex: 1 0 calc(100% / 7 - 8px); min-width: 40px; text-align: center; padding: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .day-btn.active { border-color: var(--gold); background: #2a1f14; color: var(--gold); }
+    .day-btn:active { transform: scale(0.95); }
+    .btn-confirmar { width: 100%; padding: 13px; border: none; border-radius: 10px; background: var(--gold); color: #080c14; font-weight: 800; font-size: 14px; margin-top: 4px; cursor: pointer; transition: all 0.2s; }
+    .btn-confirmar:active { transform: scale(0.98); }
+    .btn-confirmar.no-treino { background: transparent; border: 1px solid #ff5252; color: #ff5252; }
+
+    .wizard-overlay { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: none; flex-direction: column; }
+    .wizard-top { padding: 16px 18px; display: flex; align-items: center; gap: 12px; flex: none; }
+    .wizard-back { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .wizard-progress { flex: 1; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .wizard-progress-fill { height: 100%; width: 14.3%; background: var(--gold); border-radius: 99px; transition: width .25s; }
+    .wizard-body { flex: 1; overflow-y: auto; padding: 8px 20px 24px; }
+    .wizard-step { display: none; }
+    .wizard-step.active { display: block; animation: fadeIn .3s; }
+    .wizard-title { font-size: 26px; font-weight: 800; line-height: 1.25; margin: 12px 0 24px; }
+    .wizard-input { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 16px; border-radius: 12px; font-size: 18px; margin-bottom: 8px; outline: none; }
+    .wizard-input:focus { border-color: var(--gold); }
+    .wizard-hint { font-size: 13px; color: var(--muted); margin: 0; }
+    .wizard-options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .wizard-option { text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; color: var(--text); display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: all 0.2s; }
+    .wizard-option:active { transform: scale(0.98); }
+    .wizard-option b { font-size: 15px; font-weight: 700; }
+    .wizard-option span { font-size: 12px; color: var(--muted); }
+    .wizard-option.selected { border-color: var(--gold); background: #2a1f14; }
+    .wizard-bottom { flex: none; padding: 14px 18px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--bg); }
+    .wizard-next { width: 100%; padding: 16px; border: none; border-radius: 12px; background: var(--gold); color: #080c14; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.2s; }
+    .wizard-next:active { transform: scale(0.98); }
+    .wizard-next:disabled { opacity: .4; cursor: not-allowed; }
+    .empty-state { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #080c14; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; box-shadow: 0 8px 24px rgba(212,161,75,0.3); }
+    .toast.show { opacity: 1; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 380px) { .topbar-days span { width: 24px; height: 24px; font-size: 11px; } .btn-dash { padding: 14px 12px; } .btn-dash .label { font-size: 13px; } .metric-row-edit { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+
+  <!-- WIZARD -->
+  <div class="wizard-overlay" id="wizard-overlay">
+    <div class="wizard-top"><button class="wizard-back" id="wizard-back">←</button><div class="wizard-progress"><div class="wizard-progress-fill" id="wizard-progress-fill"></div></div></div>
+    <div class="wizard-body">
+      <div class="wizard-step active" data-step="0"><h1 class="wizard-title">Vamos começar</h1><p class="wizard-hint" style="font-size:15px;line-height:1.6;">Primeiro, precisamos saber algumas informações sobre o aluno.</p></div>
+      <div class="wizard-step" data-step="1"><h1 class="wizard-title">Qual o nome do aluno?</h1><input type="text" id="w-nome" class="wizard-input" placeholder="Nome completo"></div>
+      <div class="wizard-step" data-step="2"><h1 class="wizard-title">Qual a altura?</h1><input type="number" id="w-altura" class="wizard-input" placeholder="Ex: 175" inputmode="numeric"><p class="wizard-hint">Em centimetros</p></div>
+      <div class="wizard-step" data-step="3"><h1 class="wizard-title">Qual o peso atual?</h1><input type="number" id="w-peso" class="wizard-input" placeholder="Ex: 78" inputmode="numeric"><p class="wizard-hint">Em quilos</p></div>
+      <div class="wizard-step" data-step="4"><h1 class="wizard-title">Qual o objetivo?</h1><div class="wizard-options" id="w-objetivo-opcoes"><button class="wizard-option" data-value="Hipertrofia"><b>Hipertrofia</b><span>Ganhar massa muscular</span></button><button class="wizard-option" data-value="Emagrecimento"><b>Emagrecimento</b><span>Perder gordura</span></button><button class="wizard-option" data-value="Condicionamento"><b>Condicionamento</b><span>Resistencia</span></button><button class="wizard-option" data-value="Definicao"><b>Definicao</b><span>Musculos definidos</span></button></div></div>
+      <div class="wizard-step" data-step="5"><h1 class="wizard-title">Qual a meta?</h1><input type="text" id="w-meta" class="wizard-input" placeholder="Ex: -5kg ate dezembro"></div>
+      <div class="wizard-step" data-step="6"><h1 class="wizard-title">Concluido!</h1><p class="wizard-hint" style="font-size:15px;line-height:1.6;">Agora voce pode montar o treino do aluno.</p></div>
+    </div>
+    <div class="wizard-bottom"><button class="wizard-next" id="wizard-next">Proximo</button></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="pane active" id="view-dashboard">
+    <div class="topbar">
+      <div class="topbar-days" id="topbarDays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+      <div class="topbar-right"><svg class="weather-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span id="topbar-temp">--°</span><span class="sep">·</span><span id="topbar-time">--:--</span></div>
+    </div>
+    <div class="banner" id="dash-banner-btn">
+      <div class="app-name">Smart Physical</div>
+      <div class="icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></div>
+      <div class="aluno">Aluno - <span id="dash-nome">Nome do Aluno</span></div>
+      <div class="hint">TOQUE PARA VER O PERFIL COMPLETO</div>
+    </div>
+    <div class="grid">
+      <div class="btn-dash" id="btn-menu-treinos"><div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M4 4l3 3M20 20l-3-3M2 9l3 3-3 3M22 15l-3-3 3-3M9 2l3 3-3 3M15 22l-3-3 3-3"/></svg></div><div class="label">Treinos Professor</div></div>
+      <div class="btn-dash" id="btn-menu-exercicios"><div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6M9 15h6"/></svg></div><div class="label">Exercicios</div></div>
+      <div class="btn-dash" id="btn-menu-monte"><div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12l2 2 4-4"/></svg></div><div class="label">Monte seu treino</div></div>
+      <div class="btn-dash" id="btn-menu-progresso"><div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M8 16l3-3 2 2 3-4"/></svg></div><div class="label">Meu Progresso</div></div>
+      <div class="btn-dash" id="btn-menu-dietas"><div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M12 6c-.6-1.6-2.3-2.6-4-2 .1 1.7 1 3.2 2.4 4.1C8.6 9 7 10.9 7 13.3A5.7 5.7 0 0 0 12.7 19c1 0 1.6-.3 1.6-.3s.6.3 1.6.3A5.7 5.7 0 0 0 21.6 13.3c0-2.4-1.6-4.3-3.4-5.2 1.4-.9 2.3-2.4 2.4-4.1-1.7-.6-3.4.4-4 2"/></svg></div><div class="label">Dietas</div></div>
+      <div class="btn-dash" id="btn-menu-bonus"><div class="icon-circle"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8"/></svg></div><div class="label">Bonus</div></div>
+    </div>
+  </div>
+
+  <!-- ===== TELAS INTERNAS ===== -->
+  <div class="pane" id="view-treinos"><div class="internal-header"><button class="back-btn" id="treinos-back">← Voltar</button><span class="internal-title">Treinos do Aluno</span></div><div class="dias-vertical" id="container-dias-vertical"></div></div>
+  <div class="pane" id="view-treino-dia"><div class="internal-header"><button class="back-btn" id="btn-voltar-treinos">← Voltar</button><span class="internal-title" id="dia-titulo-topo">Treino de Segunda</span></div><div class="ex-list-container" id="container-exercicios-dia"></div></div>
+
+  <div class="pane" id="view-categorias"><div class="internal-header"><button class="back-btn" id="cat-back">← Voltar</button><span class="internal-title" style="color:var(--gold);">Tipos de Exercicios</span></div><div class="cat-grid" id="cat-grid-container"></div></div>
+  <div class="pane" id="view-lista-exercicios"><div class="internal-header"><button class="back-btn" id="btn-voltar-categorias">← Voltar</button><span class="internal-title" id="cat-titulo-topo">Exercicios: Peito</span></div><div class="ex-list-container" id="container-lista-exercicios"></div></div>
+  <div class="pane" id="view-detalhe-exercicio">
+    <div class="view-detalhe-container">
+      <div class="detalhe-top-nav"><button class="btn-voltar-texto" id="btn-voltar-para-lista"><span class="circle-icon"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span><span>Voltar</span></button><button class="btn-fav" id="btn-fav">☆</button></div>
+      <h1 class="detalhe-title" id="d-title">Crucifixo Peitoral Maquina</h1>
+      <p class="detalhe-sub" id="d-app-sub">Peck Deck / Voador</p>
+      <div class="tags-row-custom"><span class="tag-custom dark" id="d-tag-grupo">PEITO</span><span class="tag-custom gold" id="d-tag-popular">MUITO POPULAR</span></div>
+      <div class="gif-box-card"><span class="gif-label">GIF</span><img id="d-gif-img" src="" alt="Demonstracao"><div class="fallback-msg" id="d-gif-fallback" style="display:none"></div></div>
+      <div class="sec-label">ALVO</div>
+      <div class="info-card-box"><div class="info-card-icon" style="background:#1a120c;border-color:rgba(212,161,75,0.3);"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:var(--gold);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div><div class="info-card-text"><h4>Musculo Principal</h4><p id="d-primary-muscle">Peitoral Maior</p></div></div>
+      <div class="sec-label">INSTRUÇÕES</div><p class="text-instructions" id="d-instructions-text">Ajuste o banco...</p>
+      <div class="sec-label">EQUIPAMENTO</div>
+      <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">Maquina</p></div></div>
+      <div class="sec-label" style="margin-top:24px;">CONFIGURACAO DO TREINO</div>
+      <div class="metric-row-edit">
+        <div class="metric-edit-item"><label>Series</label><input type="number" id="edit-series" value="3" min="1" max="10"></div>
+        <div class="metric-edit-item"><label>Repeticoes</label><input type="number" id="edit-reps" value="12" min="1" max="50"></div>
+        <div class="metric-edit-item"><label>Peso (kg)</label><input type="number" id="edit-peso" value="0" min="0" step="0.5"></div>
+        <div class="metric-edit-item"><label> descanso </label><input type="number" id="edit-descanso" value="60" min="10" max="300"></div>
+      </div>
+      <div class="sec-label" style="margin-top:20px;">DIA DA SEMANA</div>
+      <div class="day-selector" id="day-selector">
+        <button class="day-btn" data-day="0">Dom</button><button class="day-btn" data-day="1">Seg</button><button class="day-btn" data-day="2">Ter</button><button class="day-btn" data-day="3">Qua</button><button class="day-btn" data-day="4">Qui</button><button class="day-btn" data-day="5">Sex</button><button class="day-btn" data-day="6">Sab</button>
+      </div>
+      <button class="btn-confirmar" id="btn-toggle-treino">Adicionar ao Treino</button>
+      <button class="btn-voltar-abaixo" id="btn-voltar-abaixo-detalhe">← Voltar para Exercicios</button>
+    </div>
+  </div>
+
+  <div class="pane" id="view-perfil"><div class="internal-header"><button class="back-btn" id="perfil-back">← Voltar</button><span class="internal-title">Ficha do Aluno</span></div><div class="perfil-edit" id="perfil-edit-container"></div></div>
+
+  <div class="pane" id="view-dietas"><div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">50 Receitas Saudaveis</span></div><div id="container-lista-receitas"></div></div>
+  <div class="pane" id="view-detalhe-receita">
+    <div class="internal-header"><button class="back-btn" id="btn-voltar-dietas">← Voltar</button><span class="internal-title" id="receita-titulo">Receita</span></div>
+    <div class="receita-detalhe">
+      <img id="receita-imagem" class="receita-imagem" src="" alt="Imagem da receita">
+      <div class="ingredientes" id="receita-ingredientes"><strong>Ingredientes <button class="btn-copiar" id="btn-copiar-ingredientes">Copiar</button></strong> ...</div>
+      <div class="instrucoes" id="receita-instrucoes"><strong>Modo de Preparo <button class="btn-copiar" id="btn-copiar-instrucoes">Copiar</button></strong> ...</div>
+    </div>
+  </div>
+
+  <div class="pane" id="view-notas"><div class="internal-header"><button class="back-btn" id="notas-back">← Voltar</button><span class="internal-title">Bloco de Notas</span></div><div class="notas-area"><textarea id="notas-texto" placeholder="Escreva suas anotacoes aqui..."></textarea><button class="btn-salvar-notas" id="btn-salvar-notas">Salvar Notas</button></div></div>
+
+  <div class="pane" id="view-pagamentos">
+    <div class="internal-header"><button class="back-btn" id="pagamentos-back">← Voltar</button><span class="internal-title">Pagamentos</span></div>
+    <div class="pagamento-area">
+      <div class="info-pix"><strong>💳 Pagamento via Pix</strong><span>Chave Pix (celular):</span><div class="chave-pix">21981378219</div><span style="font-size:12px; color:var(--muted);">Envie o comprovante para o numero acima</span></div>
+      <div class="campo"><label>Data da Compra</label><input type="date" id="data-compra"></div>
+      <div class="campo"><label>Data de Vencimento</label><input type="date" id="data-vencimento"></div>
+      <div class="campo"><label>Senha do Cliente (gerada por voce)</label><input type="text" id="senha-cliente" placeholder="Ex: 1234 ou Smart2025"></div>
+      <button class="btn-salvar-pagamento" id="btn-salvar-pagamento">Salvar Dados</button>
+    </div>
+  </div>
+
+  <div class="pane" id="view-interna"><div class="internal-header"><button class="back-btn" id="interna-back">← Voltar</button><span class="internal-title" id="tituloInterno">Opcao</span></div><div class="internal-content" id="conteudoInterno">Conteudo em breve.</div></div>
+
+  <!-- MENU INFERIOR -->
+  <nav class="bottom-nav">
+    <button class="bottom-item active" data-target="view-dashboard"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg><span>Inicio</span></button>
+    <button class="bottom-item" data-target="view-notas"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg><span>Notas</span></button>
+    <button class="bottom-item" data-target="view-pagamentos"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg><span>Pagamentos</span></button>
+    <button class="bottom-item" data-target="metas"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span>Metas</span></button>
+    <button class="bottom-item" data-target="mais"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg><span>Mais</span></button>
+  </nav>
+
+  <script>
+    // ==================== BANCO DE DADOS DE EXERCICIOS ====================
+    const NOMES_EXERCICIOS = [
+      "Crucifixo Peitoral Maquina","Supino Sentado Maquina","Supino Reto Barra","Supino Reto Halteres","Crucifixo Reto Halteres",
+      "Supino Inclinado Barra","Supino Inclinado Halteres","Crossover Polia Alta","Crossover Polia Baixa","Flexao Tradicional",
+      "Rosca Direta Barra","Rosca Alternada Halteres","Rosca Martelo","Rosca Concentrada","Rosca Scott",
+      "Rosca Inversa","Rosca Barra W","Rosca na Polia","Rosca Foco no Banco","Rosca 21",
+      "Triceps Polia Alta","Triceps Frances","Triceps na Corda","Triceps no Banco","Triceps Testa Barra",
+      "Triceps Barra W","Triceps Unilateral Polia","Flexao Diamante","Triceps Mergulho Paralelas","Triceps Corda Supinada",
+      "Agachamento Livre","Leg Press","Cadeira Extensora","Mesa Flexora","Afundo Halteres",
+      "Stiff","Cadeira Flexora","Elevacao Pelvica","Cadeira Abdutora","Agachamento Bulgaro",
+      "Abdominal Tradicional","Prancha","Abdominal Infra","Abdominal Obliquo","Bicicleta no Ar",
+      "Abdominal Superior","Prancha Lateral","Elevacao de Pernas na Barra","Abdominal Tesoura","Abdominal Rolinho",
+      "Desenvolvimento Barra","Elevacao Lateral","Elevacao Frontal","Desenvolvimento Halteres","Face Pull",
+      "Elevacao Lateral Polia","Remada Alta","Encolhimento Ombros","Crucifixo Inverso","Arnold Press",
+      "Puxada Frontal","Remada Curvada","Remada Sentado","Barra Fixa","Remada Halter",
+      "Puxada Triangulo","Remada Baixa","Remada Cavalinho","Pulldown Braco Reto","Remada Invertida",
+      "Encolhimento Barra","Encolhimento Halteres","Remada Alta Trapezio","Face Pull Trapezio","Prancha Toque Ombro",
+      "Remada Alta Polia","Encolhimento Polia","Trapezio Sentado Halteres","Remada Alta Halteres","Prancha Toque Ombro Alt",
+      "Elevacao Pelvica Gluteo","Agachamento Profundo","Passada (Afundo)","Ponte de Gluteo no Solo","Abducao de Quadril",
+      "Agachamento Halteres","Coice de Gluteo Polia","Passada Lateral","Ponte Unilateral","Agachamento Sumo",
+      "Panturrilha em Pe","Panturrilha Sentado","Panturrilha Unilateral","Saltos com Corda","Panturrilha Polia",
+      "Panturrilha Halteres","Panturrilha Plataforma","Panturrilha Joelho Flexionado","Treino de Panturrilha com Pulo","Panturrilha Maquina"
+    ];
+    const GRUPOS = [
+      "PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO",
+      "BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS",
+      "TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS",
+      "PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA",
+      "ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN",
+      "OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO",
+      "COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS",
+      "TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO",
+      "GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO",
+      "PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA"
+    ];
+    const APARELHOS = [
+      "Peck Deck","Peck Deck","Supino Reto","Supino Reto","Supino Reto",
+      "Supino Inclinado","Supino Inclinado","Crossover","Crossover","Flexao",
+      "Barra Reta","Halteres","Halteres","Halter","Banco Scott",
+      "Barra","Barra W","Polia Baixa","Banco","Barra",
+      "Polia Alta","Halteres","Polia Alta","Banco","Barra",
+      "Barra W","Polia","Solo","Paralelas","Polia Alta",
+      "Barra","Leg Press","Maquina Extensora","Maquina Flexora","Halteres",
+      "Barra","Maquina Flexora","Barra","Maquina Abdutora","Banco",
+      "Colchonete","Colchonete","Colchonete","Colchonete","Colchonete",
+      "Colchonete","Colchonete","Barra Fixa","Colchonete","Rolinho",
+      "Barra","Halteres","Halteres","Halteres","Polia",
+      "Polia","Barra","Halteres","Halteres","Halteres",
+      "Pulley","Barra","Maquina Remada","Barra Fixa","Halter",
+      "Pulley","Pulley","Maquina","Pulley","Barra Baixa",
+      "Barra","Halteres","Barra","Polia","Colchonete",
+      "Polia","Polia","Banco","Halteres","Colchonete",
+      "Barra","Barra","Halteres","Colchonete","Polia",
+      "Halteres","Polia","Halter","Colchonete","Barra",
+      "Maquina","Maquina","Halter","Corda","Polia",
+      "Halteres","Degrau","Colchonete","Solo","Maquina"
+    ];
+    const MUSCULOS = [
+      "Peitoral Maior","Peitoral Medio","Peitoral Medio","Peitoral Medio","Peitoral Medio",
+      "Peitoral Superior","Peitoral Superior","Peitoral Inferior","Peitoral Superior","Peitoral e Core",
+      "Biceps Braquial","Biceps","Biceps e Braquial","Biceps (Pico)","Biceps Braquial",
+      "Antebraco e Biceps","Biceps","Biceps","Biceps","Biceps",
+      "Triceps","Triceps","Triceps","Triceps","Triceps",
+      "Triceps","Triceps","Triceps","Triceps","Triceps",
+      "Quadriceps e Gluteos","Quadriceps e Gluteos","Quadriceps","Posterior de Coxa","Quadriceps e Gluteos",
+      "Posterior e Gluteos","Posterior de Coxa","Gluteos","Gluteo Medio","Quadriceps e Gluteos",
+      "Reto Abdominal","Abdomen e Core","Abdomen Inferior","Obliquos","Abdomen Total",
+      "Abdomen Superior","Obliquos e Core","Abdomen Inferior","Abdomen Inferior","Abdomen e Core",
+      "Deltoide","Deltoide Medio","Deltoide Anterior","Deltoide","Deltoide Posterior",
+      "Deltoide Medio","Trapezio e Deltoide","Trapezio","Deltoide Posterior","Deltoide",
+      "Latissimo","Latissimo e Romboides","Latissimo","Latissimo","Latissimo",
+      "Latissimo","Latissimo","Latissimo","Latissimo","Latissimo",
+      "Trapezio Superior","Trapezio Superior","Trapezio","Trapezio Medio","Trapezio",
+      "Trapezio","Trapezio Superior","Trapezio","Trapezio","Trapezio",
+      "Gluteo Maximo","Gluteo","Gluteo","Gluteo","Gluteo Medio",
+      "Gluteo","Gluteo","Gluteo Medio","Gluteo","Gluteo",
+      "Gastrocnemio","Soleo","Gastrocnemio","Panturrilha","Gastrocnemio",
+      "Gastrocnemio","Soleo","Soleo","Panturrilha","Gastrocnemio"
+    ];
+
+    const DATABASE_EXERCICIOS = [];
+    for (let i = 0; i < 100; i++) {
+      DATABASE_EXERCICIOS.push({
+        id: "e" + (i+1),
+        nome: NOMES_EXERCICIOS[i],
+        aparelho: APARELHOS[i] || "Aparelho",
+        musculo: MUSCULOS[i] || "Musculo",
+        grupo: GRUPOS[i] || "OUTRO",
+        popular: i % 3 === 0,
+        gif: "https://via.placeholder.com/400x400/0a0e17/d4a14b?text=" + encodeURIComponent(NOMES_EXERCICIOS[i].replace(/ /g, '+')),
+        instrucao: "Instrucao para " + NOMES_EXERCICIOS[i],
+        series: (Math.floor(i % 5) + 3) + "-" + (Math.floor(i % 5) + 5) + " series",
+        reps: (Math.floor(i % 3) + 8) + "-" + (Math.floor(i % 3) + 14) + " reps",
+        descanso: (Math.floor(i % 3) * 15 + 45) + "-" + (Math.floor(i % 3) * 15 + 90) + "s"
+      });
+    }
+
+    // ==================== RECEITAS (50) ====================
+    const RECEITAS = [];
+    const NOMES_RECEITAS = [
+      "Frango Grelhado com Aspargos","Frango Grelhado com Aspargos (simples)","Salmao ao Molho de Limao",
+      "File de Tilapia com Vegetais Assados","Estrogonofe de Frango Light","Almondegas de Peru ao Molho",
+      "Frango Recheado com Espinafre","Wrap de Alface com Frango","Tilapia com Crosta de Amendoas",
+      "Frango ao Curry com Legumes","Espaguete de Abobrinha com Frango","Salada de Atum com Abacate",
+      "Salada de Frango Grelhado com Quinoa","Salada Caprese com Pesto de Manjericao","Salada de Camarao com Manga",
+      "Salada de Lentilhas com Tomate","Salada de Grao-de-Bico com Tomate e Pepino","Salada de Salmao Grelhado",
+      "Salada de Frutas com Frango Grelhado","Salada de Folhas Verdes com Nozes e Queijo Feta","Wrap de Legumes com Frango",
+      "Risoto de Quinoa com Legumes","Abobrinha Recheada com Quinoa","Frango com Brocolis e Molho de Amendoim",
+      "Tofu Grelhado com Legumes","Wrap de Salmao","Mexido de Claras com Vegetais","Peito de Peru com Salada",
+      "Stir Fry de Frango com Legumes","Carne de Panela Light","Wrap de Frango com Abacate",
+      "Peixe com Molho de Maracuja","Espetinho de Camarao","Tiras de Carne com Legumes","Hamburguer de Salmao",
+      "Frango com Leite de Coco","Berinjela com Carne Moída","Frango Assado com Limão e Ervas",
+      "Bife com Molho de Mostarda","Frango ao Molho de Manga","Peito de Pato com Laranja",
+      "Tilápia com Molho de Limão","Tacos de Frango com Abacaxi","Omelete de Salmão com Queijo",
+      "Espetinho de Carne com Legumes","Bacalhau com Tomates Assados","Sanduíche de Frango Grelhado",
+      "Ovos Mexidos com Salmão","Bolinho de Atum com Aveia","Salada de Quinoa e Vegetais Assados"
+    ];
+    const INGS = [
+      "• 2 peitos de frango\n• 1 maco de aspargos\n• Azeite, alho, limao, sal e pimenta",
+      "• 2 peitos de frango\n• 1 maco de aspargos\n• Azeite, sal e pimenta",
+      "• File de salmao\n• Suco de limao\n• Alho, azeite, sal, pimenta",
+      "• Tilapia\n• Vegetais (abobrinha, pimentao, cebola)\n• Azeite, sal, pimenta, limao",
+      "• Frango\n• Cogumelos\n• Cebola, alho\n• Molho de tomate\n• Creme de leite light\n• Mostarda",
+      "• Peru moído\n• Ovo, farinha, queijo\n• Alho, sal, pimenta\n• Molho de tomate",
+      "• Peitos de frango\n• Espinafre\n• Queijo feta\n• Alho, sal, pimenta, azeite",
+      "• Frango desfiado\n• Alface, tomate, abacate\n• Molho de iogurte",
+      "• Tilapia\n• Amendoas trituradas\n• Azeite, limao, sal, pimenta",
+      "• Frango em cubos\n• Legumes variados\n• Curry, leite de coco\n• Sal, pimenta",
+      "• Frango em tiras\n• Abobrinha\n• Alho, tomate cereja\n• Ervas, sal, pimenta",
+      "• Atum\n• Abacate\n• Folhas verdes\n• Tomate cereja\n• Azeite, limao",
+      "• Frango grelhado\n• Quinoa\n• Pepino, tomate\n• Azeite, sal, pimenta",
+      "• Tomate\n• Mussarela\n• Manjericao\n• Pesto, azeite, balsamico",
+      "• Camarao\n• Manga\n• Folhas verdes\n• Limao, azeite, coentro",
+      "• Lentilhas\n• Tomate, cebola roxa\n• Salsinha, azeite, vinagre",
+      "• Grao-de-bico\n• Tomate, pepino\n• Coentro, azeite, limao",
+      "• Salmao grelhado\n• Folhas verdes\n• Tomate, pepino\n• Molho de mostarda e mel",
+      "• Frutas (morangos, abacaxi, maca)\n• Frango grelhado\n• Iogurte, mel, amendoas",
+      "• Folhas verdes\n• Nozes\n• Queijo feta\n• Vinagre balsamico, azeite",
+      "• Tortilha integral\n• Frango\n• Abobrinha, pimentao, cenoura\n• Iogurte",
+      "• Quinoa\n• Legumes (cenoura, brocolis, ervilhas)\n• Cebola, alho, caldo de legumes",
+      "• Abobrinha\n• Quinoa\n• Tomate, cebola, alho\n• Queijo feta",
+      "• Frango\n• Brocolis\n• Molho de amendoim\n• Alho, gengibre, soja",
+      "• Tofu\n• Legumes\n• Molho de soja, alho, gengibre\n• Gergelim",
+      "• Salmao grelhado\n• Tortilha integral\n• Cream cheese, rucula, tomate, cebola",
+      "• Claras\n• Brocolis, tomate, cebola, pimentao, espinafre",
+      "• Peito de peru\n• Folhas verdes, tomate, pepino\n• Mostarda, azeite, limao",
+      "• Frango\n• Brocolis, pimentao, cenoura\n• Molho de soja, alho, gengibre",
+      "• Carne magra\n• Cebola, alho, tomate\n• Cenoura, batata-doce, caldo de carne",
+      "• Tortilha integral\n• Frango grelhado\n• Abacate, tomate, alface\n• Iogurte",
+      "• File de peixe\n• Polpa de maracuja\n• Alho, azeite, sal, pimenta",
+      "• Camarao\n• Limao, alho, sal, pimenta\n• Azeite",
+      "• Carne em tiras\n• Brocolis, cenoura, pimentao\n• Soja, alho, gengibre",
+      "• Salmao\n• Cebola, alho, salsinha\n• Ovo, farinha, sal, pimenta",
+      "• Frango\n• Leite de coco\n• Cebola, alho, gengibre\n• Curry, curcuma",
+      "• Berinjela\n• Carne moída\n• Cebola, alho, tomate, orégano",
+      "• Frango\n• Limão, ervas (alecrim, tomilho)\n• Azeite, sal, pimenta",
+      "• Bife\n• Mostarda, mel\n• Azeite, alho, sal, pimenta",
+      "• Frango\n• Manga\n• Soja, mel, limão",
+      "• Pato\n• Suco e casca de laranja\n• Mel, sal, pimenta",
+      "• Tilápia\n• Limão, azeite\n• Sal, pimenta",
+      "• Frango desfiado\n• Abacaxi\n• Tortilhas de milho, coentro",
+      "• Ovos\n• Salmão defumado\n• Queijo (cream cheese ou feta)",
+      "• Carne\n• Legumes (pimentão, cebola, cogumelos)\n• Azeite, temperos",
+      "• Bacalhau\n• Tomates cereja\n• Alho, azeite, ervas",
+      "• Frango grelhado\n• Pão integral\n• Alface, tomate, maionese light",
+      "• Ovos\n• Salmão defumado\n• Manteiga, sal, pimenta",
+      "• Atum\n• Aveia\n• Ovo, cebola, sal, pimenta",
+      "• Quinoa\n• Abobrinha, tomate, pimentão, cebola\n• Azeite, ervas, queijo feta"
+    ];
+    const INSTRS = [
+      "1. Tempere o frango com alho, limao, sal e pimenta.\n2. Misture os aspargos com azeite, sal e pimenta.\n3. Grelhe o frango por 6-8 min de cada lado.\n4. Adicione os aspargos e grelhe por 4-6 min.\n5. Regue com limao e sirva.",
+      "1. Tempere o frango com sal e pimenta.\n2. Grelhe o frango por 6-8 min de cada lado.\n3. Adicione os aspargos e grelhe por 4-6 min.\n4. Regue com azeite.",
+      "1. Tempere o salmao com sal e pimenta.\n2. Doure o alho em azeite.\n3. Grelhe o salmao por 4-5 min de cada lado.\n4. Regue com suco de limao.",
+      "1. Tempere a tilapia com sal, pimenta e limao.\n2. Disponha na assadeira com os vegetais.\n3. Regue com azeite e asse a 200°C por 15-20 min.",
+      "1. Refogue frango, cebola e alho em azeite.\n2. Adicione cogumelos e cozinhe.\n3. Misture molho de tomate, creme de leite e mostarda.\n4. Tempere e cozinhe ate o frango ficar pronto.",
+      "1. Misture peru, ovo, farinha, queijo, alho, sal e pimenta.\n2. Modele almondegas e asse a 200°C por 20-25 min.\n3. Aqueça o molho de tomate.\n4. Adicione as almondegas e cozinhe por 5-10 min.",
+      "1. Tempere o frango e abra ao meio.\n2. Refogue espinafre e alho em azeite.\n3. Coloque o espinafre (e feta) dentro do frango.\n4. Feche com palitos e asse a 200°C por 20-25 min.",
+      "1. Disponha o frango desfiado nas folhas de alface.\n2. Adicione tomate e abacate.\n3. Tempere e regue com molho de iogurte.\n4. Enrole e sirva.",
+      "1. Tempere a tilapia com sal, pimenta e limao.\n2. Passe as amendoas trituradas sobre os filés.\n3. Grelhe em azeite por 3-4 min de cada lado.",
+      "1. Refogue o frango em azeite ate dourar.\n2. Adicione os legumes e curry.\n3. Despeje o leite de coco e cozinhe ate legumes macios.\n4. Tempere com sal e pimenta.",
+      "1. Refogue o frango em azeite ate dourar.\n2. Adicione alho e tomate cereja.\n3. Acrescente o espaguete de abobrinha e cozinhe alguns min.\n4. Tempere com sal, pimenta e ervas.",
+      "1. Misture o atum com abacate em cubos.\n2. Disponha sobre folhas verdes.\n3. Adicione tomate cereja.\n4. Regue com azeite e limao.",
+      "1. Misture frango, quinoa, pepino e tomate.\n2. Regue com azeite.\n3. Tempere com sal e pimenta.",
+      "1. Alterne fatias de tomate e mussarela.\n2. Espalhe manjericao.\n3. Regue com pesto e azeite.\n4. Finalize com vinagre balsamico.",
+      "1. Misture camarao e manga.\n2. Disponha sobre folhas verdes.\n3. Regue com limao e azeite.\n4. Adicione coentro.",
+      "1. Combine lentilhas, tomate, cebola e salsinha.\n2. Regue com azeite e vinagre.\n3. Tempere com sal e pimenta.",
+      "1. Misture grao-de-bico, tomate e pepino.\n2. Regue com azeite e limao.\n3. Adicione coentro e tempere.",
+      "1. Coloque o salmao sobre as folhas verdes.\n2. Adicione tomate e pepino.\n3. Regue com molho de mostarda e mel ou azeite.\n4. Esprema limao.",
+      "1. Disponha frutas sobre folhas.\n2. Adicione frango grelhado.\n3. Regue com iogurte ou azeite.\n4. Adicione mel e amendoas.",
+      "1. Misture as folhas.\n2. Polvilhe nozes e queijo feta.\n3. Regue com vinagre e azeite.\n4. Adicione mel se desejar.",
+      "1. Coloque frango sobre a tortilha.\n2. Adicione legumes e alface.\n3. Regue com molho de iogurte.\n4. Enrole.",
+      "1. Refogue cebola e alho em azeite.\n2. Adicione legumes e cozinhe.\n3. Misture a quinoa.\n4. Adicione caldo aos poucos.\n5. Tempere e sirva com queijo.",
+      "1. Corte a abobrinha ao meio e retire a polpa.\n2. Refogue cebola, alho, polpa e tomate.\n3. Misture com quinoa.\n4. Recheie e asse a 180°C por 20 min.",
+      "1. Grelhe o frango em azeite.\n2. Adicione alho e gengibre.\n3. Misture brocolis e molho de amendoim.\n4. Adicione soja se desejar.\n5. Cozinhe e tempere.",
+      "1. Grelhe o tofu em azeite.\n2. Adicione legumes.\n3. Regue com molho de soja e temperos.\n4. Cozinhe ate al dente.\n5. Polvilhe com gergelim.",
+      "1. Espalhe cream cheese na tortilha.\n2. Coloque salmao, rucula, tomate e cebola.\n3. Regue com limao e enrole.",
+      "1. Refogue cebola, pimentao e brocolis.\n2. Adicione tomate.\n3. Acrescente claras e mexa ate cozinhar.\n4. Adicione espinafre e tempere.",
+      "1. Disponha o peru no prato.\n2. Misture as folhas, tomate e pepino.\n3. Regue com molho de mostarda ou azeite.\n4. Esprema limao.",
+      "1. Grelhe o frango em azeite.\n2. Adicione alho e gengibre.\n3. Acrescente legumes.\n4. Regue com molho de soja.\n5. Cozinhe ate al dente.\n6. Finalize com azeite de gergelim.",
+      "1. Refogue cebola e alho.\n2. Doure a carne.\n3. Acrescente tomate, cenoura e batata.\n4. Adicione caldo e agua.\n5. Cozinhe em fogo baixo ate macio.",
+      "1. Coloque frango sobre a tortilha.\n2. Adicione abacate, tomate e alface.\n3. Regue com molho de iogurte ou mostarda.\n4. Enrole.",
+      "1. Tempere o peixe com sal e pimenta.\n2. Doure o alho em azeite.\n3. Adicione a polpa de maracuja.\n4. Grelhe o peixe na mistura ate cozinhar.",
+      "1. Tempere os camaroes com limao, alho, sal e pimenta.\n2. Espete em palitos.\n3. Grelhe ate ficarem rosados.\n4. Regue com azeite.",
+      "1. Doure a carne em azeite.\n2. Adicione alho e gengibre.\n3. Acrescente legumes.\n4. Regue com molho de soja e cozinhe ate al dente.",
+      "1. Misture todos os ingredientes.\n2. Modele os hamburgueres.\n3. Grelhe em azeite ate dourar.",
+      "1. Refogue cebola e alho em oleo de coco.\n2. Adicione frango, gengibre, curry e curcuma.\n3. Despeje leite de coco e cozinhe 15-20 min.\n4. Tempere.",
+      "1. Corte a berinjela ao meio e retire a polpa.\n2. Refogue cebola, alho e carne.\n3. Adicione tomate, orégano, sal e pimenta.\n4. Recheie e asse.",
+      "1. Tempere o frango com limao, ervas, sal e pimenta.\n2. Coloque em assadeira e regue com azeite.\n3. Asse a 200°C por 25-30 min.",
+      "1. Tempere os bifes com sal e pimenta.\n2. Grelhe em azeite.\n3. Misture mostarda e mel (e alho).\n4. Regue os bifes com o molho.",
+      "1. Tempere o frango e grelhe.\n2. Em uma panela, cozinhe manga com soja, mel e limao ate espessar.\n3. Despeje sobre o frango.",
+      "1. Tempere os patos e grelhe.\n2. Em uma panela, aqueça o suco, casca e mel.\n3. Regue os patos com o molho.",
+      "1. Tempere a tilapia com sal, pimenta e limao.\n2. Grelhe em azeite ate dourar.\n3. Regue com mais limao.",
+      "1. Tempere o frango com o tempero para tacos.\n2. Aqueça as tortilhas.\n3. Monte com frango, abacaxi e coentro.",
+      "1. Bata os ovos com sal e pimenta.\n2. Despeje em frigideira.\n3. Adicione salmao e queijo sobre metade.\n4. Dobre e cozinhe.",
+      "1. Corte a carne e legumes em cubos.\n2. Alterne nos espetinhos.\n3. Regue com azeite e tempere.\n4. Grelhe ate cozinhar.",
+      "1. Pre-aqueça o forno a 200°C.\n2. Coloque o bacalhau em assadeira.\n3. Distribua tomates ao redor.\n4. Regue com azeite, alho e ervas.\n5. Asse por 15-20 min.",
+      "1. Grelhe o frango.\n2. Monte o sanduiche com pao, alface, tomate e maionese.",
+      "1. Bata os ovos com sal e pimenta.\n2. Aqueça a manteiga.\n3. Cozinhe os ovos mexendo.\n4. Adicione salmao quando quase prontos e termine.",
+      "1. Misture atum, aveia, ovo e cebola.\n2. Modele bolinhos.\n3. Grelhe em azeite ate dourar.",
+      "1. Asse os vegetais no forno.\n2. Misture com a quinoa.\n3. Regue com azeite e tempere.\n4. Acrescente queijo feta."
+    ];
+
+    for (let i = 0; i < 50; i++) {
+      RECEITAS.push({
+        id: i+1,
+        nome: NOMES_RECEITAS[i],
+        ingredientes: INGS[i],
+        instrucoes: INSTRS[i],
+        imagem: "https://loremflickr.com/600/400/food?random=" + (i+100)
+      });
+    }
+
+    // ==================== ESTADO E FUNÇÕES ====================
+    const STORAGE_KEY = "smartphysical_v6";
+    function estadoPadrao() {
+      return {
+        aluno: { nome: "", idade: "", altura: "", peso: "", objetivo: "", meta: "", dataInicio: "", diasPorSemana: 3, observacoes: "" },
+        medidas: { braco: "", peito: "", cintura: "", quadril: "", coxa: "", panturrilha: "" },
+        configurado: false,
+        treinoPorDia: { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] },
+        notas: "",
+        pagamento: { dataCompra: "", dataVencimento: "", senha: "" }
+      };
+    }
+    function carregarEstado() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return estadoPadrao();
+        const parsed = JSON.parse(raw);
+        if (!parsed.treinoPorDia) parsed.treinoPorDia = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
+        if (!parsed.aluno) parsed.aluno = estadoPadrao().aluno;
+        if (!parsed.medidas) parsed.medidas = estadoPadrao().medidas;
+        if (!parsed.notas) parsed.notas = "";
+        if (!parsed.pagamento) parsed.pagamento = { dataCompra: "", dataVencimento: "", senha: "" };
+        return parsed;
+      } catch (e) { return estadoPadrao(); }
+    }
+    function salvarEstado() { localStorage.setItem(STORAGE_KEY, JSON.stringify(estado)); }
+    let estado = carregarEstado();
+
+    function abrirTela(id) {
+      document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+    function mostrarToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    // ==================== TOPBAR ====================
+    function renderizarTopbarDias() {
+      const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
+      const hoje = new Date().getDay();
+      document.querySelectorAll('#topbarDays span').forEach((el, i) => {
+        el.classList.toggle('today', i === hoje);
+      });
+    }
+    function atualizarRelogio() {
+      const agora = new Date();
+      const hh = String(agora.getHours()).padStart(2, '0');
+      const mm = String(agora.getMinutes()).padStart(2, '0');
+      document.getElementById('topbar-time').textContent = hh + ':' + mm;
+    }
+    function buscarClima() {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+          const resp = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current=temperature_2m`);
+          const data = await resp.json();
+          const temp = Math.round(data.current.temperature_2m);
+          document.getElementById('topbar-temp').textContent = temp + '°';
+        } catch (e) {}
+      }, () => {}, { timeout: 5000 });
+    }
+
+    // ==================== PERFIL ====================
+    function renderizarPerfilEdit() {
+      const a = estado.aluno;
+      const m = estado.medidas;
+      const html = `
+        <div class="campo"><label>Nome Completo</label><input type="text" id="edit-nome" value="${a.nome || ''}" placeholder="Nome do aluno"></div>
+        <div class="campo"><label>Idade</label><input type="number" id="edit-idade" value="${a.idade || ''}" placeholder="Idade"></div>
+        <div class="campo"><label>Altura (cm)</label><input type="number" id="edit-altura" value="${a.altura || ''}" placeholder="Ex: 175"></div>
+        <div class="campo"><label>Peso (kg)</label><input type="number" id="edit-peso" value="${a.peso || ''}" placeholder="Ex: 78"></div>
+        <div class="campo"><label>Objetivo</label><input type="text" id="edit-objetivo" value="${a.objetivo || ''}" placeholder="Ex: Hipertrofia"></div>
+        <div class="campo"><label>Meta</label><input type="text" id="edit-meta" value="${a.meta || ''}" placeholder="Ex: -5kg ate dezembro"></div>
+        <div class="campo"><label>Data de Inicio (treino)</label><input type="date" id="edit-data-inicio" value="${a.dataInicio || ''}"></div>
+        <div class="campo"><label>Dias por Semana de Treino</label><input type="number" id="edit-dias-semana" value="${a.diasPorSemana || 3}" min="1" max="7"></div>
+        <div class="campo"><label>Observacoes</label><textarea id="edit-observacoes" placeholder="Observacoes adicionais...">${a.observacoes || ''}</textarea></div>
+        <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+          <h4 style="color:var(--gold); margin-bottom:12px;">Medidas Corporais (cm)</h4>
+          <div class="campo"><label>Braco</label><input type="number" id="edit-braco" value="${m.braco || ''}" placeholder="Ex: 38" step="0.5"></div>
+          <div class="campo"><label>Peito</label><input type="number" id="edit-peito" value="${m.peito || ''}" placeholder="Ex: 110" step="0.5"></div>
+          <div class="campo"><label>Cintura</label><input type="number" id="edit-cintura" value="${m.cintura || ''}" placeholder="Ex: 85" step="0.5"></div>
+          <div class="campo"><label>Quadril</label><input type="number" id="edit-quadril" value="${m.quadril || ''}" placeholder="Ex: 100" step="0.5"></div>
+          <div class="campo"><label>Coxa</label><input type="number" id="edit-coxa" value="${m.coxa || ''}" placeholder="Ex: 55" step="0.5"></div>
+          <div class="campo"><label>Panturrilha</label><input type="number" id="edit-panturrilha" value="${m.panturrilha || ''}" placeholder="Ex: 38" step="0.5"></div>
+        </div>
+        <button class="btn-salvar-perfil" id="btn-salvar-perfil">Salvar Ficha do Aluno</button>
+      `;
+      document.getElementById('perfil-edit-container').innerHTML = html;
+      document.getElementById('btn-salvar-perfil').addEventListener('click', function() {
+        estado.aluno.nome = document.getElementById('edit-nome').value.trim();
+        estado.aluno.idade = document.getElementById('edit-idade').value;
+        estado.aluno.altura = document.getElementById('edit-altura').value;
+        estado.aluno.peso = document.getElementById('edit-peso').value;
+        estado.aluno.objetivo = document.getElementById('edit-objetivo').value.trim();
+        estado.aluno.meta = document.getElementById('edit-meta').value.trim();
+        estado.aluno.dataInicio = document.getElementById('edit-data-inicio').value;
+        estado.aluno.diasPorSemana = parseInt(document.getElementById('edit-dias-semana').value) || 3;
+        estado.aluno.observacoes = document.getElementById('edit-observacoes').value.trim();
+        estado.medidas.braco = document.getElementById('edit-braco').value;
+        estado.medidas.peito = document.getElementById('edit-peito').value;
+        estado.medidas.cintura = document.getElementById('edit-cintura').value;
+        estado.medidas.quadril = document.getElementById('edit-quadril').value;
+        estado.medidas.coxa = document.getElementById('edit-coxa').value;
+        estado.medidas.panturrilha = document.getElementById('edit-panturrilha').value;
+        estado.configurado = true;
+        salvarEstado();
+        atualizarNomeTopo();
+        mostrarToast('Ficha do aluno salva com sucesso!');
+      });
+    }
+    function atualizarNomeTopo() {
+      document.getElementById('dash-nome').textContent = estado.aluno.nome || 'Nome do Aluno';
+    }
+
+    // ==================== CATEGORIAS ====================
+    function renderizarCategorias() {
+      const container = document.getElementById('cat-grid-container');
+      const categorias = [
+        { id: 'peito', nome: 'Peito' },
+        { id: 'biceps', nome: 'Biceps' },
+        { id: 'triceps', nome: 'Triceps' },
+        { id: 'perna', nome: 'Perna' },
+        { id: 'abdomen', nome: 'Abdomen' },
+        { id: 'ombro', nome: 'Ombro' },
+        { id: 'costas', nome: 'Costas' },
+        { id: 'trapezio', nome: 'Trapezio' },
+        { id: 'gluteo', nome: 'Gluteo' },
+        { id: 'panturrilha', nome: 'Panturrilha' }
+      ];
+      container.innerHTML = '';
+      categorias.forEach(cat => {
+        const count = DATABASE_EXERCICIOS.filter(e => e.grupo === cat.nome.toUpperCase()).length;
+        const div = document.createElement('div');
+        div.className = 'cat-card';
+        div.innerHTML = `<b>${cat.nome}</b><span>${count} exercicios</span>`;
+        div.addEventListener('click', () => {
+          categoriaAtual = cat.nome.toUpperCase();
+          renderizarListaExercicios();
+          abrirTela('view-lista-exercicios');
+        });
+        container.appendChild(div);
+      });
+    }
+
+    let categoriaAtual = 'PEITO';
+    function renderizarListaExercicios() {
+      const container = document.getElementById('container-lista-exercicios');
+      container.innerHTML = '';
+      const exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
+      const titulos = {
+        'PEITO':'Peito','BICEPS':'Biceps','TRICEPS':'Triceps',
+        'PERNA':'Perna','ABDOMEN':'Abdomen','OMBRO':'Ombro',
+        'COSTAS':'Costas','TRAPEZIO':'Trapezio','GLUTEO':'Gluteo',
+        'PANTURRILHA':'Panturrilha'
+      };
+      document.getElementById('cat-titulo-topo').textContent = `Exercicios: ${titulos[categoriaAtual] || categoriaAtual}`;
+      exs.forEach(ex => {
+        const card = document.createElement('div');
+        card.className = 'ex-item-card';
+        const estaEmAlgumDia = Object.values(estado.treinoPorDia).some(lista => lista.includes(ex.id));
+        card.innerHTML = `
+          <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy"></div>
+          <div class="ex-item-info">
+            <p class="title">${ex.nome}</p>
+            <p class="app-name">${ex.aparelho}</p>
+            <p class="muscle">${ex.musculo}</p>
+          </div>
+          ${estaEmAlgumDia ? '<div class="check-badge">✓</div>' : ''}
+          <div class="chev-icon">›</div>
+        `;
+        card.addEventListener('click', () => abrirDetalheExercicio(ex, 'view-lista-exercicios'));
+        container.appendChild(card);
+      });
+    }
+
+    // ==================== DETALHE EXERCICIO ====================
+    let exercicioAtualId = null;
+    let diaSelecionado = 1;
+    let telaOrigemDetalhe = 'view-lista-exercicios';
+
+    function abrirDetalheExercicio(ex, origem) {
+      exercicioAtualId = ex.id;
+      telaOrigemDetalhe = origem || 'view-lista-exercicios';
+      document.getElementById('d-title').textContent = ex.nome;
+      document.getElementById('d-app-sub').textContent = ex.aparelho;
+      document.getElementById('d-tag-grupo').textContent = ex.grupo;
+      document.getElementById('d-tag-popular').style.display = ex.popular ? 'inline-block' : 'none';
+      document.getElementById('d-gif-img').src = ex.gif;
+      document.getElementById('d-primary-muscle').textContent = ex.musculo;
+      document.getElementById('d-instructions-text').innerText = ex.instrucao;
+      document.getElementById('d-equip-name').textContent = `Maquina ${ex.aparelho}`;
+      document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho">`;
+      const seriesVal = parseInt(ex.series.match(/\d+/)?.[0] || 3);
+      const repsVal = parseInt(ex.reps.match(/\d+/)?.[0] || 10);
+      const descansoVal = parseInt(ex.descanso.match(/\d+/)?.[0] || 60);
+      document.getElementById('edit-series').value = seriesVal;
+      document.getElementById('edit-reps').value = repsVal;
+      document.getElementById('edit-peso').value = 0;
+      document.getElementById('edit-descanso').value = descansoVal;
+      let diaAtual = null;
+      for (let d = 0; d < 7; d++) {
+        if (estado.treinoPorDia[d] && estado.treinoPorDia[d].includes(ex.id)) {
+          diaAtual = d;
+          break;
+        }
+      }
+      diaSelecionado = diaAtual !== null ? diaAtual : 1;
+      document.querySelectorAll('#day-selector .day-btn').forEach(b => {
+        const day = parseInt(b.dataset.day);
+        b.classList.toggle('active', day === diaSelecionado);
+      });
+      atualizarBotaoTreino(ex);
+      abrirTela('view-detalhe-exercicio');
+    }
+
+    function atualizarBotaoTreino(ex) {
+      const btn = document.getElementById('btn-toggle-treino');
+      const dias = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+      const estaNoDia = estado.treinoPorDia[diaSelecionado] && estado.treinoPorDia[diaSelecionado].includes(ex.id);
+      btn.textContent = estaNoDia ? `Remover do Treino de ${dias[diaSelecionado]}` : `Adicionar ao Treino de ${dias[diaSelecionado]}`;
+      btn.classList.toggle('no-treino', estaNoDia);
+    }
+
+    // ==================== TREINOS ====================
+    function renderizarTreinosVertical() {
+      const container = document.getElementById('container-dias-vertical');
+      container.innerHTML = '';
+      const dias = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+      for (let i = 0; i < 7; i++) {
+        const lista = estado.treinoPorDia[i] || [];
+        const qtd = lista.length;
+        const div = document.createElement('div');
+        div.className = 'dia-vertical-item';
+        div.innerHTML = `<span class="dia-nome">${dias[i]}</span><span class="dia-qtd">${qtd} exercicio(s)</span>`;
+        div.addEventListener('click', () => abrirTreinoDia(i));
+        container.appendChild(div);
+      }
+    }
+
+    function abrirTreinoDia(dia) {
+      const dias = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+      document.getElementById('dia-titulo-topo').textContent = `Treino de ${dias[dia]}`;
+      const container = document.getElementById('container-exercicios-dia');
+      container.innerHTML = '';
+      const ids = estado.treinoPorDia[dia] || [];
+      if (ids.length === 0) {
+        container.innerHTML = '<div class="empty-state">Nenhum exercicio para este dia.</div>';
+        abrirTela('view-treino-dia');
+        return;
+      }
+      const exercicios = ids.map(id => DATABASE_EXERCICIOS.find(e => e.id === id)).filter(Boolean);
+      exercicios.forEach(ex => {
+        const card = document.createElement('div');
+        card.className = 'ex-item-card';
+        card.innerHTML = `
+          <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy"></div>
+          <div class="ex-item-info">
+            <p class="title">${ex.nome}</p>
+            <p class="app-name">${ex.aparelho}</p>
+            <p class="muscle">${ex.series} · ${ex.reps}</p>
+          </div>
+          <div class="chev-icon" style="color:#ff5252;">✕</div>
+        `;
+        card.querySelector('.chev-icon').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = estado.treinoPorDia[dia].indexOf(ex.id);
+          if (idx > -1) {
+            estado.treinoPorDia[dia].splice(idx, 1);
+            salvarEstado();
+            mostrarToast(`Removido do treino de ${dias[dia]}`);
+            renderizarTreinosVertical();
+            abrirTreinoDia(dia);
+          }
+        });
+        card.addEventListener('click', () => abrirDetalheExercicio(ex, 'view-treino-dia'));
+        container.appendChild(card);
+      });
+      abrirTela('view-treino-dia');
+    }
+
+    // ==================== DIETAS ====================
+    function renderizarListaReceitas() {
+      const container = document.getElementById('container-lista-receitas');
+      container.innerHTML = '';
+      RECEITAS.forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'dieta-card';
+        card.innerHTML = `<span class="dieta-nome">${rec.nome}</span><span class="dieta-num">#${rec.id}</span>`;
+        card.addEventListener('click', () => abrirDetalheReceita(rec));
+        container.appendChild(card);
+      });
+    }
+
+    function abrirDetalheReceita(rec) {
+      document.getElementById('receita-titulo').textContent = rec.nome;
+      document.getElementById('receita-imagem').src = rec.imagem;
+      document.getElementById('receita-ingredientes').innerHTML = `<strong>Ingredientes <button class="btn-copiar" id="btn-copiar-ingredientes">Copiar</button></strong>\n${rec.ingredientes}`;
+      document.getElementById('receita-instrucoes').innerHTML = `<strong>Modo de Preparo <button class="btn-copiar" id="btn-copiar-instrucoes">Copiar</button></strong>\n${rec.instrucoes}`;
+      abrirTela('view-detalhe-receita');
+      document.getElementById('btn-copiar-ingredientes').addEventListener('click', function(e) {
+        e.stopPropagation();
+        copiarTexto(rec.ingredientes);
+      });
+      document.getElementById('btn-copiar-instrucoes').addEventListener('click', function(e) {
+        e.stopPropagation();
+        copiarTexto(rec.instrucoes);
+      });
+    }
+
+    function copiarTexto(texto) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(() => mostrarToast('Copiado!')).catch(() => fallbackCopiar(texto));
+      } else {
+        fallbackCopiar(texto);
+      }
+    }
+    function fallbackCopiar(texto) {
+      const ta = document.createElement('textarea');
+      ta.value = texto;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); mostrarToast('Copiado!'); } catch (e) { mostrarToast('Erro ao copiar'); }
+      document.body.removeChild(ta);
+    }
+
+    // ==================== NOTAS ====================
+    function carregarNotas() {
+      document.getElementById('notas-texto').value = estado.notas || '';
+    }
+    document.getElementById('btn-salvar-notas').addEventListener('click', function() {
+      estado.notas = document.getElementById('notas-texto').value;
+      salvarEstado();
+      mostrarToast('Notas salvas!');
+    });
+
+    // ==================== PAGAMENTOS ====================
+    function carregarPagamentos() {
+      document.getElementById('data-compra').value = estado.pagamento.dataCompra || '';
+      document.getElementById('data-vencimento').value = estado.pagamento.dataVencimento || '';
+      document.getElementById('senha-cliente').value = estado.pagamento.senha || '';
+    }
+    document.getElementById('btn-salvar-pagamento').addEventListener('click', function() {
+      estado.pagamento.dataCompra = document.getElementById('data-compra').value;
+      estado.pagamento.dataVencimento = document.getElementById('data-vencimento').value;
+      estado.pagamento.senha = document.getElementById('senha-cliente').value.trim();
+      salvarEstado();
+      mostrarToast('Dados de pagamento salvos!');
+    });
+
+    // ==================== EVENTOS DOS BOTÕES ====================
+    document.getElementById('btn-menu-treinos').addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
+    document.getElementById('btn-menu-exercicios').addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
+    document.getElementById('btn-menu-monte').addEventListener('click', () => mostrarToast('Em breve: Monte seu treino'));
+    document.getElementById('btn-menu-progresso').addEventListener('click', () => mostrarToast('Em breve: Meu Progresso'));
+    document.getElementById('btn-menu-dietas').addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
+    document.getElementById('btn-menu-bonus').addEventListener('click', () => mostrarToast('Em breve: Bonus'));
+
+    document.getElementById('dash-banner-btn').addEventListener('click', () => { renderizarPerfilEdit(); abrirTela('view-perfil'); });
+
+    // Voltar
+    document.getElementById('treinos-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('btn-voltar-treinos').addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
+    document.getElementById('cat-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('btn-voltar-categorias').addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
+    document.getElementById('btn-voltar-para-lista').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
+    document.getElementById('perfil-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('dietas-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('btn-voltar-dietas').addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
+    document.getElementById('notas-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('pagamentos-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('interna-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('btn-voltar-abaixo-detalhe').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
+
+    // Toggle treino
+    document.getElementById('btn-toggle-treino').addEventListener('click', function() {
+      if (!exercicioAtualId) return;
+      const ex = DATABASE_EXERCICIOS.find(e => e.id === exercicioAtualId);
+      const lista = estado.treinoPorDia[diaSelecionado] || [];
+      const posicao = lista.indexOf(exercicioAtualId);
+      for (let d = 0; d < 7; d++) {
+        if (d !== diaSelecionado) {
+          const outra = estado.treinoPorDia[d] || [];
+          const idx = outra.indexOf(exercicioAtualId);
+          if (idx > -1) outra.splice(idx, 1);
+        }
+      }
+      const dias = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+      if (posicao === -1) {
+        if (!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
+        estado.treinoPorDia[diaSelecionado].push(exercicioAtualId);
+        mostrarToast(`Adicionado ao treino de ${dias[diaSelecionado]}`);
+      } else {
+        estado.treinoPorDia[diaSelecionado].splice(posicao, 1);
+        mostrarToast(`Removido do treino de ${dias[diaSelecionado]}`);
+      }
+      salvarEstado();
+      atualizarBotaoTreino(ex);
+      renderizarTreinosVertical();
+      renderizarListaExercicios();
+    });
+
+    document.getElementById('btn-fav').addEventListener('click', function() {
+      this.textContent = this.textContent === '☆' ? '★' : '☆';
+      mostrarToast(this.textContent === '★' ? 'Favoritado!' : 'Removido dos favoritos');
+    });
+
+    document.querySelectorAll('#day-selector .day-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const day = parseInt(this.dataset.day);
+        diaSelecionado = day;
+        document.querySelectorAll('#day-selector .day-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        if (exercicioAtualId) {
+          const ex = DATABASE_EXERCICIOS.find(e => e.id === exercicioAtualId);
+          if (ex) atualizarBotaoTreino(ex);
+        }
+      });
+    });
+
+    // ==================== MENU INFERIOR ====================
+    document.querySelectorAll('.bottom-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const target = this.dataset.target;
+        if (target === 'view-dashboard') {
+          abrirTela('view-dashboard');
+          document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        } else if (target === 'view-notas') {
+          carregarNotas();
+          abrirTela('view-notas');
+          document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        } else if (target === 'view-pagamentos') {
+          carregarPagamentos();
+          abrirTela('view-pagamentos');
+          document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        } else {
+          const nomes = { metas: 'Metas', mais: 'Mais' };
+          document.getElementById('tituloInterno').textContent = nomes[target] || 'Opcao';
+          document.getElementById('conteudoInterno').innerHTML = '<p>Funcionalidade em desenvolvimento.</p><p style="margin-top:12px;">Em breve voce podera acessar esta secao.</p>';
+          abrirTela('view-interna');
+          document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // ==================== WIZARD ====================
+    let passoAtual = 0;
+    const totalPassos = 7;
+    const wizardOverlay = document.getElementById('wizard-overlay');
+    const wizardNext = document.getElementById('wizard-next');
+    const wizardBack = document.getElementById('wizard-back');
+    const wizardProgressFill = document.getElementById('wizard-progress-fill');
+    let objetivoSelecionado = '';
+
+    function atualizarWizard() {
+      document.querySelectorAll('.wizard-step').forEach((p, i) => p.classList.toggle('active', i === passoAtual));
+      wizardProgressFill.style.width = `${((passoAtual + 1) / totalPassos) * 100}%`;
+      if (passoAtual === 0) {
+        wizardBack.style.visibility = 'hidden';
+        wizardNext.textContent = 'Comecar';
+      } else {
+        wizardBack.style.visibility = 'visible';
+        wizardNext.textContent = passoAtual === totalPassos - 1 ? 'Concluir' : 'Proximo';
+      }
+      if (passoAtual === 1) wizardNext.disabled = !document.getElementById('w-nome').value.trim();
+      else if (passoAtual === 2) wizardNext.disabled = !document.getElementById('w-altura').value;
+      else if (passoAtual === 3) wizardNext.disabled = !document.getElementById('w-peso').value;
+      else if (passoAtual === 4) wizardNext.disabled = !objetivoSelecionado;
+      else if (passoAtual === 5) wizardNext.disabled = !document.getElementById('w-meta').value.trim();
+      else wizardNext.disabled = false;
+    }
+
+    wizardNext.addEventListener('click', function() {
+      if (passoAtual < totalPassos - 1) {
+        passoAtual++;
+        atualizarWizard();
+      } else {
+        estado.aluno.nome = document.getElementById('w-nome').value.trim();
+        estado.aluno.altura = document.getElementById('w-altura').value;
+        estado.aluno.peso = document.getElementById('w-peso').value;
+        estado.aluno.objetivo = objetivoSelecionado;
+        estado.aluno.meta = document.getElementById('w-meta').value.trim();
+        estado.configurado = true;
+        salvarEstado();
+        atualizarNomeTopo();
+        wizardOverlay.style.display = 'none';
+        mostrarToast('Perfil configurado com sucesso!');
+        renderizarPerfilEdit();
+      }
+    });
+
+    wizardBack.addEventListener('click', function() {
+      if (passoAtual > 0) {
+        passoAtual--;
+        atualizarWizard();
+      }
+    });
+
+    document.getElementById('w-nome').addEventListener('input', atualizarWizard);
+    document.getElementById('w-altura').addEventListener('input', atualizarWizard);
+    document.getElementById('w-peso').addEventListener('input', atualizarWizard);
+    document.getElementById('w-meta').addEventListener('input', atualizarWizard);
+    document.querySelectorAll('.wizard-option').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.wizard-option').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        objetivoSelecionado = this.dataset.value;
+        atualizarWizard();
+      });
+    });
+
+    // ==================== INICIALIZACAO ====================
+    function init() {
+      renderizarTopbarDias();
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 30000);
+      buscarClima();
+      atualizarNomeTopo();
+      renderizarCategorias();
+      renderizarListaExercicios();
+      renderizarTreinosVertical();
+      renderizarListaReceitas();
+      carregarNotas();
+      carregarPagamentos();
+
+      if (!estado.configurado) {
+        wizardOverlay.style.display = 'flex';
+        atualizarWizard();
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
