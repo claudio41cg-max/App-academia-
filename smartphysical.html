@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  lang="pt-BR">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -126,10 +126,12 @@
     .tag-custom { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; letter-spacing: .05em; }
     .tag-custom.dark { background: #161d27; color: var(--muted); }
     .tag-custom.gold { background: #3d2a16; color: var(--gold); border: 1px solid rgba(212,161,75,.2); }
+    
     .gif-box-card { width: 100%; height: 320px; background: #0a0e17; border-radius: 18px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid var(--border); }
     .gif-box-card img { max-width: 95%; max-height: 95%; object-fit: contain; }
-    .gif-box-card .fallback-msg { color: #8892a3; font-size: 13px; text-align: center; padding: 20px; line-height: 1.5; }
+    .gif-box-card .fallback-icon { display: none; width: 64px; height: 64px; stroke: var(--gold); }
     .gif-label { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(4px); }
+    
     .sec-label { font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; margin: 20px 0 10px; }
     .info-card-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 14px; }
     .info-card-icon { width: 48px; height: 48px; border-radius: 12px; background: #080c14; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); flex: none; }
@@ -264,13 +266,20 @@
 
   <div class="pane" id="view-categorias"><div class="internal-header"><button class="back-btn" id="cat-back">← Voltar</button><span class="internal-title" style="color:var(--gold);">Tipos de Exercicios</span></div><div class="cat-grid" id="cat-grid-container"></div></div>
   <div class="pane" id="view-lista-exercicios"><div class="internal-header"><button class="back-btn" id="btn-voltar-categorias">← Voltar</button><span class="internal-title" id="cat-titulo-topo">Exercicios: Peito</span></div><div class="ex-list-container" id="container-lista-exercicios"></div></div>
+  
   <div class="pane" id="view-detalhe-exercicio">
     <div class="view-detalhe-container">
       <div class="detalhe-top-nav"><button class="btn-voltar-texto" id="btn-voltar-para-lista"><span class="circle-icon"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span><span>Voltar</span></button><button class="btn-fav" id="btn-fav">☆</button></div>
       <h1 class="detalhe-title" id="d-title">Crucifixo Peitoral Maquina</h1>
       <p class="detalhe-sub" id="d-app-sub">Peck Deck / Voador</p>
       <div class="tags-row-custom"><span class="tag-custom dark" id="d-tag-grupo">PEITO</span><span class="tag-custom gold" id="d-tag-popular">MUITO POPULAR</span></div>
-      <div class="gif-box-card"><span class="gif-label">GIF</span><img id="d-gif-img" src="" alt="Demonstracao"><div class="fallback-msg" id="d-gif-fallback" style="display:none"></div></div>
+      
+      <div class="gif-box-card">
+        <span class="gif-label">GIF</span>
+        <img id="d-gif-img" src="" alt="Demonstracao" onerror="this.style.display='none'; document.getElementById('d-gif-fallback-icon').style.display='block';">
+        <svg id="d-gif-fallback-icon" class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6.5 6.5l11 11M4 4l3 3M20 20l-3-3M2 9l3 3-3 3M22 15l-3-3 3-3M9 2l3 3-3 3M15 22l-3-3 3-3"/></svg>
+      </div>
+
       <div class="sec-label">ALVO</div>
       <div class="info-card-box"><div class="info-card-icon" style="background:#1a120c;border-color:rgba(212,161,75,0.3);"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:var(--gold);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div><div class="info-card-text"><h4>Musculo Principal</h4><p id="d-primary-muscle">Peitoral Maior</p></div></div>
       <div class="sec-label">INSTRUÇÕES</div><p class="text-instructions" id="d-instructions-text">Ajuste o banco...</p>
@@ -409,17 +418,27 @@
       "Gastrocnemio","Soleo","Soleo","Panturrilha","Gastrocnemio"
     ];
 
+    // LINK DIRETO DO REPOSITÓRIO GITHUB - CORREÇÃO DEFINITIVA
+    const GITHUB_BASE_URL = "https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/";
+
     const DATABASE_EXERCICIOS = [];
     for (let i = 0; i < 100; i++) {
+      const nomeEx = NOMES_EXERCICIOS[i];
+      // Converte o nome para formato de URL, lidando com espaços e acentos
+      const nomeEncoded = encodeURIComponent(nomeEx);
+      
       DATABASE_EXERCICIOS.push({
         id: "e" + (i+1),
-        nome: NOMES_EXERCICIOS[i],
+        nome: nomeEx,
         aparelho: APARELHOS[i] || "Aparelho",
         musculo: MUSCULOS[i] || "Musculo",
         grupo: GRUPOS[i] || "OUTRO",
         popular: i % 3 === 0,
-        gif: "https://via.placeholder.com/400x400/0a0e17/d4a14b?text=" + encodeURIComponent(NOMES_EXERCICIOS[i].replace(/ /g, '+')),
-        instrucao: "Instrucao para " + NOMES_EXERCICIOS[i],
+        // Constrói a URL completa para buscar o GIF na nuvem do GitHub
+        gif: `${GITHUB_BASE_URL}${nomeEncoded}.gif`,
+        // Fallback em caso de erro simples (minúsculo)
+        gifFallback: `${GITHUB_BASE_URL}${encodeURIComponent(nomeEx.toLowerCase())}.gif`,
+        instrucao: "Execute o movimento de " + nomeEx + " mantendo a postura firme, amplitude controlada e respiracao ritmada.",
         series: (Math.floor(i % 5) + 3) + "-" + (Math.floor(i % 5) + 5) + " series",
         reps: (Math.floor(i % 3) + 8) + "-" + (Math.floor(i % 3) + 14) + " reps",
         descanso: (Math.floor(i % 3) * 15 + 45) + "-" + (Math.floor(i % 3) * 15 + 90) + "s"
@@ -478,25 +497,24 @@
       "• Frango\n• Brocolis, pimentao, cenoura\n• Molho de soja, alho, gengibre",
       "• Carne magra\n• Cebola, alho, tomate\n• Cenoura, batata-doce, caldo de carne",
       "• Tortilha integral\n• Frango grelhado\n• Abacate, tomate, alface\n• Iogurte",
-      "• File de peixe\n• Polpa de maracuja\n• Alho, azeite, sal, pimenta",
-      "• Camarao\n• Limao, alho, sal, pimenta\n• Azeite",
-      "• Carne em tiras\n• Brocolis, cenoura, pimentao\n• Soja, alho, gengibre",
-      "• Salmao\n• Cebola, alho, salsinha\n• Ovo, farinha, sal, pimenta",
-      "• Frango\n• Leite de coco\n• Cebola, alho, gengibre\n• Curry, curcuma",
-      "• Berinjela\n• Carne moída\n• Cebola, alho, tomate, orégano",
-      "• Frango\n• Limão, ervas (alecrim, tomilho)\n• Azeite, sal, pimenta",
-      "• Bife\n• Mostarda, mel\n• Azeite, alho, sal, pimenta",
-      "• Frango\n• Manga\n• Soja, mel, limão",
-      "• Pato\n• Suco e casca de laranja\n• Mel, sal, pimenta",
-      "• Tilápia\n• Limão, azeite\n• Sal, pimenta",
-      "• Frango desfiado\n• Abacaxi\n• Tortilhas de milho, coentro",
-      "• Ovos\n• Salmão defumado\n• Queijo (cream cheese ou feta)",
-      "• Carne\n• Legumes (pimentão, cebola, cogumelos)\n• Azeite, temperos",
-      "• Bacalhau\n• Tomates cereja\n• Alho, azeite, ervas",
-      "• Frango grelhado\n• Pão integral\n• Alface, tomate, maionese light",
-      "• Ovos\n• Salmão defumado\n• Manteiga, sal, pimenta",
-      "• Atum\n• Aveia\n• Ovo, cebola, sal, pimenta",
-      "• Quinoa\n• Abobrinha, tomate, pimentão, cebola\n• Azeite, ervas, queijo feta"
+      "• Peixe com Molho de Maracuja",
+      "• Espetinho de Camarao",
+      "• Hamburguer de Salmao",
+      "• Frango com Leite de Coco",
+      "• Berinjela com Carne Moída",
+      "• Frango Assado com Limão e Ervas",
+      "• Bife com Molho de Mostarda",
+      "• Frango ao Molho de Manga",
+      "• Peito de Pato com Laranja",
+      "• Tilápia com Molho de Limão",
+      "• Tacos de Frango com Abacaxi",
+      "• Omelete de Salmão com Queijo",
+      "• Espetinho de Carne com Legumes",
+      "• Bacalhau com Tomates Assados",
+      "• Sanduíche de Frango Grelhado",
+      "• Ovos Mexidos com Salmão",
+      "• Bolinho de Atum com Aveia",
+      "• Salada de Quinoa e Vegetais Assados"
     ];
     const INSTRS = [
       "1. Tempere o frango com alho, limao, sal e pimenta.\n2. Misture os aspargos com azeite, sal e pimenta.\n3. Grelhe o frango por 6-8 min de cada lado.\n4. Adicione os aspargos e grelhe por 4-6 min.\n5. Regue com limao e sirva.",
@@ -535,20 +553,20 @@
       "1. Doure a carne em azeite.\n2. Adicione alho e gengibre.\n3. Acrescente legumes.\n4. Regue com molho de soja e cozinhe ate al dente.",
       "1. Misture todos os ingredientes.\n2. Modele os hamburgueres.\n3. Grelhe em azeite ate dourar.",
       "1. Refogue cebola e alho em oleo de coco.\n2. Adicione frango, gengibre, curry e curcuma.\n3. Despeje leite de coco e cozinhe 15-20 min.\n4. Tempere.",
-      "1. Corte a berinjela ao meio e retire a polpa.\n2. Refogue cebola, alho e carne.\n3. Adicione tomate, orégano, sal e pimenta.\n4. Recheie e asse.",
-      "1. Tempere o frango com limao, ervas, sal e pimenta.\n2. Coloque em assadeira e regue com azeite.\n3. Asse a 200°C por 25-30 min.",
-      "1. Tempere os bifes com sal e pimenta.\n2. Grelhe em azeite.\n3. Misture mostarda e mel (e alho).\n4. Regue os bifes com o molho.",
-      "1. Tempere o frango e grelhe.\n2. Em uma panela, cozinhe manga com soja, mel e limao ate espessar.\n3. Despeje sobre o frango.",
-      "1. Tempere os patos e grelhe.\n2. Em uma panela, aqueça o suco, casca e mel.\n3. Regue os patos com o molho.",
-      "1. Tempere a tilapia com sal, pimenta e limao.\n2. Grelhe em azeite ate dourar.\n3. Regue com mais limao.",
-      "1. Tempere o frango com o tempero para tacos.\n2. Aqueça as tortilhas.\n3. Monte com frango, abacaxi e coentro.",
-      "1. Bata os ovos com sal e pimenta.\n2. Despeje em frigideira.\n3. Adicione salmao e queijo sobre metade.\n4. Dobre e cozinhe.",
-      "1. Corte a carne e legumes em cubos.\n2. Alterne nos espetinhos.\n3. Regue com azeite e tempere.\n4. Grelhe ate cozinhar.",
-      "1. Pre-aqueça o forno a 200°C.\n2. Coloque o bacalhau em assadeira.\n3. Distribua tomates ao redor.\n4. Regue com azeite, alho e ervas.\n5. Asse por 15-20 min.",
-      "1. Grelhe o frango.\n2. Monte o sanduiche com pao, alface, tomate e maionese.",
-      "1. Bata os ovos com sal e pimenta.\n2. Aqueça a manteiga.\n3. Cozinhe os ovos mexendo.\n4. Adicione salmao quando quase prontos e termine.",
-      "1. Misture atum, aveia, ovo e cebola.\n2. Modele bolinhos.\n3. Grelhe em azeite ate dourar.",
-      "1. Asse os vegetais no forno.\n2. Misture com a quinoa.\n3. Regue com azeite e tempere.\n4. Acrescente queijo feta."
+      "1. Corte a berinjela ao meio e retire a polpa.\n2. Refogue cebola, alho and carne.\n3. Adicione tomate, orégano, sal and pimenta.\n4. Recheie and asse.",
+      "1. Tempere o frango com limao, ervas, sal and pimenta.\n2. Coloque em assadeira and regue com azeite.\n3. Asse a 200°C por 25-30 min.",
+      "1. Tempere os bifes com sal and pimenta.\n2. Grelhe em azeite.\n3. Misture mostarda and mel (and alho).\n4. Regue os bifes com o molho.",
+      "1. Tempere o frango and grelhe.\n2. Em uma panela, cozinhe manga com soja, mel and limao ate espessar.\n3. Despeje sobre o frango.",
+      "1. Tempere os patos and grelhe.\n2. Em uma panela, aqueça o suco, casca and mel.\n3. Regue os patos com o molho.",
+      "1. Tempere a tilapia com sal, pimenta and limao.\n2. Grelhe em azeite ate dourar.\n3. Regue com mais limao.",
+      "1. Tempere o frango com o tempero para tacos.\n2. Aqueça as tortilhas.\n3. Monte com frango, abacaxi and coentro.",
+      "1. Bata os ovos com sal and pimenta.\n2. Despeje em frigideira.\n3. Adicione salmao and queijo sobre metade.\n4. Dobre and cozinhe.",
+      "1. Corte a carne and legumes em cubos.\n2. Alterne nos espetinhos.\n3. Regue com azeite and temperos.\n4. Grelhe ate cozinhar.",
+      "1. Pre-aqueça o forno a 200°C.\n2. Coloque o bacalhau em assadeira.\n3. Distribua tomates ao redor.\n4. Regue com azeite, alho and ervas.\n5. Asse por 15-20 min.",
+      "1. Grelhe o frango.\n2. Monte o sanduiche com pao, alface, tomate and maionese.",
+      "1. Bata os ovos com sal and pimenta.\n2. Aqueça a manteiga.\n3. Cozinhe os ovos mexendo.\n4. Adicione salmao quando quase prontos and termine.",
+      "1. Misture atum, aveia, ovo and cebola.\n2. Modele os bolinhos.\n3. Grelhe em azeite ate dourar.",
+      "1. Asse os vegetais no forno.\n2. Misture com a quinoa.\n3. Regue com azeite and temperos.\n4. Acrescente queijo feta."
     ];
 
     for (let i = 0; i < 50; i++) {
@@ -604,7 +622,6 @@
 
     // ==================== TOPBAR ====================
     function renderizarTopbarDias() {
-      const dias = ["D", "S", "T", "Q", "Q", "S", "S"];
       const hoje = new Date().getDay();
       document.querySelectorAll('#topbarDays span').forEach((el, i) => {
         el.classList.toggle('today', i === hoje);
@@ -727,7 +744,9 @@
         card.className = 'ex-item-card';
         const estaEmAlgumDia = Object.values(estado.treinoPorDia).some(lista => lista.includes(ex.id));
         card.innerHTML = `
-          <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy"></div>
+          <div class="ex-item-thumb">
+            <img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${ex.gifFallback}';">
+          </div>
           <div class="ex-item-info">
             <p class="title">${ex.nome}</p>
             <p class="app-name">${ex.aparelho}</p>
@@ -753,11 +772,18 @@
       document.getElementById('d-app-sub').textContent = ex.aparelho;
       document.getElementById('d-tag-grupo').textContent = ex.grupo;
       document.getElementById('d-tag-popular').style.display = ex.popular ? 'inline-block' : 'none';
-      document.getElementById('d-gif-img').src = ex.gif;
+      
+      const imgEl = document.getElementById('d-gif-img');
+      const fallbackIcon = document.getElementById('d-gif-fallback-icon');
+      imgEl.style.display = 'block';
+      fallbackIcon.style.display = 'none';
+      imgEl.src = ex.gif;
+      
       document.getElementById('d-primary-muscle').textContent = ex.musculo;
       document.getElementById('d-instructions-text').innerText = ex.instrucao;
-      document.getElementById('d-equip-name').textContent = `Maquina ${ex.aparelho}`;
-      document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho">`;
+      document.getElementById('d-equip-name').textContent = `Aparelho: ${ex.aparelho}`;
+      document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho" onerror="this.onerror=null; this.src='${ex.gifFallback}';">`;
+      
       const seriesVal = parseInt(ex.series.match(/\d+/)?.[0] || 3);
       const repsVal = parseInt(ex.reps.match(/\d+/)?.[0] || 10);
       const descansoVal = parseInt(ex.descanso.match(/\d+/)?.[0] || 60);
@@ -821,7 +847,9 @@
         const card = document.createElement('div');
         card.className = 'ex-item-card';
         card.innerHTML = `
-          <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy"></div>
+          <div class="ex-item-thumb">
+            <img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${ex.gifFallback}';">
+          </div>
           <div class="ex-item-info">
             <p class="title">${ex.nome}</p>
             <p class="app-name">${ex.aparelho}</p>
