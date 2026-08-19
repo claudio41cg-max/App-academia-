@@ -1,3 +1,6 @@
+APP GEMINE 3 MAIS NOVO 
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,6 +21,8 @@
       --gold: #d4a14b;
       --gold-glow: rgba(212,161,75,0.25);
       --radius: 18px;
+      --water-cyan: #00d2ff;
+      --water-blue: #0072ff;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -68,61 +73,61 @@
     .vip-banner .vip-nome { font-size: 17px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
     .vip-banner .vip-plano-badge { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--gold); border-radius: 20px; padding: 2px 10px; font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--gold); text-transform: uppercase; }
 
-    /* WIDGET DE HIDRATAÇÃO */
-    .water-card {
-      background: linear-gradient(145deg, #0e1a28 0%, #14202e 50%, #0c1520 100%);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      margin: 0 20px 18px 20px; padding: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    /* WIDGET DE HIDRATAÇÃO BIOMÉTRICO (MODAL SINO) */
+    .water-card-pro {
+      background: radial-gradient(circle at 50% 20%, rgba(0,210,255,0.12), transparent 70%),
+                  linear-gradient(145deg, #0e1a28 0%, #14202e 100%);
+      border: 1px solid rgba(0,210,255,0.3); border-radius: var(--radius);
+      padding: 20px 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+      text-align: center;
     }
-    .water-main { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-    .water-buddy {
-      width: 72px; height: 72px; flex: none; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; transition: all 0.4s ease;
-      background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.15), transparent 60%);
-      border: 2px solid #4fc3f7;
-      box-shadow: 0 0 16px rgba(79,195,247,0.25);
+    .water-body-stage {
+      width: 120px; height: 160px; margin: 0 auto 16px;
+      position: relative; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle, rgba(0,210,255,0.08) 0%, transparent 70%);
     }
-    .water-buddy.estado-ruim {
-      border-color: #ff5252;
-      box-shadow: 0 0 18px rgba(255,82,82,0.4);
-      background: radial-gradient(circle at 40% 35%, rgba(255,82,82,0.2), transparent 60%);
+    .water-body-svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 0 12px rgba(0,210,255,0.35));
+      transition: all 0.5s ease;
     }
-    .water-buddy.estado-medio {
-      border-color: #ffc107;
-      box-shadow: 0 0 16px rgba(255,193,7,0.3);
-      background: radial-gradient(circle at 40% 35%, rgba(255,193,7,0.15), transparent 60%);
+    .water-body-outline {
+      fill: none; stroke: rgba(255,255,255,0.25); stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
     }
-    .water-buddy.estado-bom {
-      border-color: #4caf50;
-      box-shadow: 0 0 18px rgba(76,175,80,0.4);
-      background: radial-gradient(circle at 40% 35%, rgba(76,175,80,0.2), transparent 60%);
+    .water-level-wave {
+      transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .water-buddy-face { font-size: 36px; line-height: 1; transition: transform 0.3s; }
-    .water-info { flex: 1; min-width: 0; }
-    .water-info b { font-size: 14px; color: #fff; display: block; margin-bottom: 2px; }
-    .water-info .water-status { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
-    .water-info .water-status.ruim { color: #ff5252; }
-    .water-info .water-status.medio { color: #ffc107; }
-    .water-info .water-status.bom { color: #4caf50; }
-    .water-info .water-qtd { font-size: 13px; color: var(--gold); font-weight: 800; }
-    .water-actions { display: flex; gap: 8px; margin-bottom: 10px; }
-    .btn-water {
+    .water-status-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 8px; transition: all 0.3s;
+    }
+    .water-status-badge.normal { background: rgba(0,210,255,0.15); color: #00d2ff; border: 1px solid #00d2ff; }
+    .water-status-badge.alerta { background: rgba(255,167,38,0.15); color: #ffa726; border: 1px solid #ffa726; }
+    .water-status-badge.critico { background: rgba(255,82,82,0.15); color: #ff5252; border: 1px solid #ff5252; }
+    .water-status-badge.cheio { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid #4caf50; }
+
+    .water-numbers {
+      font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 2px;
+      letter-spacing: -0.5px;
+    }
+    .water-numbers span { color: var(--gold); font-size: 18px; }
+    .water-meta-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+
+    .water-actions-pro { display: flex; gap: 8px; margin-bottom: 12px; }
+    .btn-water-pro {
       flex: 1; background: var(--surface); border: 1px solid var(--border); color: #fff;
-      font-size: 12px; font-weight: 800; padding: 10px 6px; border-radius: 10px; cursor: pointer;
-      transition: all 0.2s;
+      font-size: 13px; font-weight: 800; padding: 12px 6px; border-radius: 12px; cursor: pointer;
+      transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 2px;
     }
-    .btn-water:active { border-color: #4fc3f7; background: #0d2a3a; transform: scale(0.96); }
-    .btn-water-reset {
-      background: transparent; border: 1px solid #ff5252; color: #ff5252;
-      font-size: 11px; font-weight: 800; padding: 8px 12px; border-radius: 10px; cursor: pointer; width: 100%;
+    .btn-water-pro span { font-size: 9px; color: var(--muted); font-weight: 600; }
+    .btn-water-pro:active { border-color: var(--water-cyan); background: #0c2333; transform: scale(0.96); }
+    .btn-water-reset-pro {
+      background: transparent; border: 1px solid rgba(255,82,82,0.5); color: #ff5252;
+      font-size: 11px; font-weight: 800; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%;
     }
-    .water-progress-bg { width: 100%; height: 10px; background: var(--surface); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
-    .water-progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease, background 0.4s ease; width: 0%; background: linear-gradient(90deg, #ff5252, #ff8a80); }
-    .water-progress-fill.medio { background: linear-gradient(90deg, #ffc107, #ffecb3); }
-    .water-progress-fill.bom { background: linear-gradient(90deg, #4caf50, #81c784); }
-    .water-percent { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
 
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px 20px 20px; }
     .btn-dash {
@@ -211,10 +216,80 @@
     .cat-card b { font-size: 15px; font-weight: 800; display: block; margin-bottom: 2px; color: var(--gold); }
     .cat-card span { font-size: 11px; color: var(--muted); }
 
-    .dieta-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 8px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
-    .dieta-card:active { transform: scale(0.98); }
-    .dieta-card .dieta-nome { font-weight: 700; font-size: 15px; }
-    .dieta-card .dieta-num { background: var(--gold); color: #080c14; padding: 2px 10px; border-radius: 20px; font-weight: 800; font-size: 12px; }
+    /* GRID DE RECEITAS COM IMAGENS COMPACTAS E TEXTO MAIOR */
+    .receitas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+    .receita-grid-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+    .receita-grid-card:active { transform: scale(0.97); border-color: var(--gold); }
+    .receita-thumb-box {
+      width: 100%; height: 95px; background: #000; position: relative; overflow: hidden;
+    }
+    .receita-thumb-box img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .receita-badge-num {
+      position: absolute; top: 6px; right: 6px; background: rgba(8,12,20,0.85);
+      border: 1px solid var(--gold); color: var(--gold); font-size: 10px; font-weight: 800;
+      padding: 2px 7px; border-radius: 10px; backdrop-filter: blur(4px);
+    }
+    .receita-grid-body {
+      padding: 12px 10px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;
+    }
+    .receita-grid-title {
+      font-size: 14px; font-weight: 800; color: #fff; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .receita-grid-sub { font-size: 11px; color: var(--gold); font-weight: 800; text-transform: uppercase; }
+
+    /* GRID DO X5 (VÍDEOS EM QUADRINHOS COM TELA CHEIA NATIVA) */
+    .x5-video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .x5-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      padding: 10px;
+    }
+    .x5-card-header {
+      font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .x5-video-box {
+      width: 100%; height: 140px; border-radius: 10px; background: #000; overflow: hidden;
+      margin-bottom: 8px; border: 1px solid var(--border);
+    }
+    .x5-video-box video {
+      width: 100%; height: 100%; object-fit: cover; outline: none;
+    }
+    .btn-x5-card {
+      width: 100%; padding: 9px; background: var(--surface); border: 1px solid var(--gold);
+      color: var(--gold); border-radius: 8px; font-size: 11px; font-weight: 800;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .btn-x5-card:active { background: var(--gold); color: #080c14; transform: scale(0.96); }
 
     .receita-imagem { width: 100%; height: 220px; object-fit: cover; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface); }
     .receita-detalhe .ingredientes, .receita-detalhe .instrucoes { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; white-space: pre-line; font-size: 13px; color: #d1d5db; line-height: 1.6; position: relative; }
@@ -246,11 +321,21 @@
     .info-card-text p { margin: 0; font-size: 15px; font-weight: 800; color: #fff; }
     .text-instructions { font-size: 13px; color: #d1d5db; line-height: 1.6; margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; white-space: pre-line; }
 
-    .metric-row-edit { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-    .metric-edit-item { flex: 1; min-width: 70px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    /* SELETORES DE ROLAGEM SUAVE (SELECTS ELEGANTES) */
+    .metric-row-edit { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .metric-edit-item {
+      flex: 1; min-width: 70px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
     .metric-edit-item label { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; }
-    .metric-edit-item input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gold); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 4px 0; outline: none; }
-    .metric-edit-item input:focus { border-bottom-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
+    .metric-select-wheel {
+      width: 100%; background: var(--surface); border: 1px solid var(--gold); border-radius: 8px;
+      color: #fff; font-size: 14px; font-weight: 800; text-align: center; padding: 6px 2px;
+      outline: none; cursor: pointer; text-align-last: center;
+    }
+    .metric-select-wheel option {
+      background: #0e1624; color: #fff; font-weight: 700;
+    }
 
     /* DIAS VERTICAL */
     .dias-vertical { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
@@ -439,12 +524,6 @@
     .pdf-viewer-header span { font-weight: 800; color: var(--gold); font-size: 15px; }
     .pdf-viewer-frame { flex: 1; width: 100%; border: none; background: #fff; }
 
-    /* MODAL DE NOTIFICAÇÕES */
-    .notif-item { padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
-    .notif-item .n-icon { font-size: 20px; }
-    .notif-item .n-text b { font-size: 14px; color: #fff; display: block; margin-bottom: 2px; }
-    .notif-item .n-text span { font-size: 12px; color: var(--muted); }
-
     /* DRAWER LATERAL */
     .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 180; display: none; }
     .drawer-overlay.active { display: block; }
@@ -464,7 +543,9 @@
       .metric-row-edit { flex-direction: column; } 
       .graficos-container { grid-template-columns: 1fr; } 
       .bonus-grid { grid-template-columns: 1fr; } 
-      .day-btn { font-size: 12px; padding: 10px 0; } 
+      .day-btn { font-size: 12px; padding: 10px 0; }
+      .receitas-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
+      .x5-video-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -494,49 +575,51 @@
     <iframe id="pdf-viewer-frame" class="pdf-viewer-frame" src=""></iframe>
   </div>
 
-  <!-- MODAL DE NOTIFICAÇÕES (SINO) -->
+  <!-- MODAL DE NOTIFICAÇÕES (SINO - EXCLUSIVO HIDRATAÇÃO PROFISSIONAL) -->
   <div class="modal-overlay" id="modal-notificacoes">
-    <div class="modal-card" style="max-height:90vh;overflow-y:auto;">
-      <div class="modal-header">
-        <h3>🔔 Notificações & Lembretes</h3>
+    <div class="modal-card" style="max-height:90vh;overflow-y:auto;padding:18px;">
+      <div class="modal-header" style="margin-bottom:12px;">
+        <h3>💧 Hidratação Diária</h3>
         <button class="modal-close" onclick="fecharNotificacoes()">✕</button>
       </div>
 
-      <!-- HIDRATAÇÃO -->
-      <div class="water-card" style="margin:0 0 14px 0;">
-        <div class="water-main">
-          <div class="water-buddy estado-ruim" id="water-buddy">
-            <span class="water-buddy-face" id="water-buddy-face">🥵</span>
-          </div>
-          <div class="water-info">
-            <b>Hidratação Diária</b>
-            <div class="water-status ruim" id="water-status-text">Precisa beber água!</div>
-            <div class="water-qtd"><span id="water-current">0</span> ml / <span id="water-goal">2500</span> ml</div>
-          </div>
+      <!-- BONECO ANATÔMICO VETORIAL EM PÉ -->
+      <div class="water-card-pro">
+        <div class="water-status-badge normal" id="water-status-badge">Pronto para Hidratar</div>
+        
+        <div class="water-body-stage">
+          <svg class="water-body-svg" viewBox="0 0 100 160">
+            <defs>
+              <linearGradient id="bodyWaterGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#0072ff"/>
+                <stop offset="100%" stop-color="#00d2ff"/>
+              </linearGradient>
+              <clipPath id="bodyClip">
+                <circle cx="50" cy="18" r="11"/>
+                <path d="M43 32 C35 34 26 44 26 58 L26 84 C26 87 29 90 33 90 C36 90 38 88 38 84 L38 66 L41 66 L41 144 C41 148 44 152 48 152 C52 152 55 148 55 144 L55 98 L57 98 L57 144 C57 148 60 152 64 152 C68 152 71 148 71 144 L71 66 L74 66 L74 84 C74 88 76 90 79 90 C83 90 86 87 86 84 L86 58 C86 44 77 34 69 32 Z"/>
+              </clipPath>
+            </defs>
+            <g opacity="0.3">
+              <circle cx="50" cy="18" r="11" fill="rgba(255,255,255,0.15)"/>
+              <path d="M43 32 C35 34 26 44 26 58 L26 84 C26 87 29 90 33 90 C36 90 38 88 38 84 L38 66 L41 66 L41 144 C41 148 44 152 48 152 C52 152 55 148 55 144 L55 98 L57 98 L57 144 C57 148 60 152 64 152 C68 152 71 148 71 144 L71 66 L74 66 L74 84 C74 88 76 90 79 90 C83 90 86 87 86 84 L86 58 C86 44 77 34 69 32 Z" fill="rgba(255,255,255,0.15)"/>
+            </g>
+            <g clip-path="url(#bodyClip)">
+              <rect id="water-rect-fill" x="0" y="160" width="100" height="160" fill="url(#bodyWaterGrad)" class="water-level-wave"/>
+            </g>
+            <circle cx="50" cy="18" r="11" class="water-body-outline"/>
+            <path d="M43 32 C35 34 26 44 26 58 L26 84 C26 87 29 90 33 90 C36 90 38 88 38 84 L38 66 L41 66 L41 144 C41 148 44 152 48 152 C52 152 55 148 55 144 L55 98 L57 98 L57 144 C57 148 60 152 64 152 C68 152 71 148 71 144 L71 66 L74 66 L74 84 C74 88 76 90 79 90 C83 90 86 87 86 84 L86 58 C86 44 77 34 69 32 Z" class="water-body-outline"/>
+          </svg>
         </div>
-        <div class="water-actions">
-          <button class="btn-water" onclick="adicionarAgua(50)">+50 ml</button>
-          <button class="btn-water" onclick="adicionarAgua(100)">+100 ml</button>
-          <button class="btn-water" onclick="adicionarAgua(500)">+500 ml</button>
-        </div>
-        <div class="water-progress-bg"><div class="water-progress-fill" id="water-progress-fill"></div></div>
-        <div class="water-percent" id="water-percent">0% da meta</div>
-        <button class="btn-water-reset" style="margin-top:8px;" onclick="resetarAgua()">Resetar água do dia</button>
-      </div>
 
-      <div class="notif-item">
-        <div class="n-icon">🏋️‍♂️</div>
-        <div class="n-text">
-          <b>Execução de Séries</b>
-          <span>Você pode marcar o progresso de cada série concluída nos treinos!</span>
+        <div class="water-numbers"><span id="water-current-pro">0</span> ml / <span id="water-goal-pro">2500</span> ml</div>
+        <div class="water-meta-sub" id="water-percent-sub">0% concluído da sua meta diária</div>
+
+        <div class="water-actions-pro">
+          <button class="btn-water-pro" onclick="adicionarAgua(100)">+100 ml<span>Copo pequeno</span></button>
+          <button class="btn-water-pro" onclick="adicionarAgua(250)">+250 ml<span>Copo cheio</span></button>
+          <button class="btn-water-pro" onclick="adicionarAgua(500)">+500 ml<span>Garrafa</span></button>
         </div>
-      </div>
-      <div class="notif-item">
-        <div class="n-icon">⚖️</div>
-        <div class="n-text">
-          <b>Avaliação Periódica</b>
-          <span>Atualize seu peso e IMC semanalmente para acompanhar a evolução.</span>
-        </div>
+        <button class="btn-water-reset-pro" onclick="resetarAgua()">Resetar Registro de Água</button>
       </div>
     </div>
   </div>
@@ -551,7 +634,7 @@
     <div class="drawer-nav-item" onclick="navegarDrawer('view-dietas')">🥗 Receitas Saudáveis</div>
     <div class="drawer-nav-item" onclick="navegarDrawer('view-bonus')">📚 Bônus em PDF</div>
     <div class="drawer-nav-item" onclick="navegarDrawer('view-pagamentos')">💳 Assinatura & Pix</div>
-    <div style="margin-top:auto; font-size:11px; color:var(--muted); text-align:center;">Smart Physical v3.4<br>Controle Total</div>
+    <div style="margin-top:auto; font-size:11px; color:var(--muted); text-align:center;">Smart Physical v3.5<br>Controle Total</div>
   </div>
 
   <!-- MODAL: TREINO RÁPIDO -->
@@ -597,7 +680,7 @@
     </div>
   </div>
 
-  <!-- CONTEÚDO -->
+  <!-- CONTEÚDO PRINCIPAL -->
   <div id="app-content" style="display:block;">
     <svg width="0" height="0" style="position:absolute">
       <defs><linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3d38a"/><stop offset="45%" stop-color="#d4a14b"/><stop offset="100%" stop-color="#8a611f"/></linearGradient></defs>
@@ -745,11 +828,24 @@
         <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">--</p></div></div>
         
         <div class="sec-label" style="margin-top:24px;">CONFIGURAÇÃO</div>
+        <!-- ROLAGEM SUAVE COM SELECTS MODERNOS (SEM TECLADO) -->
         <div class="metric-row-edit">
-          <div class="metric-edit-item"><label>Séries</label><input type="number" id="edit-series" value="3" min="1" max="10"></div>
-          <div class="metric-edit-item"><label>Repetições</label><input type="number" id="edit-reps" value="12" min="1" max="50"></div>
-          <div class="metric-edit-item"><label>Peso (kg)</label><input type="number" id="edit-peso" value="0" min="0" step="0.5"></div>
-          <div class="metric-edit-item"><label>Descanso (s)</label><input type="number" id="edit-descanso" value="60" min="10" max="300"></div>
+          <div class="metric-edit-item">
+            <label>Séries</label>
+            <select id="edit-series" class="metric-select-wheel"></select>
+          </div>
+          <div class="metric-edit-item">
+            <label>Repetições</label>
+            <select id="edit-reps" class="metric-select-wheel"></select>
+          </div>
+          <div class="metric-edit-item">
+            <label>Peso (kg)</label>
+            <select id="edit-peso" class="metric-select-wheel"></select>
+          </div>
+          <div class="metric-edit-item">
+            <label>Descanso</label>
+            <select id="edit-descanso" class="metric-select-wheel"></select>
+          </div>
         </div>
 
         <button class="btn-confirmar" style="background:#1f3144;color:var(--gold);margin-top:12px;" onclick="iniciarTimerManual()">⏱️ Iniciar Descanso Agora (Opcional)</button>
@@ -796,87 +892,59 @@
       </div>
     </div>
 
-    <!-- X5 - EXECUÇÃO DE SÉRIES -->
+    <!-- X5 - EXECUÇÃO DE SÉRIES (EM QUADRINHOS COM TELA CHEIA NATIVA) -->
     <div class="pane" id="view-x5">
       <div class="internal-header">
         <button class="back-btn" id="x5-back">← Voltar</button>
         <span class="internal-title">X5 - Séries</span>
       </div>
-      <div style="padding:16px 20px 30px;">
-        <div style="background:linear-gradient(135deg,#1c150b 0%,#111824 100%);border:1px solid var(--gold);border-radius:var(--radius);padding:16px;margin-bottom:18px;">
-          <h3 style="color:var(--gold);font-size:16px;margin-bottom:4px;font-weight:800;">⚡ Método X5 de Alta Intensidade</h3>
-          <p style="font-size:12px;color:var(--muted);line-height:1.5;margin:0;">
-            Assista aos vídeos demonstrativos para garantir a execução, cadência e postura perfeitas.
+      <div style="padding:16px 16px 30px;">
+        <div style="background:linear-gradient(135deg,#1c150b 0%,#111824 100%);border:1px solid var(--gold);border-radius:var(--radius);padding:14px;margin-bottom:12px;">
+          <h3 style="color:var(--gold);font-size:15px;margin-bottom:4px;font-weight:800;">⚡ Método X5 de Alta Intensidade</h3>
+          <p style="font-size:11px;color:var(--muted);line-height:1.4;margin:0;">
+            Assista aos vídeos demonstrativos para garantir cadência e postura perfeitas. Toque em Tela Cheia para ampliar sem download.
           </p>
         </div>
 
-        <div id="x5-videos-container" style="display:flex;flex-direction:column;gap:18px;">
+        <!-- QUADRINHOS DE VÍDEO -->
+        <div class="x5-video-grid" id="x5-videos-grid">
           
-          <!-- Vídeo 1 -->
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:14px;">
-            <h4 style="color:#fff;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Treino 1
-            </h4>
-            <video 
-              controls 
-              playsinline 
-              preload="metadata" 
-              style="width:100%;border-radius:12px;max-height:260px;background:#000;outline:none;" 
-              src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_1.mp4">
-            </video>
-            <button class="btn-confirmar" style="margin-top:10px;padding:10px;font-size:12px;" onclick="window.open('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_1.mp4', '_blank')">
-              ▶ Abrir Vídeo 1 no Player do Celular
-            </button>
-          </div>
-
           <!-- Vídeo 2 -->
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:14px;">
-            <h4 style="color:#fff;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Treino 2
-            </h4>
-            <video 
-              controls 
-              playsinline 
-              preload="metadata" 
-              style="width:100%;border-radius:12px;max-height:260px;background:#000;outline:none;" 
-              src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4">
-            </video>
-            <button class="btn-confirmar" style="margin-top:10px;padding:10px;font-size:12px;" onclick="window.open('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4', '_blank')">
-              ▶ Abrir Vídeo 2 no Player do Celular
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 1
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-2" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-2')">
+              ⛶ Tela Cheia
             </button>
           </div>
 
           <!-- Vídeo 3 -->
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:14px;">
-            <h4 style="color:#fff;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Treino 3
-            </h4>
-            <video 
-              controls 
-              playsinline 
-              preload="metadata" 
-              style="width:100%;border-radius:12px;max-height:260px;background:#000;outline:none;" 
-              src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4">
-            </video>
-            <button class="btn-confirmar" style="margin-top:10px;padding:10px;font-size:12px;" onclick="window.open('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4', '_blank')">
-              ▶ Abrir Vídeo 3 no Player do Celular
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 2
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-3" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-3')">
+              ⛶ Tela Cheia
             </button>
           </div>
 
           <!-- Vídeo 4 -->
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:14px;">
-            <h4 style="color:#fff;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Treino 4
-            </h4>
-            <video 
-              controls 
-              playsinline 
-              preload="metadata" 
-              style="width:100%;border-radius:12px;max-height:260px;background:#000;outline:none;" 
-              src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4">
-            </video>
-            <button class="btn-confirmar" style="margin-top:10px;padding:10px;font-size:12px;" onclick="window.open('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4', '_blank')">
-              ▶ Abrir Vídeo 4 no Player do Celular
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 3
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-4" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-4')">
+              ⛶ Tela Cheia
             </button>
           </div>
 
@@ -916,11 +984,16 @@
       </div>
     </div>
 
-    <div class="pane" id="view-dietas"><div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">50 Receitas Saudáveis</span></div><div id="container-lista-receitas"></div></div>
+    <!-- NUTRIÇÃO / DIETAS EM QUADRINHOS COM FOTOS REAIS CULINÁRIAS -->
+    <div class="pane" id="view-dietas">
+      <div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">Nutrição & Receitas</span></div>
+      <div class="receitas-grid" id="container-lista-receitas"></div>
+    </div>
+
     <div class="pane" id="view-detalhe-receita">
       <div class="internal-header"><button class="back-btn" id="btn-voltar-dietas">← Voltar</button><span class="internal-title" id="receita-titulo">Receita</span></div>
       <div class="receita-detalhe" style="padding:0 16px 20px 16px;">
-        <img id="receita-imagem" class="receita-imagem" src="" alt="Receita" onerror="this.src='https://loremflickr.com/600/400/food?random='+Math.random();">
+        <img id="receita-imagem" class="receita-imagem" src="" alt="Receita" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80';">
         <div class="ingredientes">
           <strong>Ingredientes <button class="btn-copiar" id="btn-copiar-ingredientes">Copiar</button></strong>
           <div id="receita-ingredientes-texto" style="margin-top:6px;white-space:pre-line;"></div>
@@ -956,7 +1029,7 @@
       </div>
     </div>
 
-    <!-- BÔNUS EM PDF COM TREINOS-EM-CASA(1).PDF -->
+    <!-- BÔNUS EM PDF (BOTÃO DE VOLTAR 100% CORRIGIDO) -->
     <div class="pane" id="view-bonus">
       <div class="internal-header">
         <button class="back-btn" id="bonus-back">← Voltar</button>
@@ -999,6 +1072,45 @@
   </div>
 
   <script>
+    // ==================== INICIALIZADOR DOS SELETORES DE ROLAGEM ====================
+    function popularSeletoresConfiguracao() {
+      const selectSeries = document.getElementById('edit-series');
+      const selectReps = document.getElementById('edit-reps');
+      const selectPeso = document.getElementById('edit-peso');
+      const selectDescanso = document.getElementById('edit-descanso');
+
+      if (!selectSeries || selectSeries.children.length > 0) return;
+
+      for (let s = 1; s <= 12; s++) {
+        selectSeries.add(new Option(`${s} séries`, s));
+      }
+      for (let r = 1; r <= 60; r++) {
+        selectReps.add(new Option(`${r} reps`, r));
+      }
+      for (let p = 0; p <= 300; p += 0.5) {
+        selectPeso.add(new Option(`${p % 1 === 0 ? p : p.toFixed(1)} kg`, p));
+      }
+      for (let d = 10; d <= 300; d += 5) {
+        selectDescanso.add(new Option(`${d}s descanso`, d));
+      }
+    }
+
+    // ==================== TELA CHEIA PARA VÍDEOS SEM BAIXAR ====================
+    function expandirVideoTelaCheia(videoId) {
+      const vid = document.getElementById(videoId);
+      if (!vid) return;
+      vid.play();
+      if (vid.requestFullscreen) {
+        vid.requestFullscreen();
+      } else if (vid.webkitRequestFullscreen) {
+        vid.webkitRequestFullscreen();
+      } else if (vid.webkitEnterFullscreen) {
+        vid.webkitEnterFullscreen();
+      } else if (vid.msRequestFullscreen) {
+        vid.msRequestFullscreen();
+      }
+    }
+
     // ==================== TEMPORIZADOR DE DESCANSO ====================
     let tempoRestante = 60;
     let timerInterval = null;
@@ -1042,64 +1154,43 @@
       document.getElementById('rest-timer-bar').classList.remove('active');
     }
 
-    // ==================== RASTREADOR DE ÁGUA ====================
+    // ==================== RASTREADOR DE ÁGUA PROFISSIONAL ====================
     function atualizarAguaUI() {
       const peso = parseFloat(estado.aluno.peso) || 70;
       const meta = Math.round(peso * 35);
       const atual = estado.aguaConsumida || 0;
       const percent = Math.min(100, Math.round((atual / meta) * 100));
 
-      const goalEl = document.getElementById('water-goal');
-      const currentEl = document.getElementById('water-current');
-      const fillEl = document.getElementById('water-progress-fill');
-      const percentEl = document.getElementById('water-percent');
-      const buddy = document.getElementById('water-buddy');
-      const face = document.getElementById('water-buddy-face');
-      const statusEl = document.getElementById('water-status-text');
+      const goalEl = document.getElementById('water-goal-pro');
+      const currentEl = document.getElementById('water-current-pro');
+      const percentSubEl = document.getElementById('water-percent-sub');
+      const rectFill = document.getElementById('water-rect-fill');
+      const badge = document.getElementById('water-status-badge');
 
       if (goalEl) goalEl.textContent = meta;
       if (currentEl) currentEl.textContent = atual;
-      if (fillEl) {
-        fillEl.style.width = percent + '%';
-        fillEl.classList.remove('medio', 'bom');
-      }
-      if (percentEl) percentEl.textContent = percent + '% da meta';
+      if (percentSubEl) percentSubEl.textContent = `${percent}% concluído da sua meta diária`;
 
-      let estadoCls = 'estado-ruim';
-      let faceEmoji = '🥵';
-      let statusTxt = 'Desidratado — beba água!';
-      let statusCls = 'ruim';
-
-      if (percent >= 100) {
-        estadoCls = 'estado-bom';
-        faceEmoji = '🤩';
-        statusTxt = 'Meta batida! Hidratação perfeita';
-        statusCls = 'bom';
-        if (fillEl) fillEl.classList.add('bom');
-      } else if (percent >= 70) {
-        estadoCls = 'estado-bom';
-        faceEmoji = '😊';
-        statusTxt = 'Muito bem! Continue assim';
-        statusCls = 'bom';
-        if (fillEl) fillEl.classList.add('bom');
-      } else if (percent >= 35) {
-        estadoCls = 'estado-medio';
-        faceEmoji = '😐';
-        statusTxt = 'No caminho — beba mais um pouco';
-        statusCls = 'medio';
-        if (fillEl) fillEl.classList.add('medio');
-      } else if (percent > 0) {
-        estadoCls = 'estado-ruim';
-        faceEmoji = '😰';
-        statusTxt = 'Pouca água — hidrate-se!';
-        statusCls = 'ruim';
+      if (rectFill) {
+        const alturaSvg = 160;
+        const offset = alturaSvg - (alturaSvg * (percent / 100));
+        rectFill.setAttribute('y', offset);
       }
 
-      if (buddy) buddy.className = 'water-buddy ' + estadoCls;
-      if (face) face.textContent = faceEmoji;
-      if (statusEl) {
-        statusEl.textContent = statusTxt;
-        statusEl.className = 'water-status ' + statusCls;
+      if (badge) {
+        if (percent >= 100) {
+          badge.textContent = '🎉 Meta Atingida! Hidratação Perfeita';
+          badge.className = 'water-status-badge cheio';
+        } else if (percent >= 70) {
+          badge.textContent = '💧 Nível Bom de Hidratação';
+          badge.className = 'water-status-badge normal';
+        } else if (percent >= 35) {
+          badge.textContent = '⚠️ Alerta: Beba mais Água';
+          badge.className = 'water-status-badge alerta';
+        } else {
+          badge.textContent = '🚨 Nível Baixo de Hidratação';
+          badge.className = 'water-status-badge critico';
+        }
       }
     }
 
@@ -1109,9 +1200,9 @@
       atualizarAguaUI();
       const meta = Math.round((parseFloat(estado.aluno.peso) || 70) * 35);
       if (estado.aguaConsumida >= meta) {
-        mostrarToast('🎉 Meta de hidratação atingida!');
+        mostrarToast('🎉 Parabéns! Meta de hidratação batida!');
       } else {
-        mostrarToast(`💧 +${qtd} ml de água!`);
+        mostrarToast(`💧 +${qtd} ml registrados!`);
       }
     }
 
@@ -1119,7 +1210,7 @@
       estado.aguaConsumida = 0;
       salvarEstado();
       atualizarAguaUI();
-      mostrarToast('Água resetada');
+      mostrarToast('Registro de água resetado.');
     }
 
     // ==================== EXPORTAÇÃO WHATSAPP ====================
@@ -1401,8 +1492,60 @@
       });
     }
 
-    // ==================== RECEITAS ====================
-    const RECEITAS = [];
+    // ==================== 50 RECEITAS COM FOTOS REAIS DE CADA PRATO ====================
+    const RECEITAS_FOTOS = [
+      "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&auto=format&fit=crop&q=80", // Frango Grelhado com Aspargos
+      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&auto=format&fit=crop&q=80", // Frango Grelhado Simples
+      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80", // Salmão ao Molho de Limão
+      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80", // Filé de Tilápia com Vegetais
+      "https://images.unsplash.com/photo-1547496502-affa22d38842?w=500&auto=format&fit=crop&q=80", // Estrogonofe Fit
+      "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=500&auto=format&fit=crop&q=80", // Almôndegas de Peru
+      "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&auto=format&fit=crop&q=80", // Frango com Espinafre
+      "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=80", // Wrap de Alface
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80", // Tilápia Crocante
+      "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80", // Frango ao Curry
+      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80", // Espaguete de Abobrinha
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80", // Salada de Atum
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=80", // Frango com Quinoa
+      "https://images.unsplash.com/photo-1592417817098-8f3d69102553?w=500&auto=format&fit=crop&q=80", // Salada Caprese
+      "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=500&auto=format&fit=crop&q=80", // Salada de Camarão com Manga
+      "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500&auto=format&fit=crop&q=80", // Salada de Lentilhas
+      "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=500&auto=format&fit=crop&q=80", // Salada de Grão-de-Bico
+      "https://images.unsplash.com/photo-1499125562588-29fb8a56b5d0?w=500&auto=format&fit=crop&q=80", // Salmão Folhas Verdes
+      "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=500&auto=format&fit=crop&q=80", // Salada Tropical Frango
+      "https://images.unsplash.com/photo-1607532941433-304659e8198a?w=500&auto=format&fit=crop&q=80", // Folhas Verdes Feta Nozes
+      "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500&auto=format&fit=crop&q=80", // Wrap Integral
+      "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500&auto=format&fit=crop&q=80", // Risoto Fit Quinoa
+      "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80", // Abobrinha Recheada
+      "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=80", // Frango com Brócolis
+      "https://images.unsplash.com/photo-1546069901-5ec6a79120b0?w=500&auto=format&fit=crop&q=80", // Tofu Grelhado
+      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80", // Wrap de Salmão Defumado
+      "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80", // Omelete de Claras
+      "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80", // Peito de Peru Salada
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500&auto=format&fit=crop&q=80", // Stir Fry Frango
+      "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80", // Carne de Panela Magra
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80", // Wrap de Abacate
+      "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=500&auto=format&fit=crop&q=80", // Peixe ao Molho de Maracujá
+      "https://images.unsplash.com/photo-1535400255456-984241443b29?w=500&auto=format&fit=crop&q=80", // Espetinho de Camarão
+      "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=80", // Iscas de Carne Legumes
+      "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop&q=80", // Hambúrguer de Salmão
+      "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=80", // Frango com Leite de Coco
+      "https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?w=500&auto=format&fit=crop&q=80", // Berinjela Carne Moída
+      "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=500&auto=format&fit=crop&q=80", // Frango Assado com Ervas
+      "https://images.unsplash.com/photo-1558030006-450675393462?w=500&auto=format&fit=crop&q=80", // Bife Molho Mostarda
+      "https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500&auto=format&fit=crop&q=80", // Frango Agridoce Manga
+      "https://images.unsplash.com/photo-1514944298352-f41852d76587?w=500&auto=format&fit=crop&q=80", // Peito de Pato Laranja
+      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80", // Tilápia ao Limão
+      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80", // Tacos Leves de Frango
+      "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=500&auto=format&fit=crop&q=80", // Omelete Proteico Salmão
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=80", // Espetinho Carne Vegetais
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80", // Bacalhau com Tomates
+      "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80", // Sanduíche Natural Frango
+      "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80", // Ovos Mexidos com Salmão
+      "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500&auto=format&fit=crop&q=80", // Bolinho de Atum Aveia
+      "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=80"  // Quinoa com Vegetais Assados
+    ];
+
     const NOMES_RECEITAS = [
       "Frango Grelhado com Aspargos","Frango Grelhado Simples","Salmão ao Molho de Limão",
       "Filé de Tilápia com Vegetais","Estrogonofe de Frango Fit","Almôndegas de Peru ao Molho",
@@ -1422,13 +1565,14 @@
       "Ovos Mexidos com Salmão","Bolinho de Atum com Aveia","Quinoa com Vegetais Assados"
     ];
 
+    const RECEITAS = [];
     for (let i = 0; i < 50; i++) {
       RECEITAS.push({
         id: i+1,
         nome: NOMES_RECEITAS[i],
         ingredientes: "• Proteína magra selecionada\n• Temperos frescos (alho, azeite, ervas, sal e pimenta)\n• Acompanhamento balanceado de legumes ou folhas verdes.",
         instrucoes: "1. Higienize e prepare os ingredientes.\n2. Cozinhe ou grelhe com pouco azeite em fogo médio.\n3. Ajuste os temperos ao seu gosto e sirva quente.",
-        imagem: "https://loremflickr.com/600/400/food?random=" + (i+100)
+        imagem: RECEITAS_FOTOS[i]
       });
     }
 
@@ -1954,6 +2098,8 @@
     function abrirDetalheExercicio(ex, origem) {
       exercicioAtualId = ex.id;
       telaOrigemDetalhe = origem || 'view-lista-exercicios';
+      popularSeletoresConfiguracao();
+
       document.getElementById('d-title').textContent = ex.nome;
       document.getElementById('d-app-sub').textContent = ex.aparelho;
       document.getElementById('d-tag-grupo').textContent = ex.grupo;
@@ -1975,10 +2121,10 @@
       document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">`;
       
       const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-      document.getElementById('edit-series').value = custom.series || ex.series;
-      document.getElementById('edit-reps').value = custom.reps || ex.reps;
+      document.getElementById('edit-series').value = custom.series || ex.series || 3;
+      document.getElementById('edit-reps').value = custom.reps || ex.reps || 12;
       document.getElementById('edit-peso').value = custom.peso !== undefined ? custom.peso : 0;
-      document.getElementById('edit-descanso').value = custom.descanso || ex.descanso;
+      document.getElementById('edit-descanso').value = custom.descanso || ex.descanso || 60;
       
       if (dataTreinoAtual) {
         const [y, m, d] = dataTreinoAtual.split('-').map(Number);
@@ -2243,8 +2389,17 @@
       container.innerHTML = '';
       RECEITAS.forEach(rec => {
         const card = document.createElement('div');
-        card.className = 'dieta-card';
-        card.innerHTML = `<span class="dieta-nome">${rec.nome}</span><span class="dieta-num">#${rec.id}</span>`;
+        card.className = 'receita-grid-card';
+        card.innerHTML = `
+          <div class="receita-thumb-box">
+            <img src="${rec.imagem}" alt="${rec.nome}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80';">
+            <span class="receita-badge-num">#${rec.id}</span>
+          </div>
+          <div class="receita-grid-body">
+            <div class="receita-grid-title">${rec.nome}</div>
+            <div class="receita-grid-sub">Ver Preparo ›</div>
+          </div>
+        `;
         card.addEventListener('click', () => abrirDetalheReceita(rec));
         container.appendChild(card);
       });
@@ -2558,7 +2713,10 @@
     document.getElementById('btn-voltar-dietas').addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
     document.getElementById('notas-back').addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('pagamentos-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('bonus-back').addEventListener('click', () => abrirTela('view-bonus'));
+    
+    // BOTÃO VOLTAR DO BÔNUS PDF (100% FUNCIONANDO)
+    document.getElementById('bonus-back').addEventListener('click', () => abrirTela('view-dashboard'));
+    
     document.getElementById('btn-voltar-abaixo-detalhe').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
     document.getElementById('imc-back').addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('desempenho-back').addEventListener('click', () => abrirTela('view-dashboard'));
@@ -2739,6 +2897,7 @@
 
     // ==================== INICIALIZAÇÃO ====================
     function init() {
+      popularSeletoresConfiguracao();
       verificarVencimento();
       
       if (!estado.pagamento.liberado) {
