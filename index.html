@@ -1,6 +1,3 @@
-APP GEMINE 3 MAIS NOVO 
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -828,7 +825,7 @@ APP GEMINE 3 MAIS NOVO
         <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">--</p></div></div>
         
         <div class="sec-label" style="margin-top:24px;">CONFIGURAÇÃO</div>
-        <!-- ROLAGEM SUAVE COM SELECTS MODERNOS (SEM TECLADO) -->
+        <!-- SELETORES EM RODA/ROLAGEM SEM TECLADO -->
         <div class="metric-row-edit">
           <div class="metric-edit-item">
             <label>Séries</label>
@@ -892,7 +889,7 @@ APP GEMINE 3 MAIS NOVO
       </div>
     </div>
 
-    <!-- X5 - EXECUÇÃO DE SÉRIES (EM QUADRINHOS COM TELA CHEIA NATIVA) -->
+    <!-- X5 - EXECUÇÃO DE SÉRIES (6 VÍDEOS EM QUADRINHOS COM TELA CHEIA NATIVA) -->
     <div class="pane" id="view-x5">
       <div class="internal-header">
         <button class="back-btn" id="x5-back">← Voltar</button>
@@ -906,10 +903,10 @@ APP GEMINE 3 MAIS NOVO
           </p>
         </div>
 
-        <!-- QUADRINHOS DE VÍDEO -->
+        <!-- QUADRINHOS DE VÍDEO (2 POR LINHA) -->
         <div class="x5-video-grid" id="x5-videos-grid">
           
-          <!-- Vídeo 2 -->
+          <!-- Vídeo 1 -->
           <div class="x5-card">
             <div class="x5-card-header">
               <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 1
@@ -922,7 +919,7 @@ APP GEMINE 3 MAIS NOVO
             </button>
           </div>
 
-          <!-- Vídeo 3 -->
+          <!-- Vídeo 2 -->
           <div class="x5-card">
             <div class="x5-card-header">
               <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 2
@@ -935,7 +932,7 @@ APP GEMINE 3 MAIS NOVO
             </button>
           </div>
 
-          <!-- Vídeo 4 -->
+          <!-- Vídeo 3 -->
           <div class="x5-card">
             <div class="x5-card-header">
               <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 3
@@ -944,6 +941,45 @@ APP GEMINE 3 MAIS NOVO
               <video id="vid-x5-4" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4"></video>
             </div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-4')">
+              ⛶ Tela Cheia
+            </button>
+          </div>
+
+          <!-- Vídeo 4 -->
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 4
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-5" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_5.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-5')">
+              ⛶ Tela Cheia
+            </button>
+          </div>
+
+          <!-- Vídeo 5 -->
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 5
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-6" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_6.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-6')">
+              ⛶ Tela Cheia
+            </button>
+          </div>
+
+          <!-- Vídeo 6 -->
+          <div class="x5-card">
+            <div class="x5-card-header">
+              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 6
+            </div>
+            <div class="x5-video-box">
+              <video id="vid-x5-7" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_7.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-7')">
               ⛶ Tela Cheia
             </button>
           </div>
@@ -1029,7 +1065,7 @@ APP GEMINE 3 MAIS NOVO
       </div>
     </div>
 
-    <!-- BÔNUS EM PDF (BOTÃO DE VOLTAR 100% CORRIGIDO) -->
+    <!-- BÔNUS EM PDF -->
     <div class="pane" id="view-bonus">
       <div class="internal-header">
         <button class="back-btn" id="bonus-back">← Voltar</button>
@@ -2714,7 +2750,7 @@ APP GEMINE 3 MAIS NOVO
     document.getElementById('notas-back').addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('pagamentos-back').addEventListener('click', () => abrirTela('view-dashboard'));
     
-    // BOTÃO VOLTAR DO BÔNUS PDF (100% FUNCIONANDO)
+    // BOTÃO VOLTAR DO BÔNUS PDF
     document.getElementById('bonus-back').addEventListener('click', () => abrirTela('view-dashboard'));
     
     document.getElementById('btn-voltar-abaixo-detalhe').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
