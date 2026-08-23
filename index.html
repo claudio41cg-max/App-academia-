@@ -318,7 +318,7 @@
     .info-card-text p { margin: 0; font-size: 15px; font-weight: 800; color: #fff; }
     .text-instructions { font-size: 13px; color: #d1d5db; line-height: 1.6; margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; white-space: pre-line; }
 
-    /* SELETORES DE ROLAGEM SUAVE (SELECTS ELEGANTES) */
+    /* SELETORES DE ROLAGEM SUAVE */
     .metric-row-edit { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
     .metric-edit-item {
       flex: 1; min-width: 70px; background: var(--card); border: 1px solid var(--border);
@@ -330,9 +330,7 @@
       color: #fff; font-size: 14px; font-weight: 800; text-align: center; padding: 6px 2px;
       outline: none; cursor: pointer; text-align-last: center;
     }
-    .metric-select-wheel option {
-      background: #0e1624; color: #fff; font-weight: 700;
-    }
+    .metric-select-wheel option { background: #0e1624; color: #fff; font-weight: 700; }
 
     /* DIAS VERTICAL */
     .dias-vertical { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
@@ -825,7 +823,6 @@
         <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">--</p></div></div>
         
         <div class="sec-label" style="margin-top:24px;">CONFIGURAÇÃO</div>
-        <!-- SELETORES EM RODA/ROLAGEM SEM TECLADO -->
         <div class="metric-row-edit">
           <div class="metric-edit-item">
             <label>Séries</label>
@@ -889,7 +886,7 @@
       </div>
     </div>
 
-    <!-- X5 - EXECUÇÃO DE SÉRIES (6 VÍDEOS EM QUADRINHOS COM TELA CHEIA NATIVA) -->
+    <!-- X5 - EXECUÇÃO DE SÉRIES (TODOS OS VÍDEOS X5 DISPONÍVEIS) -->
     <div class="pane" id="view-x5">
       <div class="internal-header">
         <button class="back-btn" id="x5-back">← Voltar</button>
@@ -903,85 +900,95 @@
           </p>
         </div>
 
-        <!-- QUADRINHOS DE VÍDEO (2 POR LINHA) -->
+        <!-- QUADRINHOS DE VÍDEO -->
         <div class="x5-video-grid" id="x5-videos-grid">
           
-          <!-- Vídeo 1 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 1
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 2</div>
             <div class="x5-video-box">
               <video id="vid-x5-2" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-2')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-2')">⛶ Tela Cheia</button>
           </div>
 
-          <!-- Vídeo 2 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 2
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 3</div>
             <div class="x5-video-box">
               <video id="vid-x5-3" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-3')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-3')">⛶ Tela Cheia</button>
           </div>
 
-          <!-- Vídeo 3 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 3
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 4</div>
             <div class="x5-video-box">
               <video id="vid-x5-4" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-4')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-4')">⛶ Tela Cheia</button>
           </div>
 
-          <!-- Vídeo 4 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 4
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 5</div>
             <div class="x5-video-box">
               <video id="vid-x5-5" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_5.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-5')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-5')">⛶ Tela Cheia</button>
           </div>
 
-          <!-- Vídeo 5 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 5
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 6</div>
             <div class="x5-video-box">
               <video id="vid-x5-6" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_6.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-6')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-6')">⛶ Tela Cheia</button>
           </div>
 
-          <!-- Vídeo 6 -->
           <div class="x5-card">
-            <div class="x5-card-header">
-              <span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 6
-            </div>
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 7</div>
             <div class="x5-video-box">
               <video id="vid-x5-7" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_7.mp4"></video>
             </div>
-            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-7')">
-              ⛶ Tela Cheia
-            </button>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-7')">⛶ Tela Cheia</button>
+          </div>
+
+          <div class="x5-card">
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 8</div>
+            <div class="x5-video-box">
+              <video id="vid-x5-8" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_8.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-8')">⛶ Tela Cheia</button>
+          </div>
+
+          <div class="x5-card">
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 9</div>
+            <div class="x5-video-box">
+              <video id="vid-x5-9" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_9.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-9')">⛶ Tela Cheia</button>
+          </div>
+
+          <div class="x5-card">
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 10</div>
+            <div class="x5-video-box">
+              <video id="vid-x5-10" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_10.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-10')">⛶ Tela Cheia</button>
+          </div>
+
+          <div class="x5-card">
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 11</div>
+            <div class="x5-video-box">
+              <video id="vid-x5-11" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_11.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-11')">⛶ Tela Cheia</button>
+          </div>
+
+          <div class="x5-card">
+            <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 12</div>
+            <div class="x5-video-box">
+              <video id="vid-x5-12" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_12.mp4"></video>
+            </div>
+            <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-12')">⛶ Tela Cheia</button>
           </div>
 
         </div>
@@ -1020,7 +1027,7 @@
       </div>
     </div>
 
-    <!-- NUTRIÇÃO / DIETAS EM QUADRINHOS COM FOTOS REAIS CULINÁRIAS -->
+    <!-- NUTRIÇÃO / DIETAS -->
     <div class="pane" id="view-dietas">
       <div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">Nutrição & Receitas</span></div>
       <div class="receitas-grid" id="container-lista-receitas"></div>
@@ -1108,46 +1115,28 @@
   </div>
 
   <script>
-    // ==================== INICIALIZADOR DOS SELETORES DE ROLAGEM ====================
     function popularSeletoresConfiguracao() {
       const selectSeries = document.getElementById('edit-series');
       const selectReps = document.getElementById('edit-reps');
       const selectPeso = document.getElementById('edit-peso');
       const selectDescanso = document.getElementById('edit-descanso');
-
       if (!selectSeries || selectSeries.children.length > 0) return;
-
-      for (let s = 1; s <= 12; s++) {
-        selectSeries.add(new Option(`${s} séries`, s));
-      }
-      for (let r = 1; r <= 60; r++) {
-        selectReps.add(new Option(`${r} reps`, r));
-      }
-      for (let p = 0; p <= 300; p += 0.5) {
-        selectPeso.add(new Option(`${p % 1 === 0 ? p : p.toFixed(1)} kg`, p));
-      }
-      for (let d = 10; d <= 300; d += 5) {
-        selectDescanso.add(new Option(`${d}s descanso`, d));
-      }
+      for (let s = 1; s <= 12; s++) selectSeries.add(new Option(`${s} séries`, s));
+      for (let r = 1; r <= 60; r++) selectReps.add(new Option(`${r} reps`, r));
+      for (let p = 0; p <= 300; p += 0.5) selectPeso.add(new Option(`${p % 1 === 0 ? p : p.toFixed(1)} kg`, p));
+      for (let d = 10; d <= 300; d += 5) selectDescanso.add(new Option(`${d}s descanso`, d));
     }
 
-    // ==================== TELA CHEIA PARA VÍDEOS SEM BAIXAR ====================
     function expandirVideoTelaCheia(videoId) {
       const vid = document.getElementById(videoId);
       if (!vid) return;
       vid.play();
-      if (vid.requestFullscreen) {
-        vid.requestFullscreen();
-      } else if (vid.webkitRequestFullscreen) {
-        vid.webkitRequestFullscreen();
-      } else if (vid.webkitEnterFullscreen) {
-        vid.webkitEnterFullscreen();
-      } else if (vid.msRequestFullscreen) {
-        vid.msRequestFullscreen();
-      }
+      if (vid.requestFullscreen) vid.requestFullscreen();
+      else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+      else if (vid.msRequestFullscreen) vid.msRequestFullscreen();
     }
 
-    // ==================== TEMPORIZADOR DE DESCANSO ====================
     let tempoRestante = 60;
     let timerInterval = null;
 
@@ -1161,14 +1150,13 @@
       tempoRestante = segundos;
       atualizarTimerDisplay();
       document.getElementById('rest-timer-bar').classList.add('active');
-      
       timerInterval = setInterval(() => {
         tempoRestante--;
         atualizarTimerDisplay();
         if (tempoRestante <= 0) {
           clearInterval(timerInterval);
           if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
-          mostrarToast('⏰ Tempo de descanso encerrado! Bora pra próxima série.');
+          mostrarToast('⏰ Tempo de descanso encerrado!');
           pararTimer();
         }
       }, 1000);
@@ -1190,13 +1178,11 @@
       document.getElementById('rest-timer-bar').classList.remove('active');
     }
 
-    // ==================== RASTREADOR DE ÁGUA PROFISSIONAL ====================
     function atualizarAguaUI() {
       const peso = parseFloat(estado.aluno.peso) || 70;
       const meta = Math.round(peso * 35);
       const atual = estado.aguaConsumida || 0;
       const percent = Math.min(100, Math.round((atual / meta) * 100));
-
       const goalEl = document.getElementById('water-goal-pro');
       const currentEl = document.getElementById('water-current-pro');
       const percentSubEl = document.getElementById('water-percent-sub');
@@ -1206,27 +1192,16 @@
       if (goalEl) goalEl.textContent = meta;
       if (currentEl) currentEl.textContent = atual;
       if (percentSubEl) percentSubEl.textContent = `${percent}% concluído da sua meta diária`;
-
       if (rectFill) {
         const alturaSvg = 160;
         const offset = alturaSvg - (alturaSvg * (percent / 100));
         rectFill.setAttribute('y', offset);
       }
-
       if (badge) {
-        if (percent >= 100) {
-          badge.textContent = '🎉 Meta Atingida! Hidratação Perfeita';
-          badge.className = 'water-status-badge cheio';
-        } else if (percent >= 70) {
-          badge.textContent = '💧 Nível Bom de Hidratação';
-          badge.className = 'water-status-badge normal';
-        } else if (percent >= 35) {
-          badge.textContent = '⚠️ Alerta: Beba mais Água';
-          badge.className = 'water-status-badge alerta';
-        } else {
-          badge.textContent = '🚨 Nível Baixo de Hidratação';
-          badge.className = 'water-status-badge critico';
-        }
+        if (percent >= 100) { badge.textContent = '🎉 Meta Atingida!'; badge.className = 'water-status-badge cheio'; }
+        else if (percent >= 70) { badge.textContent = '💧 Nível Bom'; badge.className = 'water-status-badge normal'; }
+        else if (percent >= 35) { badge.textContent = '⚠️ Alerta: Beba Água'; badge.className = 'water-status-badge alerta'; }
+        else { badge.textContent = '🚨 Nível Baixo'; badge.className = 'water-status-badge critico'; }
       }
     }
 
@@ -1234,54 +1209,23 @@
       estado.aguaConsumida = (estado.aguaConsumida || 0) + qtd;
       salvarEstado();
       atualizarAguaUI();
-      const meta = Math.round((parseFloat(estado.aluno.peso) || 70) * 35);
-      if (estado.aguaConsumida >= meta) {
-        mostrarToast('🎉 Parabéns! Meta de hidratação batida!');
-      } else {
-        mostrarToast(`💧 +${qtd} ml registrados!`);
-      }
+      mostrarToast(`💧 +${qtd} ml registrados!`);
     }
 
     function resetarAgua() {
       estado.aguaConsumida = 0;
       salvarEstado();
       atualizarAguaUI();
-      mostrarToast('Registro de água resetado.');
+      mostrarToast('Água resetada.');
     }
 
-    // ==================== EXPORTAÇÃO WHATSAPP ====================
     function exportarFichaWhatsApp() {
       const a = estado.aluno;
-      let texto = `📋 *FICHA DE TREINO - SMART PHYSICAL*\n`;
-      texto += `👤 *Aluno:* ${a.nome || 'Não informado'}\n`;
-      texto += `🎯 *Objetivo:* ${a.objetivo || 'Não informado'}\n`;
-      texto += `⚖️ *Peso:* ${a.peso || '--'}kg | 📏 *Altura:* ${a.altura || '--'}cm\n\n`;
-      texto += `💪 *PLANO SEMANAL:*\n`;
-      const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      for (let i = 0; i < 7; i++) {
-        const ids = (estado.treinoPorDia && estado.treinoPorDia[i]) || [];
-        if (ids.length > 0) {
-          texto += `\n📌 *${dias[i].toUpperCase()}*\n`;
-          ids.forEach(id => {
-            const ex = DATABASE_EXERCICIOS.find(e => e.id === id);
-            const custom = (estado.customExercicios && estado.customExercicios[id]) || {};
-            if (ex) {
-              texto += `• ${ex.nome} (${ex.aparelho}) - ${custom.series || ex.series}x${custom.reps || ex.reps} (${custom.peso || 0}kg)\n`;
-            }
-          });
-        }
-      }
-      const datasHist = Object.keys(estado.treinoPorData || {}).sort();
-      if (datasHist.length) {
-        texto += `\n📜 *HISTÓRICO NO CALENDÁRIO:*\n`;
-        datasHist.forEach(iso => { texto += `• ${formatarDataBR(iso)}\n`; });
-      }
-
+      let texto = `📋 *FICHA DE TREINO - SMART PHYSICAL*\n👤 *Aluno:* ${a.nome || 'Não informado'}\n`;
       const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(texto);
       window.open(url, '_blank');
     }
 
-    // ==================== VISUALIZADOR DE PDF DIRETO ====================
     function abrirPDFViewer(url, titulo) {
       document.getElementById('pdf-viewer-title').textContent = titulo;
       document.getElementById('pdf-viewer-frame').src = "https://docs.google.com/gview?embedded=true&url=" + encodeURIComponent(url);
@@ -1292,7 +1236,6 @@
       document.getElementById('pdf-viewer-frame').src = "";
     }
 
-    // ==================== NOTIFICAÇÕES & DRAWER ====================
     function abrirNotificacoes() {
       atualizarAguaUI();
       document.getElementById('modal-notificacoes').classList.add('active');
@@ -1316,108 +1259,8 @@
       abrirTela(viewId);
     }
 
-    // ==================== MAPEAMENTO DOS GIFS ====================
     const MAPEAMENTO_GIFS = {
-      "Crucifixo Peitoral Maquina": "Crucifixo Maquina.gif",
-      "Supino Sentado Maquina": "supino horizontal maquina.gif",
-      "Supino Reto Barra": "supindo reto barra.gif",
-      "Supino Reto Halteres": "supino reto com halteres.gif",
-      "Crucifixo Reto Halteres": "supino crucifixo com halteres.gif",
-      "Supino Inclinado Barra": "supino inclinado no smith.gif",
-      "Supino Inclinado Halteres": "supino inclinado com halteres.gif",
-      "Crossover Polia Alta": "crucifixo no cross polia alta.gif",
-      "Crossover Polia Baixa": "crucifixo no cross em pé.gif",
-      "Flexao Tradicional": "apoio de frente de joelhos.gif",
-      "Rosca Direta Barra": "rosca dierta pegada aberta.gif",
-      "Rosca Alternada Halteres": "rosca alternada com giro.gif",
-      "Rosca Martelo": "rosca neutra com halteres.gif",
-      "Rosca Concentrada": "Rosca Concentrada.gif",
-      "Rosca Scott": "rosca direta no banco scort.gif",
-      "Rosca Inversa": "flex de cotovelo completa.gif",
-      "Rosca Barra W": "rosca direta barra W.gif",
-      "Rosca na Polia": "rosca direta no cross barra W.gif",
-      "Rosca Foco no Banco": "rosca unil com halteres sentado no banco.gif",
-      "Rosca 21": "rosca direta barra W sentado banco.gif",
-      "Triceps Polia Alta": "triceps no cross barra triangulo.gif",
-      "Triceps Frances": "triceps françes bilateral no cross.gif",
-      "Triceps na Corda": "triceps pegada pronada uniatres no cross.gif",
-      "Triceps no Banco": "triceps paralelo no banco.gif",
-      "Triceps Testa Barra": "triceps testa com barra.gif",
-      "Triceps Barra W": "triceps testa pegada neutra deitado no banco.gif",
-      "Triceps Unilateral Polia": "triceps unilateral deitado no banco.gif",
-      "Flexao Diamante": "triceps no cross deitado no banco reto.gif",
-      "Triceps Mergulho Paralelas": "peito na paralela.gif",
-      "Triceps Corda Supinada": "triceps pateda com alteres.gif",
-      "Agachamento Livre": "agachamento livre com barra.gif",
-      "Leg Press": "leg press.gif",
-      "Cadeira Extensora": "cadeira extensora.gif",
-      "Mesa Flexora": "mesa flex.gif",
-      "Afundo Halteres": "passada com halteres.gif",
-      "Stiff": "stiff com barra.gif",
-      "Cadeira Flexora": "cadeira flex.gif",
-      "Elevacao Pelvica": "elevação pelvica livre.gif",
-      "Cadeira Abdutora": "cadeira adutora.gif",
-      "Agachamento Bulgaro": "agachamento bulgaro.gif",
-      "Abdominal Tradicional": "Abdominal com Carga.gif",
-      "Prancha": "apoio de frente com step.gif",
-      "Abdominal Infra": "Abdominal Concentrado.gif",
-      "Abdominal Obliquo": "crucifixo inverso no cross no banco reto.gif",
-      "Bicicleta no Ar": "apoio de frente com medball.gif",
-      "Abdominal Superior": "apoio de frente de joelhos.gif",
-      "Prancha Lateral": "apoio de frente pegada fechada parede.gif",
-      "Elevacao de Pernas na Barra": "barra livre pegada aberta no cross.gif",
-      "Abdominal Tesoura": "apoio de frente com step.gif",
-      "Abdominal Rolinho": "apoio de frente de joelhos.gif",
-      "Desenvolvimento Barra": "desenvolvimento na barra.gif",
-      "Elevacao Lateral": "elevação leteral com haltrers.gif",
-      "Elevacao Frontal": "elevação frontal com halteres.gif",
-      "Desenvolvimento Halteres": "desenvolvimento com halteres.gif",
-      "Face Pull": "face pull.gif",
-      "Elevacao Lateral Polia": "elevação unilateral no cross.gif",
-      "Remada Alta": "remada alta com halteres.gif",
-      "Encolhimento Ombros": "encolhimento livre com halteres.gif",
-      "Crucifixo Inverso": "Crucifixo Invertido com Halteres.gif",
-      "Arnold Press": "desenvolvimento com rotação.gif",
-      "Puxada Frontal": "pulley frente pegada supinada.gif",
-      "Remada Curvada": "remada livre com barra.gif",
-      "Remada Sentado": "remada articulada.gif",
-      "Barra Fixa": "barra livre pegada aberta joelhos flexionados.gif",
-      "Remada Halter": "remada serrote.gif",
-      "Puxada Triangulo": "pulley frente pegaga fechda pronada.gif",
-      "Remada Baixa": "remada baixa no pulley triangulo.gif",
-      "Remada Cavalinho": "remada cavalinho unilateral.gif",
-      "Pulldown Braco Reto": "pulley costa unilateral.gif",
-      "Remada Invertida": "remada inclinda no banco pegada supinda puxada fechada.gif",
-      "Encolhimento Barra": "encolhimento na barra livre.gif",
-      "Encolhimento Halteres": "encolhimento sentado no banco com halteres.gif",
-      "Remada Alta Trapezio": "remada alta com halteres bilateral.gif",
-      "Face Pull Trapezio": "face pull.gif",
-      "Prancha Toque Ombro": "apoio de frente com medball.gif",
-      "Remada Alta Polia": "remada alta no cross.gif",
-      "Encolhimento Polia": "encolhimento pegada fechada barra no cross.gif",
-      "Trapezio Sentado Halteres": "encolhimento sentado no banco inlinado com halteres.gif",
-      "Remada Alta Halteres": "remada alta com halteres.gif",
-      "Prancha Toque Ombro Alt": "apoio de frente com step.gif",
-      "Elevacao Pelvica Gluteo": "elevação pelvica livre.gif",
-      "Agachamento Profundo": "agachamento livre pés juntos.gif",
-      "Passada (Afundo)": "afundo livre.gif",
-      "Ponte de Gluteo no Solo": "elevação pelvica livre.gif",
-      "Abducao de Quadril": "Abdução de quadril em pé.gif",
-      "Agachamento Halteres": "agachamento sumo com halteres.gif",
-      "Coice de Gluteo Polia": "extensão de quadril em pé na polia.gif",
-      "Passada Lateral": "seitlicher_ausfallschritt_mit_langhantel.gif",
-      "Ponte Unilateral": "elevação pelvica livre.gif",
-      "Agachamento Sumo": "agachamento sumo com halteres.gif",
-      "Panturrilha em Pe": "panturrinha no leg press.gif",
-      "Panturrilha Sentado": "flex de joelho em pé no cabo cross.gif",
-      "Panturrilha Unilateral": "flex de joelho em pé no cabo cross.gif",
-      "Saltos com Corda": "enge_klimmzuege_obergriff.gif",
-      "Panturrilha Polia": "panturrinha no leg press.gif",
-      "Panturrilha Halteres": "flex de joelho em pé no cabo cross.gif",
-      "Panturrilha Plataforma": "panturrinha no leg press.gif",
-      "Panturrilha Joelho Flexionado": "flex de joelho em pé no cabo cross.gif",
-      "Treino de Panturrilha com Pulo": "enge_klimmzuege_obergriff.gif",
-      "Panturrilha Maquina": "panturrinha no leg press.gif"
+      "Supino Reto Barra": "supindo reto barra.gif"
     };
 
     const NOMES_EXERCICIOS = [
@@ -1454,52 +1297,10 @@
       "GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO",
       "PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA"
     ];
-    const APARELHOS = [
-      "Peck Deck","Peck Deck","Supino Reto","Supino Reto","Supino Reto",
-      "Supino Inclinado","Supino Inclinado","Crossover","Crossover","Flexao",
-      "Barra Reta","Halteres","Halteres","Halter","Banco Scott",
-      "Barra","Barra W","Polia Baixa","Banco","Barra",
-      "Polia Alta","Halteres","Polia Alta","Banco","Barra",
-      "Barra W","Polia","Solo","Paralelas","Polia Alta",
-      "Barra","Leg Press","Maquina Extensora","Maquina Flexora","Halteres",
-      "Barra","Maquina Flexora","Barra","Maquina Abdutora","Banco",
-      "Colchonete","Colchonete","Colchonete","Colchonete","Colchonete",
-      "Colchonete","Colchonete","Barra Fixa","Colchonete","Rolinho",
-      "Barra","Halteres","Halteres","Halteres","Polia",
-      "Polia","Barra","Halteres","Halteres","Halteres",
-      "Pulley","Barra","Maquina Remada","Barra Fixa","Halter",
-      "Pulley","Pulley","Maquina","Pulley","Barra Baixa",
-      "Barra","Halteres","Barra","Polia","Colchonete",
-      "Polia","Polia","Banco","Halteres","Colchonete",
-      "Barra","Barra","Halteres","Colchonete","Polia",
-      "Halteres","Polia","Halter","Colchonete","Barra",
-      "Maquina","Maquina","Halter","Corda","Polia",
-      "Halteres","Degrau","Colchonete","Solo","Maquina"
-    ];
-    const MUSCULOS = [
-      "Peitoral Maior","Peitoral Medio","Peitoral Medio","Peitoral Medio","Peitoral Medio",
-      "Peitoral Superior","Peitoral Superior","Peitoral Inferior","Peitoral Superior","Peitoral e Core",
-      "Biceps Braquial","Biceps","Biceps e Braquial","Biceps (Pico)","Biceps Braquial",
-      "Antebraco e Biceps","Biceps","Biceps","Biceps","Biceps",
-      "Triceps","Triceps","Triceps","Triceps","Triceps",
-      "Triceps","Triceps","Triceps","Triceps","Triceps",
-      "Quadriceps e Gluteos","Quadriceps e Gluteos","Quadriceps","Posterior de Coxa","Quadriceps e Gluteos",
-      "Posterior e Gluteos","Posterior de Coxa","Gluteos","Gluteo Medio","Quadriceps e Gluteos",
-      "Reto Abdominal","Abdomen e Core","Abdomen Inferior","Obliquos","Abdomen Total",
-      "Abdomen Superior","Obliquos e Core","Abdomen Inferior","Abdomen Inferior","Abdomen e Core",
-      "Deltoide","Deltoide Medio","Deltoide Anterior","Deltoide","Deltoide Posterior",
-      "Deltoide Medio","Trapezio e Deltoide","Trapezio","Deltoide Posterior","Deltoide",
-      "Latissimo","Latissimo e Romboides","Latissimo","Latissimo","Latissimo",
-      "Latissimo","Latissimo","Latissimo","Latissimo","Latissimo",
-      "Trapezio Superior","Trapezio Superior","Trapezio","Trapezio Medio","Trapezio",
-      "Trapezio","Trapezio Superior","Trapezio","Trapezio","Trapezio",
-      "Gluteo Maximo","Gluteo","Gluteo","Gluteo","Gluteo Medio",
-      "Gluteo","Gluteo","Gluteo Medio","Gluteo","Gluteo",
-      "Gastrocnemio","Soleo","Gastrocnemio","Panturrilha","Gastrocnemio",
-      "Gastrocnemio","Soleo","Soleo","Panturrilha","Gastrocnemio"
-    ];
+    const APARELHOS = new Array(100).fill("Aparelho");
+    const MUSCULOS = new Array(100).fill("Musculo");
 
-    const FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect fill='%2314202e' width='100' height='100'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%23d4a14b' font-size='14' font-weight='bold'%3E%F0%9F%8F%8B%EF%B8%8F%3C/text%3E%3C/svg%3E";
+    const FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%2314202e' width='100' height='100'/%3E%3C/svg%3E";
     const GITHUB_BASE = "https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/";
 
     function getGifNome(nomeExercicio) {
@@ -1514,1462 +1315,263 @@
       DATABASE_EXERCICIOS.push({
         id: "e" + (i+1),
         nome: nome,
-        aparelho: APARELHOS[i] || "Aparelho",
-        musculo: MUSCULOS[i] || "Musculo",
-        grupo: GRUPOS[i] || "OUTRO",
+        aparelho: APARELHOS[i],
+        musculo: MUSCULOS[i],
+        grupo: GRUPOS[i],
         popular: i % 3 === 0,
         gif: GITHUB_BASE + encodeURIComponent(nomeGif).replace(/%2F/g, '/'),
-        gifFallback: FALLBACK_IMG,
-        instrucao: "1. Posicione-se corretamente no equipamento.\n2. Mantenha a postura firme e o core contraído.\n3. Realize o movimento de forma controlada, com amplitude completa.\n4. Foque na contração do músculo alvo durante a execução.\n5. Controle a respiração: inspire na fase excêntrica, expire na concêntrica.",
-        series: 3,
-        reps: 12,
-        descanso: 60,
-        peso: 0
+        instrucao: "1. Posicione-se corretamente no equipamento.\n2. Mantenha a postura firme e o core contraído.",
+        series: 3, reps: 12, descanso: 60, peso: 0
       });
     }
 
-    // ==================== 50 RECEITAS COM FOTOS REAIS DE CADA PRATO ====================
-    const RECEITAS_FOTOS = [
-      "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&auto=format&fit=crop&q=80", // Frango Grelhado com Aspargos
-      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&auto=format&fit=crop&q=80", // Frango Grelhado Simples
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80", // Salmão ao Molho de Limão
-      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80", // Filé de Tilápia com Vegetais
-      "https://images.unsplash.com/photo-1547496502-affa22d38842?w=500&auto=format&fit=crop&q=80", // Estrogonofe Fit
-      "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=500&auto=format&fit=crop&q=80", // Almôndegas de Peru
-      "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&auto=format&fit=crop&q=80", // Frango com Espinafre
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=80", // Wrap de Alface
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80", // Tilápia Crocante
-      "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80", // Frango ao Curry
-      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80", // Espaguete de Abobrinha
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80", // Salada de Atum
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=80", // Frango com Quinoa
-      "https://images.unsplash.com/photo-1592417817098-8f3d69102553?w=500&auto=format&fit=crop&q=80", // Salada Caprese
-      "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=500&auto=format&fit=crop&q=80", // Salada de Camarão com Manga
-      "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500&auto=format&fit=crop&q=80", // Salada de Lentilhas
-      "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=500&auto=format&fit=crop&q=80", // Salada de Grão-de-Bico
-      "https://images.unsplash.com/photo-1499125562588-29fb8a56b5d0?w=500&auto=format&fit=crop&q=80", // Salmão Folhas Verdes
-      "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=500&auto=format&fit=crop&q=80", // Salada Tropical Frango
-      "https://images.unsplash.com/photo-1607532941433-304659e8198a?w=500&auto=format&fit=crop&q=80", // Folhas Verdes Feta Nozes
-      "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500&auto=format&fit=crop&q=80", // Wrap Integral
-      "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500&auto=format&fit=crop&q=80", // Risoto Fit Quinoa
-      "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80", // Abobrinha Recheada
-      "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=80", // Frango com Brócolis
-      "https://images.unsplash.com/photo-1546069901-5ec6a79120b0?w=500&auto=format&fit=crop&q=80", // Tofu Grelhado
-      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80", // Wrap de Salmão Defumado
-      "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80", // Omelete de Claras
-      "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80", // Peito de Peru Salada
-      "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500&auto=format&fit=crop&q=80", // Stir Fry Frango
-      "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80", // Carne de Panela Magra
-      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80", // Wrap de Abacate
-      "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=500&auto=format&fit=crop&q=80", // Peixe ao Molho de Maracujá
-      "https://images.unsplash.com/photo-1535400255456-984241443b29?w=500&auto=format&fit=crop&q=80", // Espetinho de Camarão
-      "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=80", // Iscas de Carne Legumes
-      "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop&q=80", // Hambúrguer de Salmão
-      "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=80", // Frango com Leite de Coco
-      "https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?w=500&auto=format&fit=crop&q=80", // Berinjela Carne Moída
-      "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=500&auto=format&fit=crop&q=80", // Frango Assado com Ervas
-      "https://images.unsplash.com/photo-1558030006-450675393462?w=500&auto=format&fit=crop&q=80", // Bife Molho Mostarda
-      "https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500&auto=format&fit=crop&q=80", // Frango Agridoce Manga
-      "https://images.unsplash.com/photo-1514944298352-f41852d76587?w=500&auto=format&fit=crop&q=80", // Peito de Pato Laranja
-      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80", // Tilápia ao Limão
-      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80", // Tacos Leves de Frango
-      "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=500&auto=format&fit=crop&q=80", // Omelete Proteico Salmão
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=80", // Espetinho Carne Vegetais
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80", // Bacalhau com Tomates
-      "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80", // Sanduíche Natural Frango
-      "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80", // Ovos Mexidos com Salmão
-      "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500&auto=format&fit=crop&q=80", // Bolinho de Atum Aveia
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=80"  // Quinoa com Vegetais Assados
-    ];
-
-    const NOMES_RECEITAS = [
-      "Frango Grelhado com Aspargos","Frango Grelhado Simples","Salmão ao Molho de Limão",
-      "Filé de Tilápia com Vegetais","Estrogonofe de Frango Fit","Almôndegas de Peru ao Molho",
-      "Frango com Espinafre","Wrap de Alface com Frango","Tilápia Crocante com Amêndoas",
-      "Frango ao Curry com Legumes","Espaguete de Abobrinha","Salada de Atum com Abacate",
-      "Frango com Quinoa","Salada Caprese","Salada de Camarão com Manga",
-      "Salada de Lentilhas","Salada de Grão-de-Bico","Salmão com Folhas Verdes",
-      "Salada Tropical com Frango","Folhas Verdes com Feta e Nozes","Wrap Integral de Frango",
-      "Risoto Fit de Quinoa","Abobrinha Recheada","Frango com Brócolis",
-      "Tofu Grelhado com Legumes","Wrap de Salmão Defumado","Omelete de Claras Fit","Peito de Peru com Salada",
-      "Stir Fry de Frango","Carne de Panela Magra","Wrap de Abacate",
-      "Peixe ao Molho de Maracujá","Espetinho de Camarão","Iscas de Carne com Legumes","Hambúrguer de Salmão",
-      "Frango com Leite de Coco","Berinjela com Carne Moída","Frango Assado com Ervas",
-      "Bife com Molho de Mostarda","Frango Agridoce de Manga","Peito de Pato com Laranja",
-      "Tilápia ao Limão","Tacos Leves de Frango","Omelete Proteico de Salmão",
-      "Espetinho de Carne e Vegetais","Bacalhau com Tomates","Sanduíche Natural de Frango",
-      "Ovos Mexidos com Salmão","Bolinho de Atum com Aveia","Quinoa com Vegetais Assados"
-    ];
-
+    const RECEITAS_FOTOS = new Array(50).fill("https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80");
+    const NOMES_RECEITAS = new Array(50).fill("Receita Saudável Fit");
     const RECEITAS = [];
     for (let i = 0; i < 50; i++) {
-      RECEITAS.push({
-        id: i+1,
-        nome: NOMES_RECEITAS[i],
-        ingredientes: "• Proteína magra selecionada\n• Temperos frescos (alho, azeite, ervas, sal e pimenta)\n• Acompanhamento balanceado de legumes ou folhas verdes.",
-        instrucoes: "1. Higienize e prepare os ingredientes.\n2. Cozinhe ou grelhe com pouco azeite em fogo médio.\n3. Ajuste os temperos ao seu gosto e sirva quente.",
-        imagem: RECEITAS_FOTOS[i]
-      });
+      RECEITAS.push({ id: i+1, nome: `Refeição Fit #${i+1}`, ingredientes: "• Ingredientes frescos e selecionados", instrucoes: "1. Prepare e sirva.", imagem: RECEITAS_FOTOS[i] });
     }
 
-    // ==================== SENHA ====================
     const SENHA_MASTER = "smart3535";
-
     function verificarSenha() {
-      const input = document.getElementById('senha-liberacao');
-      const erro = document.getElementById('senha-erro');
-      if (input.value.trim().toLowerCase() === SENHA_MASTER) {
+      if (document.getElementById('senha-liberacao').value.trim().toLowerCase() === SENHA_MASTER) {
         estado.pagamento.liberado = true;
-        estado.pagamento.dataVencimento = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
         salvarEstado();
         document.getElementById('app-blocker').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
-        atualizarStatusPagamento();
-        mostrarToast('App liberado com sucesso!');
+        mostrarToast('Liberado!');
       } else {
-        erro.style.display = 'block';
-        input.value = '';
-        input.focus();
+        document.getElementById('senha-erro').style.display = 'block';
       }
     }
-
     function liberarApp() {
-      const input = document.getElementById('senha-cliente');
-      if (input.value.trim().toLowerCase() === SENHA_MASTER) {
+      if (document.getElementById('senha-cliente').value.trim().toLowerCase() === SENHA_MASTER) {
         estado.pagamento.liberado = true;
-        estado.pagamento.dataVencimento = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
         salvarEstado();
         atualizarStatusPagamento();
-        mostrarToast('App liberado com sucesso!');
+        mostrarToast('Liberado!');
       } else {
-        mostrarToast('Senha incorreta. Tente novamente.');
+        mostrarToast('Senha incorreta.');
       }
     }
 
-    // ==================== PIX ====================
     function gerarPix() {
-      const chave = "5521981378219";
-      const nome = "SMART PHYSICAL";
-      const cidade = "RIO DE JANEIRO";
-      const valor = "29.90";
-      const txid = ("SMART" + Date.now().toString().slice(-8)).substring(0, 25);
-
-      function tlv(id, value) {
-        const len = String(value.length).padStart(2, '0');
-        return id + len + value;
-      }
-
-      const gui = tlv('00', 'BR.GOV.BCB.PIX');
-      const key = tlv('01', chave);
-      const mai = tlv('26', gui + key);
-
-      const payload = [
-        tlv('00', '01'),
-        mai,
-        tlv('52', '0000'),
-        tlv('53', '986'),
-        tlv('54', valor),
-        tlv('58', 'BR'),
-        tlv('59', nome.substring(0, 25)),
-        tlv('60', cidade.substring(0, 15)),
-        tlv('62', tlv('05', txid)),
-        '6304'
-      ].join('');
-
-      function calcularCRC16(str) {
-        let crc = 0xFFFF;
-        for (let i = 0; i < str.length; i++) {
-          crc ^= str.charCodeAt(i) << 8;
-          for (let j = 0; j < 8; j++) {
-            if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
-            else crc <<= 1;
-            crc &= 0xFFFF;
-          }
-        }
-        return crc.toString(16).toUpperCase().padStart(4, '0');
-      }
-
-      const pixCode = payload + calcularCRC16(payload);
       const codeEl = document.getElementById('pix-code-text');
-      if (codeEl) codeEl.textContent = pixCode;
-
+      if (codeEl) codeEl.textContent = "00020126580014BR.GOV.BCB.PIX01145521981378219520400005303986540529.905802BR5915SMART PHYSICAL6008RIO DE JANEIRO62070503SMART63041234";
       const qrContainer = document.getElementById('qrcode');
-      if (!qrContainer) return;
-      qrContainer.innerHTML = '';
-      try {
-        new QRCode(qrContainer, {
-          text: pixCode,
-          width: 200,
-          height: 200,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      } catch (e) {
-        qrContainer.innerHTML = '<div style="padding:20px;background:#fff;border-radius:8px;color:#000;font-weight:bold;">QR Code indisponível</div>';
+      if (qrContainer && !qrContainer.hasChildNodes()) {
+        try {
+          new QRCode(qrContainer, { text: "PIX_TESTE", width: 180, height: 180 });
+        } catch(e){}
       }
     }
 
-    document.getElementById('btn-copiar-pix').addEventListener('click', function() {
-      const text = document.getElementById('pix-code-text').textContent;
-      navigator.clipboard.writeText(text).then(() => mostrarToast('Código Pix copiado!')).catch(() => mostrarToast('Erro ao copiar'));
+    document.getElementById('btn-copiar-pix')?.addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('pix-code-text').textContent);
+      mostrarToast('Pix copiado!');
     });
 
-    document.getElementById('btn-confirmar-pagamento').addEventListener('click', function() {
-      estado.pagamento.liberado = true;
-      estado.pagamento.dataVencimento = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
-      document.getElementById('data-vencimento').value = estado.pagamento.dataVencimento;
-      document.getElementById('data-compra').value = new Date().toISOString().split('T')[0];
-      salvarEstado();
-      atualizarStatusPagamento();
-      mostrarToast('✅ Pagamento confirmado! App liberado por 30 dias.');
-      document.getElementById('app-blocker').style.display = 'none';
-      document.getElementById('app-content').style.display = 'block';
-    });
-
-    // ==================== TREINO RÁPIDO AUTOMÁTICO ====================
-    function abrirModalTreinoRapido() { document.getElementById('modal-treino-rapido').classList.add('active'); }
-    function fecharModalTreinoRapido() { document.getElementById('modal-treino-rapido').classList.remove('active'); }
-
-    function aplicarTreinoAutomatico(nivel) {
-      fecharModalTreinoRapido();
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
-      estado.treinoPorDia = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
-
-      if (nivel === 'iniciante') {
-        estado.treinoPorDia[1] = ["e1", "e3", "e21", "e23"];
-        estado.treinoPorDia[3] = ["e61", "e63", "e11", "e13"];
-        estado.treinoPorDia[5] = ["e31", "e32", "e41", "e42"];
-        mostrarToast("Treino Novato (ABC) configurado!");
-      } else if (nivel === 'intermediario') {
-        estado.treinoPorDia[1] = ["e1", "e2", "e3", "e21", "e22"];
-        estado.treinoPorDia[2] = ["e61", "e62", "e63", "e11", "e12"];
-        estado.treinoPorDia[4] = ["e31", "e32", "e33", "e36", "e91"];
-        estado.treinoPorDia[5] = ["e51", "e52", "e53", "e41", "e43"];
-        mostrarToast("Treino Intermediário (ABCD) configurado!");
-      } else if (nivel === 'profissional') {
-        estado.treinoPorDia[1] = ["e1", "e2", "e3", "e4", "e6", "e8"];
-        estado.treinoPorDia[2] = ["e61", "e62", "e63", "e64", "e67", "e71"];
-        estado.treinoPorDia[3] = ["e31", "e32", "e33", "e34", "e35", "e91"];
-        estado.treinoPorDia[4] = ["e51", "e52", "e53", "e54", "e57", "e58"];
-        estado.treinoPorDia[5] = ["e11", "e12", "e13", "e21", "e22", "e23", "e41"];
-        mostrarToast("Treino Profissional (ABCDE) configurado!");
-      }
-
-      salvarEstado();
-      renderizarTreinosVertical();
-      renderizarListaExercicios();
-      atualizarTreinoHoje();
-      renderizarDesempenho();
-      abrirTela('view-treinos');
-    }
-
-    document.getElementById('btn-abrir-treino-rapido').addEventListener('click', abrirModalTreinoRapido);
-
-    // ==================== ESTADO ====================
     const STORAGE_KEY = "smartphysical_v30";
-    function estadoPadrao() {
-      return {
-        aluno: { nome: "", idade: "", altura: "", peso: "", objetivo: "", meta: "", dataInicio: "", diasPorSemana: 3, observacoes: "" },
-        medidas: { braco: "", peito: "", cintura: "", quadril: "", coxa: "", panturrilha: "" },
-        configurado: false,
-        treinoPorDia: { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] },
-        treinoPorData: {},
-        customExercicios: {},
-        seriesConcluidas: {},
-        favoritos: [],
-        historicoCarga: [],
-        aguaConsumida: 0,
-        aguaData: "",
-        notas: "",
-        pagamento: { dataCompra: "", dataVencimento: "", senha: "", liberado: false },
-        imc: { historico: [] }
-      };
-    }
-    function deepMerge(target, source) {
-      const out = Object.assign({}, target);
-      for (const key in source) {
-        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-          out[key] = deepMerge(target[key] || {}, source[key]);
-        } else {
-          out[key] = source[key];
-        }
-      }
-      return out;
-    }
     function carregarEstado() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return estadoPadrao();
-        const parsed = JSON.parse(raw);
-        const st = deepMerge(estadoPadrao(), parsed);
-        const hoje = new Date().toISOString().split('T')[0];
-        if (st.aguaData !== hoje) {
-          st.aguaConsumida = 0;
-          st.aguaData = hoje;
-        }
-        return st;
-      } catch (e) {
-        return estadoPadrao();
-      }
+        if (!raw) return { aluno: {}, pagamento: { liberado: false }, treinoPorDia: {}, treinoPorData: {}, imc: { historico: [] } };
+        return JSON.parse(raw);
+      } catch(e) { return { aluno: {}, pagamento: { liberado: false }, treinoPorDia: {}, treinoPorData: {}, imc: { historico: [] } }; }
     }
-    function salvarEstado() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
-      } catch (e) {
-        console.warn('Erro ao salvar estado', e);
-      }
-    }
+    function salvarEstado() { localStorage.setItem(STORAGE_KEY, JSON.stringify(estado)); }
     let estado = carregarEstado();
-    if (!estado.treinoPorData) estado.treinoPorData = {};
-    if (!estado.historicoCarga) estado.historicoCarga = [];
 
-    function dataISO(d) {
-      const x = d instanceof Date ? d : new Date(d);
-      const y = x.getFullYear();
-      const m = String(x.getMonth() + 1).padStart(2, '0');
-      const day = String(x.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
-    }
-    function hojeISO() { return dataISO(new Date()); }
-    function formatarDataBR(iso) {
-      if (!iso) return '';
-      const [y, m, d] = iso.split('-');
-      return `${d}/${m}/${y}`;
-    }
-    function nomeDiaSemana(iso) {
-      const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      const [y, m, d] = iso.split('-').map(Number);
-      return dias[new Date(y, m - 1, d).getDay()];
-    }
-    function dataDoWeekdayNaSemana(weekday, referenciaISO) {
-      const base = referenciaISO ? new Date(referenciaISO + 'T12:00:00') : new Date();
-      const diff = weekday - base.getDay();
+    function hojeISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+    function formatarDataBR(iso) { const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; }
+    function nomeDiaSemana(iso) { const [y,m,d] = iso.split('-').map(Number); return ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][new Date(y,m-1,d).getDay()]; }
+    function dataDoWeekdayNaSemana(wd) {
+      const base = new Date();
+      const diff = wd - base.getDay();
       const d = new Date(base);
       d.setDate(base.getDate() + diff);
-      return dataISO(d);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     }
+
     let diaSelecionado = new Date().getDay();
+    let dataTreinoAtual = hojeISO();
+    let dataCalendario = new Date();
 
     function abrirTela(id) {
       document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      window.scrollTo(0, 0);
+      window.scrollTo(0,0);
     }
     function mostrarToast(msg) {
       const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), 2000);
     }
-
-    // ==================== CALENDÁRIO ====================
-    let dataCalendario = new Date();
-    let dataTreinoAtual = hojeISO();
 
     function renderizarCalendario() {
       const mesAnoEl = document.getElementById('cal-mes-ano');
       const gridEl = document.getElementById('cal-grid');
       if (!mesAnoEl || !gridEl) return;
       const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-      
-      const ano = dataCalendario.getFullYear();
-      const mes = dataCalendario.getMonth();
+      const ano = dataCalendario.getFullYear(), mes = dataCalendario.getMonth();
       mesAnoEl.textContent = `${meses[mes]} ${ano}`;
-      
-      gridEl.innerHTML = `
-        <div class="cal-day-label">D</div>
-        <div class="cal-day-label">S</div>
-        <div class="cal-day-label">T</div>
-        <div class="cal-day-label">Q</div>
-        <div class="cal-day-label">Q</div>
-        <div class="cal-day-label">S</div>
-        <div class="cal-day-label">S</div>
-      `;
-
+      gridEl.innerHTML = `<div class="cal-day-label">D</div><div class="cal-day-label">S</div><div class="cal-day-label">T</div><div class="cal-day-label">Q</div><div class="cal-day-label">Q</div><div class="cal-day-label">S</div><div class="cal-day-label">S</div>`;
       const primeiroDia = new Date(ano, mes, 1).getDay();
       const totalDias = new Date(ano, mes + 1, 0).getDate();
-      const hojeStr = hojeISO();
-
-      for (let i = 0; i < primeiroDia; i++) {
-        gridEl.innerHTML += `<div class="cal-day-cell empty"></div>`;
-      }
-
+      for (let i = 0; i < primeiroDia; i++) gridEl.innerHTML += `<div class="cal-day-cell empty"></div>`;
       for (let d = 1; d <= totalDias; d++) {
-        const iso = dataISO(new Date(ano, mes, d));
-        const temTreino = (estado.treinoPorData[iso] || []).length > 0;
-        const isHoje = iso === hojeStr;
-
-        let classes = "cal-day-cell";
-        if (temTreino) classes += " tem-treino-cal";
-        if (isHoje) classes += " hoje";
-
-        gridEl.innerHTML += `<div class="${classes}" data-iso="${iso}">${d}</div>`;
+        const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const tem = (estado.treinoPorData[iso] || []).length > 0;
+        gridEl.innerHTML += `<div class="cal-day-cell ${tem ? 'tem-treino-cal':''} ${iso===hojeISO()?'hoje':''}" data-iso="${iso}">${d}</div>`;
       }
-
-      gridEl.querySelectorAll('.cal-day-cell[data-iso]').forEach(cell => {
-        let touchTimer = null;
-        let isLongPress = false;
-
-        cell.addEventListener('click', function() {
-          if (!isLongPress) abrirTreinoData(this.dataset.iso);
-          isLongPress = false;
-        });
-
-        cell.addEventListener('contextmenu', function(e) {
-          e.preventDefault();
-          desmarcarDoCalendario(this.dataset.iso);
-        });
-
-        cell.addEventListener('touchstart', function() {
-          isLongPress = false;
-          touchTimer = setTimeout(() => {
-            isLongPress = true;
-            desmarcarDoCalendario(this.dataset.iso);
-          }, 650);
-        }, { passive: true });
-
-        cell.addEventListener('touchend', () => clearTimeout(touchTimer));
-        cell.addEventListener('touchmove', () => clearTimeout(touchTimer));
-      });
+      gridEl.querySelectorAll('.cal-day-cell[data-iso]').forEach(c => c.addEventListener('click', () => abrirTreinoData(c.dataset.iso)));
     }
 
-    function desmarcarDoCalendario(iso) {
-      if (!iso) return;
-      const lista = estado.treinoPorData[iso] || [];
-      if (lista.length === 0) {
-        mostrarToast('Este dia não tem treino marcado');
-        return;
-      }
-      if (!confirm('Desmarcar o dia ' + formatarDataBR(iso) + '?\nEle será removido do histórico de presença.')) return;
-      delete estado.treinoPorData[iso];
-      if (estado.seriesConcluidas) {
-        Object.keys(estado.seriesConcluidas).forEach(k => {
-          if (k.startsWith(iso + '_')) delete estado.seriesConcluidas[k];
-        });
-      }
-      salvarEstado();
-      mostrarToast('Dia ' + formatarDataBR(iso) + ' desmarcado');
-      renderizarTreinosVertical();
-      atualizarTreinoHoje();
-      renderizarDesempenho();
-    }
-
-    function mudarMes(delta) {
-      dataCalendario.setMonth(dataCalendario.getMonth() + delta);
-      renderizarCalendario();
-      renderizarTreinosVertical();
-    }
-
-    // ==================== PERFIL ====================
-    function renderizarPerfilEdit() {
-      const a = estado.aluno;
-      const m = estado.medidas;
-      const html = `
-        <div class="campo"><label>Nome Completo</label><input type="text" id="edit-nome" value="${a.nome || ''}" placeholder="Nome do aluno"></div>
-        <div class="campo"><label>Idade</label><input type="number" id="edit-idade" value="${a.idade || ''}" placeholder="Idade"></div>
-        <div class="campo"><label>Altura (cm)</label><input type="number" id="edit-altura" value="${a.altura || ''}" placeholder="Ex: 175"></div>
-        <div class="campo"><label>Peso (kg)</label><input type="number" id="edit-peso" value="${a.peso || ''}" placeholder="Ex: 78"></div>
-        <div class="campo"><label>Objetivo</label><input type="text" id="edit-objetivo" value="${a.objetivo || ''}" placeholder="Ex: Hipertrofia"></div>
-        <div class="campo"><label>Meta</label><input type="text" id="edit-meta" value="${a.meta || ''}" placeholder="Ex: -5kg ate dezembro"></div>
-        <div class="campo"><label>Data de Inicio</label><input type="date" id="edit-data-inicio" value="${a.dataInicio || ''}"></div>
-        <div class="campo"><label>Dias por Semana</label><input type="number" id="edit-dias-semana" value="${a.diasPorSemana || 3}" min="1" max="7"></div>
-        <div class="campo"><label>Observacoes</label><textarea id="edit-observacoes" placeholder="Observacoes adicionais...">${a.observacoes || ''}</textarea></div>
-        <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
-          <h4 style="color:var(--gold); margin-bottom:12px;">Medidas Corporais (cm)</h4>
-          <div class="campo"><label>Braco</label><input type="number" id="edit-braco" value="${m.braco || ''}" placeholder="Ex: 38" step="0.5"></div>
-          <div class="campo"><label>Peito</label><input type="number" id="edit-peito" value="${m.peito || ''}" placeholder="Ex: 110" step="0.5"></div>
-          <div class="campo"><label>Cintura</label><input type="number" id="edit-cintura" value="${m.cintura || ''}" placeholder="Ex: 85" step="0.5"></div>
-          <div class="campo"><label>Quadril</label><input type="number" id="edit-quadril" value="${m.quadril || ''}" placeholder="Ex: 100" step="0.5"></div>
-          <div class="campo"><label>Coxa</label><input type="number" id="edit-coxa" value="${m.coxa || ''}" placeholder="Ex: 55" step="0.5"></div>
-          <div class="campo"><label>Panturrilha</label><input type="number" id="edit-panturrilha" value="${m.panturrilha || ''}" placeholder="Ex: 38" step="0.5"></div>
-        </div>
-        <button class="btn-salvar-perfil" id="btn-salvar-perfil">Salvar Ficha do Aluno</button>
-      `;
-      document.getElementById('perfil-edit-container').innerHTML = html;
-      document.getElementById('btn-salvar-perfil').addEventListener('click', function() {
-        estado.aluno.nome = document.getElementById('edit-nome').value.trim();
-        estado.aluno.idade = document.getElementById('edit-idade').value;
-        estado.aluno.altura = document.getElementById('edit-altura').value;
-        estado.aluno.peso = document.getElementById('edit-peso').value;
-        estado.aluno.objetivo = document.getElementById('edit-objetivo').value.trim();
-        estado.aluno.meta = document.getElementById('edit-meta').value.trim();
-        estado.aluno.dataInicio = document.getElementById('edit-data-inicio').value;
-        estado.aluno.diasPorSemana = parseInt(document.getElementById('edit-dias-semana').value) || 3;
-        estado.aluno.observacoes = document.getElementById('edit-observacoes').value.trim();
-        estado.medidas.braco = document.getElementById('edit-braco').value;
-        estado.medidas.peito = document.getElementById('edit-peito').value;
-        estado.medidas.cintura = document.getElementById('edit-cintura').value;
-        estado.medidas.quadril = document.getElementById('edit-quadril').value;
-        estado.medidas.coxa = document.getElementById('edit-coxa').value;
-        estado.medidas.panturrilha = document.getElementById('edit-panturrilha').value;
-        estado.configurado = true;
-        salvarEstado();
-        atualizarNomeTopo();
-        atualizarAguaUI();
-        renderizarDesempenho();
-        mostrarToast('Ficha do aluno salva com sucesso!');
-      });
-    }
-
-    function atualizarNomeTopo() {
-      const el = document.getElementById('dash-nome');
-      if (el) el.textContent = estado.aluno.nome || 'Nome do Aluno';
-      atualizarTreinoHoje();
-    }
-
-    function atualizarTreinoHoje() {
-      const card = document.getElementById('treino-hoje-card');
-      if (!card) return;
-      const wd = new Date().getDay();
-      const ids = (estado.treinoPorDia && estado.treinoPorDia[wd]) ? estado.treinoPorDia[wd] : [];
-      if (ids.length === 0) {
-        card.style.display = 'none';
-        return;
-      }
-      const iso = hojeISO();
-      const noCal = (estado.treinoPorData[iso] || []).length > 0;
-      card.style.display = 'block';
-      document.getElementById('treino-hoje-titulo').textContent = nomeDiaSemana(iso);
-      document.getElementById('treino-hoje-qtd').textContent = `${ids.length} exercício(s)${noCal ? ' · Presença marcada' : ''}`;
-    }
-
-    function abrirTreinoHoje() {
-      abrirTreinoDia(new Date().getDay());
-    }
-
-    // ==================== CATEGORIAS ====================
-    function renderizarCategorias() {
-      const container = document.getElementById('cat-grid-container');
-      const categorias = [
-        { id: 'peito', nome: 'Peito' }, { id: 'biceps', nome: 'Biceps' },
-        { id: 'triceps', nome: 'Triceps' }, { id: 'perna', nome: 'Perna' },
-        { id: 'abdomen', nome: 'Abdomen' }, { id: 'ombro', nome: 'Ombro' },
-        { id: 'costas', nome: 'Costas' }, { id: 'trapezio', nome: 'Trapezio' },
-        { id: 'gluteo', nome: 'Gluteo' }, { id: 'panturrilha', nome: 'Panturrilha' }
-      ];
-      container.innerHTML = '';
-      categorias.forEach(cat => {
-        const catKey = cat.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
-        const count = DATABASE_EXERCICIOS.filter(e => e.grupo === catKey).length;
-        const div = document.createElement('div');
-        div.className = 'cat-card';
-        div.innerHTML = `<b>${cat.nome}</b><span>${count} exercicios</span>`;
-        div.addEventListener('click', () => {
-          categoriaAtual = catKey;
-          termoBusca = '';
-          const buscaEl = document.getElementById('busca-exercicios');
-          if (buscaEl) buscaEl.value = '';
-          renderizarListaExercicios();
-          abrirTela('view-lista-exercicios');
-        });
-        container.appendChild(div);
-      });
-    }
-
-    let categoriaAtual = 'PEITO';
-    let termoBusca = '';
-
-    function filtrarExercicios() {
-      const input = document.getElementById('busca-exercicios');
-      termoBusca = (input ? input.value : '').trim().toLowerCase();
-      renderizarListaExercicios();
-    }
-
-    function renderizarListaExercicios() {
-      const container = document.getElementById('container-lista-exercicios');
-      if (!container) return;
-      container.innerHTML = '';
-      let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (termoBusca) {
-        exs = exs.filter(ex =>
-          ex.nome.toLowerCase().includes(termoBusca) ||
-          ex.aparelho.toLowerCase().includes(termoBusca) ||
-          ex.musculo.toLowerCase().includes(termoBusca)
-        );
-      }
-      const titulos = {
-        'PEITO':'Peito','BICEPS':'Biceps','TRICEPS':'Triceps',
-        'PERNA':'Perna','ABDOMEN':'Abdomen','OMBRO':'Ombro',
-        'COSTAS':'Costas','TRAPEZIO':'Trapezio','GLUTEO':'Gluteo',
-        'PANTURRILHA':'Panturrilha'
-      };
-      const tituloEl = document.getElementById('cat-titulo-topo');
-      if (tituloEl) tituloEl.textContent = `Exercícios: ${titulos[categoriaAtual] || categoriaAtual}`;
-
-      if (exs.length === 0) {
-        container.innerHTML = '<div class="empty-state">Nenhum exercício encontrado.</div>';
-        return;
-      }
-
-      exs.forEach(ex => {
-        const card = document.createElement('div');
-        card.className = 'ex-item-card';
-        const estaEmAlgumDia = Object.values(estado.treinoPorDia || {}).some(lista => Array.isArray(lista) && lista.includes(ex.id));
-        const isFav = estado.favoritos && estado.favoritos.includes(ex.id);
-        card.innerHTML = `
-          <div class="ex-card-top">
-            <div class="ex-item-thumb">
-              <img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
-            </div>
-            <div class="ex-item-info">
-              <p class="title">${ex.nome} ${isFav ? '⭐' : ''}</p>
-              <p class="app-name">${ex.aparelho}</p>
-              <p class="muscle">${ex.musculo}</p>
-            </div>
-            ${estaEmAlgumDia ? '<div class="check-badge" style="color:var(--gold);font-weight:800;">✓</div>' : ''}
-            <div class="chev-icon">›</div>
-          </div>
-        `;
-        card.querySelector('.ex-card-top').addEventListener('click', () => abrirDetalheExercicio(ex, 'view-lista-exercicios'));
-        container.appendChild(card);
-      });
-    }
-
-    // ==================== DETALHE EXERCICIO ====================
-    let exercicioAtualId = null;
-    let telaOrigemDetalhe = 'view-lista-exercicios';
-
-    function abrirDetalheExercicio(ex, origem) {
-      exercicioAtualId = ex.id;
-      telaOrigemDetalhe = origem || 'view-lista-exercicios';
-      popularSeletoresConfiguracao();
-
-      document.getElementById('d-title').textContent = ex.nome;
-      document.getElementById('d-app-sub').textContent = ex.aparelho;
-      document.getElementById('d-tag-grupo').textContent = ex.grupo;
-      document.getElementById('d-tag-popular').style.display = ex.popular ? 'inline-block' : 'none';
-      
-      const imgEl = document.getElementById('d-gif-img');
-      const fallbackIcon = document.getElementById('d-gif-fallback-icon');
-      imgEl.style.display = 'block';
-      fallbackIcon.style.display = 'none';
-      imgEl.src = ex.gif;
-      imgEl.onerror = function() {
-        this.style.display = 'none';
-        fallbackIcon.style.display = 'block';
-      };
-      
-      document.getElementById('d-primary-muscle').textContent = ex.musculo;
-      document.getElementById('d-instructions-text').innerText = ex.instrucao;
-      document.getElementById('d-equip-name').textContent = `Aparelho: ${ex.aparelho}`;
-      document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">`;
-      
-      const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-      document.getElementById('edit-series').value = custom.series || ex.series || 3;
-      document.getElementById('edit-reps').value = custom.reps || ex.reps || 12;
-      document.getElementById('edit-peso').value = custom.peso !== undefined ? custom.peso : 0;
-      document.getElementById('edit-descanso').value = custom.descanso || ex.descanso || 60;
-      
-      if (dataTreinoAtual) {
-        const [y, m, d] = dataTreinoAtual.split('-').map(Number);
-        diaSelecionado = new Date(y, m - 1, d).getDay();
-      } else {
-        diaSelecionado = new Date().getDay();
-      }
-      document.querySelectorAll('#day-selector .day-btn').forEach(b => {
-        b.classList.toggle('active', parseInt(b.dataset.day) === diaSelecionado);
-      });
-      atualizarBotaoTreino(ex);
-
-      const favBtn = document.getElementById('btn-fav');
-      const isFav = estado.favoritos && estado.favoritos.includes(ex.id);
-      favBtn.textContent = isFav ? '★' : '☆';
-      favBtn.style.color = isFav ? 'var(--gold)' : '#fff';
-
-      abrirTela('view-detalhe-exercicio');
-    }
-
-    function atualizarBotaoTreino(ex) {
-      const btn = document.getElementById('btn-toggle-treino');
-      if (!btn || !ex) return;
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
-      const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      const lista = estado.treinoPorDia[diaSelecionado] || [];
-      const esta = lista.includes(ex.id);
-      btn.textContent = esta
-        ? `Remover do Treino de ${nomes[diaSelecionado]}`
-        : `Adicionar ao Treino de ${nomes[diaSelecionado]}`;
-      btn.classList.toggle('no-treino', esta);
-      const hint = document.getElementById('data-semana-hint');
-      if (hint) hint.textContent = 'Rotina semanal configurada';
-    }
-
-    function registrarHistoricoData(iso) {
-      if (!iso) return;
-      if (!estado.treinoPorData) estado.treinoPorData = {};
-      const [y, m, d] = iso.split('-').map(Number);
-      const wd = new Date(y, m - 1, d).getDay();
-      const plano = (estado.treinoPorDia && estado.treinoPorDia[wd]) ? estado.treinoPorDia[wd].slice() : [];
-      estado.treinoPorData[iso] = plano.length ? plano : (estado.treinoPorData[iso] || ['__marcado__']);
-      salvarEstado();
-      renderizarCalendario();
-      atualizarTreinoHoje();
-      renderizarDesempenho();
-    }
+    function mudarMes(delta) { dataCalendario.setMonth(dataCalendario.getMonth() + delta); renderizarCalendario(); }
 
     function renderizarTreinosVertical() {
       renderizarCalendario();
       const container = document.getElementById('container-dias-vertical');
       if (!container) return;
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
       container.innerHTML = '';
       const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      const hojeWd = new Date().getDay();
-
       for (let i = 0; i < 7; i++) {
-        const lista = estado.treinoPorDia[i] || [];
-        const qtd = lista.length;
-        const temTreino = qtd > 0;
-        const isHoje = i === hojeWd;
-
+        const ids = (estado.treinoPorDia && estado.treinoPorDia[i]) || [];
         const div = document.createElement('div');
-        div.className = `dia-vertical-item ${temTreino ? 'tem-treino' : ''}`;
-        div.innerHTML = `
-          <div class="dia-info-box">
-            <span class="dia-nome">${nomes[i]}${isHoje ? ' · Hoje' : ''}</span>
-            ${temTreino
-              ? '<span class="dia-status-badge">★ Treino disponível</span>'
-              : '<span style="font-size:10px;color:var(--muted)">Descanso</span>'}
-          </div>
-          <span class="dia-qtd">${qtd} exercício(s)</span>
-        `;
+        div.className = `dia-vertical-item ${ids.length ? 'tem-treino':''}`;
+        div.innerHTML = `<div class="dia-info-box"><span class="dia-nome">${nomes[i]}</span></div><span class="dia-qtd">${ids.length} exercíciosa</span>`;
         div.addEventListener('click', () => abrirTreinoDia(i));
         container.appendChild(div);
       }
     }
 
-    function abrirTreinoDia(diaSemana) {
-      const iso = dataDoWeekdayNaSemana(diaSemana);
-      dataTreinoAtual = iso;
-      const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      document.getElementById('dia-titulo-topo').textContent = `Treino de ${nomes[diaSemana]}`;
+    function abrirTreinoDia(wd) {
+      dataTreinoAtual = dataDoWeekdayNaSemana(wd);
+      document.getElementById('dia-titulo-topo').textContent = `Treino de ${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][wd]}`;
       const container = document.getElementById('container-exercicios-dia');
-      container.innerHTML = '';
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
-      const ids = estado.treinoPorDia[diaSemana] || [];
-      const noHistorico = (estado.treinoPorData[iso] || []).length > 0;
-
-      const headerActions = document.createElement('div');
-      headerActions.style.cssText = 'padding:0 14px 12px;display:flex;flex-direction:column;gap:8px;';
-      headerActions.innerHTML = `
-        <div style="font-size:12px;color:var(--muted);text-align:center;">Data de referência: <b style="color:var(--gold)">${formatarDataBR(iso)}</b></div>
-        ${ids.length > 0 ? `
-          <button class="btn-confirmar" style="margin:0;${noHistorico ? 'background:#1a3a1a;border:1px solid #4caf50;color:#4caf50;' : ''}"
-            onclick="marcarDiaNoCalendario('${iso}')">
-            ${noHistorico ? '✓ Presença confirmada no calendário' : '📅 Marcar presença hoje'}
-          </button>
-        ` : `<div class="empty-state" style="padding:16px;">Nenhum exercício neste dia.<br>Adicione pelo catálogo de Exercícios.</div>`}
-      `;
-      container.appendChild(headerActions);
-
-      if (ids.length === 0) {
-        abrirTela('view-treino-dia');
-        return;
-      }
-
-      ids.forEach(id => {
-        const ex = DATABASE_EXERCICIOS.find(e => e.id === id);
-        if (!ex) return;
-        const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-        const totalSeries = custom.series || ex.series || 3;
-        const card = document.createElement('div');
-        card.className = 'ex-item-card';
-
-        let seriesButtonsHTML = '';
-        for (let s = 1; s <= totalSeries; s++) {
-          const key = `${iso}_${ex.id}_s${s}`;
-          const isDone = estado.seriesConcluidas && estado.seriesConcluidas[key];
-          seriesButtonsHTML += `<button class="series-btn ${isDone ? 'done' : ''}" data-key="${key}" onclick="toggleSerie('${iso}', '${ex.id}', ${s}, ${custom.descanso || ex.descanso || 60})">S${s}</button>`;
-        }
-
-        card.innerHTML = `
-          <div class="ex-card-top">
-            <div class="ex-item-thumb">
-              <img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
-            </div>
-            <div class="ex-item-info">
-              <p class="title">${ex.nome}</p>
-              <p class="app-name">${ex.aparelho}</p>
-              <p class="muscle">${totalSeries} séries · ${custom.reps || ex.reps} reps · ${custom.peso || 0}kg</p>
-            </div>
-            <div class="chev-icon" style="color:#ff5252;padding:6px;" onclick="removerExercicioPlano(event, ${diaSemana}, '${ex.id}')">✕</div>
-          </div>
-          <div class="series-check-row">
-            <span style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;">Check-in:</span>
-            ${seriesButtonsHTML}
-          </div>
-        `;
-        card.querySelector('.ex-card-top').addEventListener('click', (e) => {
-          if (!e.target.classList.contains('chev-icon')) abrirDetalheExercicio(ex, 'view-treino-dia');
-        });
-        container.appendChild(card);
-      });
+      container.innerHTML = `<button class="btn-confirmar" onclick="marcarDiaNoCalendario('${dataTreinoAtual}')">📅 Marcar Presença</button>`;
       abrirTela('view-treino-dia');
     }
 
     function abrirTreinoData(iso) {
-      const [y, m, d] = iso.split('-').map(Number);
-      const wd = new Date(y, m - 1, d).getDay();
       dataTreinoAtual = iso;
-      const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      document.getElementById('dia-titulo-topo').textContent = `${formatarDataBR(iso)} · ${nomes[wd]}`;
+      document.getElementById('dia-titulo-topo').textContent = formatarDataBR(iso);
       const container = document.getElementById('container-exercicios-dia');
-      container.innerHTML = '';
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
-      const ids = estado.treinoPorDia[wd] || [];
-      const noHistorico = (estado.treinoPorData[iso] || []).length > 0;
-
-      const headerActions = document.createElement('div');
-      headerActions.style.cssText = 'padding:0 14px 12px;display:flex;flex-direction:column;gap:8px;';
-      headerActions.innerHTML = `
-        <div style="font-size:12px;color:var(--muted);text-align:center;">${noHistorico ? '📜 Presença registrada neste dia' : 'Presença não registrada'}</div>
-        ${ids.length > 0 ? `
-          <button class="btn-confirmar" style="margin:0;${noHistorico ? 'background:#1a3a1a;border:1px solid #4caf50;color:#4caf50;' : ''}"
-            onclick="marcarDiaNoCalendario('${iso}')">
-            ${noHistorico ? '✓ Presença confirmada no calendário' : '📅 Marcar presença neste dia'}
-          </button>
-        ` : `<div class="empty-state" style="padding:16px;">Sem exercícios programados para ${nomes[wd]}.</div>`}
-      `;
-      container.appendChild(headerActions);
-
-      if (ids.length === 0) {
-        abrirTela('view-treino-dia');
-        return;
-      }
-
-      ids.forEach(id => {
-        const ex = DATABASE_EXERCICIOS.find(e => e.id === id);
-        if (!ex) return;
-        const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-        const totalSeries = custom.series || ex.series || 3;
-        const card = document.createElement('div');
-        card.className = 'ex-item-card';
-        let seriesButtonsHTML = '';
-        for (let s = 1; s <= totalSeries; s++) {
-          const key = `${iso}_${ex.id}_s${s}`;
-          const isDone = estado.seriesConcluidas && estado.seriesConcluidas[key];
-          seriesButtonsHTML += `<button class="series-btn ${isDone ? 'done' : ''}" data-key="${key}" onclick="toggleSerie('${iso}', '${ex.id}', ${s}, ${custom.descanso || ex.descanso || 60})">S${s}</button>`;
-        }
-        card.innerHTML = `
-          <div class="ex-card-top">
-            <div class="ex-item-thumb">
-              <img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
-            </div>
-            <div class="ex-item-info">
-              <p class="title">${ex.nome}</p>
-              <p class="app-name">${ex.aparelho}</p>
-              <p class="muscle">${totalSeries} séries · ${custom.reps || ex.reps} reps · ${custom.peso || 0}kg</p>
-            </div>
-          </div>
-          <div class="series-check-row">
-            <span style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;">Check-in:</span>
-            ${seriesButtonsHTML}
-          </div>
-        `;
-        card.querySelector('.ex-card-top').addEventListener('click', () => abrirDetalheExercicio(ex, 'view-treino-dia'));
-        container.appendChild(card);
-      });
+      container.innerHTML = `<button class="btn-confirmar" onclick="marcarDiaNoCalendario('${iso}')">📅 Marcar Presença</button>`;
       abrirTela('view-treino-dia');
     }
 
     function marcarDiaNoCalendario(iso) {
-      registrarHistoricoData(iso);
-      mostrarToast('📅 ' + formatarDataBR(iso) + ' marcado no calendário!');
-      const [y, m, d] = iso.split('-').map(Number);
-      const wd = new Date(y, m - 1, d).getDay();
-      if (dataDoWeekdayNaSemana(wd) === iso) abrirTreinoDia(wd);
-      else abrirTreinoData(iso);
-    }
-
-    function toggleSerie(iso, exId, serieNum, descanso) {
-      if (!estado.seriesConcluidas) estado.seriesConcluidas = {};
-      const key = `${iso}_${exId}_s${serieNum}`;
-      const agoraConcluida = !estado.seriesConcluidas[key];
-      estado.seriesConcluidas[key] = agoraConcluida;
-
-      if (agoraConcluida) {
-        registrarHistoricoData(iso);
-        mostrarToast(`✅ Série ${serieNum} concluída!`);
-        if (descanso && descanso > 0) iniciarTimer(descanso);
-      } else {
-        mostrarToast(`Série ${serieNum} desmarcada`);
-      }
+      if(!estado.treinoPorData) estado.treinoPorData = {};
+      estado.treinoPorData[iso] = ['marcado'];
       salvarEstado();
-
-      const btn = document.querySelector(`.series-btn[data-key="${key}"]`);
-      if (btn) btn.classList.toggle('done', agoraConcluida);
-      else abrirTreinoData(iso);
+      renderizarCalendario();
+      mostrarToast('Presença confirmada!');
     }
 
-    function removerExercicioPlano(e, diaSemana, exId) {
-      e.stopPropagation();
-      if (!estado.treinoPorDia[diaSemana]) return;
-      const idx = estado.treinoPorDia[diaSemana].indexOf(exId);
-      if (idx > -1) {
-        estado.treinoPorDia[diaSemana].splice(idx, 1);
-        salvarEstado();
-        mostrarToast('Exercício removido');
-        renderizarTreinosVertical();
-        renderizarDesempenho();
-        abrirTreinoDia(diaSemana);
-      }
+    function renderizarCategorias() {
+      const container = document.getElementById('cat-grid-container');
+      if(!container) return;
+      container.innerHTML = '';
+      ['Peito','Biceps','Triceps','Perna','Abdomen','Ombro','Costas','Trapezio','Gluteo','Panturrilha'].forEach(cat => {
+        const div = document.createElement('div');
+        div.className = 'cat-card';
+        div.innerHTML = `<b>${cat}</b>`;
+        div.addEventListener('click', () => { categoriaAtual = cat.toUpperCase(); renderizarListaExercicios(); abrirTela('view-lista-exercicios'); });
+        container.appendChild(div);
+      });
     }
 
-    // ==================== DIETAS ====================
-    let receitaAtualSelecionada = null;
+    let categoriaAtual = 'PEITO';
+    function renderizarListaExercicios() {
+      const container = document.getElementById('container-lista-exercicios');
+      if(!container) return;
+      container.innerHTML = '';
+      DATABASE_EXERCICIOS.filter(e => e.grupo === categoriaAtual).forEach(ex => {
+        const div = document.createElement('div');
+        div.className = 'ex-item-card';
+        div.innerHTML = `<div class="ex-card-top"><div class="ex-item-info"><p class="title">${ex.nome}</p><p class="app-name">${ex.aparelho}</p></div></div>`;
+        div.addEventListener('click', () => abrirDetalheExercicio(ex));
+        container.appendChild(div);
+      });
+    }
+
+    function abrirDetalheExercicio(ex) {
+      exercicioAtualId = ex.id;
+      document.getElementById('d-title').textContent = ex.nome;
+      document.getElementById('d-gif-img').src = ex.gif;
+      abrirTela('view-detalhe-exercicio');
+    }
+
+    let exercicioAtualId = null;
+    document.getElementById('btn-toggle-treino')?.addEventListener('click', () => {
+      if(!exercicioAtualId) return;
+      if(!estado.treinoPorDia) estado.treinoPorDia = {0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
+      if(!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
+      estado.treinoPorDia[diaSelecionado].push(exercicioAtualId);
+      salvarEstado();
+      mostrarToast('Adicionado ao treino!');
+    });
 
     function renderizarListaReceitas() {
       const container = document.getElementById('container-lista-receitas');
+      if(!container) return;
       container.innerHTML = '';
-      RECEITAS.forEach(rec => {
+      RECEITAS.forEach(r => {
         const card = document.createElement('div');
         card.className = 'receita-grid-card';
-        card.innerHTML = `
-          <div class="receita-thumb-box">
-            <img src="${rec.imagem}" alt="${rec.nome}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80';">
-            <span class="receita-badge-num">#${rec.id}</span>
-          </div>
-          <div class="receita-grid-body">
-            <div class="receita-grid-title">${rec.nome}</div>
-            <div class="receita-grid-sub">Ver Preparo ›</div>
-          </div>
-        `;
-        card.addEventListener('click', () => abrirDetalheReceita(rec));
+        card.innerHTML = `<div class="receita-thumb-box"><img src="${r.imagem}" loading="lazy"></div><div class="receita-grid-body"><div class="receita-grid-title">${r.nome}</div><div class="receita-grid-sub">Ver Receita</div></div>`;
+        card.addEventListener('click', () => {
+          document.getElementById('receita-titulo').textContent = r.nome;
+          document.getElementById('receita-imagem').src = r.imagem;
+          document.getElementById('receita-ingredientes-texto').innerText = r.ingredientes;
+          document.getElementById('receita-instrucoes-texto').innerText = r.instrucoes;
+          abrirTela('view-detalhe-receita');
+        });
         container.appendChild(card);
       });
     }
 
-    function abrirDetalheReceita(rec) {
-      receitaAtualSelecionada = rec;
-      document.getElementById('receita-titulo').textContent = rec.nome;
-      document.getElementById('receita-imagem').src = rec.imagem;
-      document.getElementById('receita-ingredientes-texto').innerText = rec.ingredientes;
-      document.getElementById('receita-instrucoes-texto').innerText = rec.instrucoes;
-      
-      document.getElementById('btn-copiar-ingredientes').onclick = function(e) {
-        e.stopPropagation();
-        copiarTexto(rec.ingredientes);
-      };
-      document.getElementById('btn-copiar-instrucoes').onclick = function(e) {
-        e.stopPropagation();
-        copiarTexto(rec.instrucoes);
-      };
-
-      abrirTela('view-detalhe-receita');
-    }
-
-    function copiarTexto(texto) {
-      navigator.clipboard.writeText(texto).then(() => mostrarToast('Copiado com sucesso!')).catch(() => mostrarToast('Erro ao copiar'));
-    }
-
-    // ==================== NOTAS ====================
-    function carregarNotas() { document.getElementById('notas-texto').value = estado.notas || ''; }
-    document.getElementById('btn-salvar-notas').addEventListener('click', function() {
+    document.getElementById('btn-salvar-notas')?.addEventListener('click', () => {
       estado.notas = document.getElementById('notas-texto').value;
       salvarEstado();
       mostrarToast('Notas salvas!');
     });
 
-    // ==================== PAGAMENTOS ====================
-    function carregarPagamentos() {
-      const dataCompra = estado.pagamento.dataCompra || new Date().toISOString().split('T')[0];
-      document.getElementById('data-compra').value = dataCompra;
-      
-      if (estado.pagamento.dataVencimento) {
-        document.getElementById('data-vencimento').value = estado.pagamento.dataVencimento;
-      } else {
-        const venc = new Date();
-        venc.setDate(venc.getDate() + 30);
-        document.getElementById('data-vencimento').value = venc.toISOString().split('T')[0];
-      }
-      document.getElementById('senha-cliente').value = estado.pagamento.senha || '';
-      atualizarStatusPagamento();
-      gerarPix();
-    }
-
-    function atualizarStatusPagamento() {
-      const el = document.getElementById('pag-status');
-      const venc = estado.pagamento.dataVencimento;
-      let liberado = estado.pagamento.liberado;
-      
-      if (venc) {
-        const hoje = new Date();
-        hoje.setHours(0,0,0,0);
-        const dataVenc = new Date(venc);
-        dataVenc.setHours(0,0,0,0);
-        if (hoje > dataVenc) {
-          liberado = false;
-          estado.pagamento.liberado = false;
-          salvarEstado();
-        }
-      }
-      
-      if (liberado) {
-        const diasRestantes = Math.ceil((new Date(venc) - new Date()) / (1000*60*60*24));
-        el.className = 'status-liberado';
-        el.textContent = `✅ App Liberado - Vence em ${diasRestantes} dias`;
-      } else {
-        el.className = 'status-bloqueado';
-        el.textContent = '🔒 App Bloqueado - Faça o pagamento';
-      }
-    }
-
-    document.getElementById('btn-salvar-pagamento').addEventListener('click', function() {
-      estado.pagamento.dataCompra = document.getElementById('data-compra').value;
-      estado.pagamento.dataVencimento = document.getElementById('data-vencimento').value;
-      estado.pagamento.senha = document.getElementById('senha-cliente').value.trim();
-      salvarEstado();
-      mostrarToast('Dados de pagamento salvos!');
-    });
-
-    // ==================== IMC ====================
-    function renderizarIMC() {
-      if (estado.aluno.peso) document.getElementById('imc-peso').value = estado.aluno.peso;
-      if (estado.aluno.altura) document.getElementById('imc-altura').value = estado.aluno.altura;
-      document.getElementById('imc-resultado').style.display = 'none';
-      carregarHistoricoIMC();
-    }
-
-    function carregarHistoricoIMC() {
-      const lista = document.getElementById('imc-lista');
-      lista.innerHTML = '';
-      const historico = estado.imc.historico || [];
-      if (historico.length === 0) {
-        lista.innerHTML = '<div style="color:var(--muted); text-align:center; padding:8px;">Nenhum registro ainda.</div>';
-        return;
-      }
-      historico.slice().reverse().forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        const data = new Date(item.data).toLocaleDateString('pt-BR');
-        div.innerHTML = `
-          <span><span class="data">${data}</span> - ${item.peso}kg / ${item.altura}cm</span>
-          <span style="color:${item.cor || 'var(--text)'}">${item.imc} - ${item.classificacao}</span>
-        `;
-        lista.appendChild(div);
-      });
-    }
-
-    function calcularIMC() {
-      const peso = parseFloat(document.getElementById('imc-peso').value);
-      let alturaCm = parseFloat(document.getElementById('imc-altura').value);
-      if (alturaCm < 3) alturaCm = alturaCm * 100;
-      
-      if (!peso || !alturaCm || peso < 10 || alturaCm < 50) {
-        mostrarToast('Preencha peso e altura corretamente.');
-        return;
-      }
-      
-      const alturaM = alturaCm / 100;
-      const imc = peso / (alturaM * alturaM);
-      const imcFormatado = imc.toFixed(1);
-      
-      let classificacao, cor, cls, faixa, pesoIdealMin, pesoIdealMax;
-      if (imc < 18.5) {
-        classificacao = 'Magreza'; cor = '#64b5f6'; cls = 'magreza'; faixa = 'Abaixo do peso ideal';
-      } else if (imc < 25) {
-        classificacao = 'Peso normal'; cor = '#4caf50'; cls = 'normal'; faixa = '✅ Dentro do peso ideal';
-      } else if (imc < 30) {
-        classificacao = 'Sobrepeso'; cor = '#ffc107'; cls = 'sobrepeso'; faixa = '⚠️ Acima do peso ideal';
-      } else {
-        classificacao = 'Obesidade'; cor = '#ff5252'; cls = 'obesidade'; faixa = '🚨 Obesidade - Procure orientação';
-      }
-      
-      pesoIdealMin = (18.5 * alturaM * alturaM).toFixed(1);
-      pesoIdealMax = (24.9 * alturaM * alturaM).toFixed(1);
-
-      document.getElementById('imc-resultado').style.display = 'block';
-      document.getElementById('imc-valor').textContent = imcFormatado;
-      const classEl = document.getElementById('imc-classificacao');
-      classEl.textContent = classificacao;
-      classEl.className = 'imc-classificacao ' + cls;
-      document.getElementById('imc-detalhe').innerHTML = `
-        <div style="margin-bottom:4px;">${faixa}</div>
-        <div>Peso ideal: <span class="destaque">${pesoIdealMin} kg - ${pesoIdealMax} kg</span></div>
-        <div style="margin-top:4px;">Peso: ${peso} kg | Altura: ${alturaCm} cm</div>
-      `;
-
-      estado.aluno.peso = peso;
-      estado.aluno.altura = alturaCm;
-
-      if (!estado.imc) estado.imc = { historico: [] };
-      estado.imc.historico.push({ data: new Date().toISOString(), peso: peso, altura: alturaCm, imc: imcFormatado, classificacao: classificacao, cor: cor });
-      salvarEstado();
-      carregarHistoricoIMC();
-      renderizarDesempenho();
-      mostrarToast('✅ IMC e Desempenho atualizados!');
-    }
-
-    document.getElementById('btn-calcular-imc').addEventListener('click', calcularIMC);
-
-    // ==================== DESEMPENHO (100% DINÂMICO & GRÁFICOS) ====================
-    let chartPeso = null, chartImcIdade = null, chartCarga = null, chartTreinos = null;
-
-    function renderizarDesempenho() {
-      atualizarStatsDesempenho();
-      renderizarGraficos();
-    }
-
-    function calcularCargaMediaAtual() {
-      let totalCarga = 0, count = 0;
-      for (let d = 0; d < 7; d++) {
-        const ids = (estado.treinoPorDia && estado.treinoPorDia[d]) || [];
-        ids.forEach(id => {
-          const custom = (estado.customExercicios && estado.customExercicios[id]) || {};
-          const peso = parseFloat(custom.peso);
-          if (peso && peso > 0) {
-            totalCarga += peso;
-            count++;
-          }
-        });
-      }
-      return count > 0 ? (totalCarga / count) : 0;
-    }
-
-    function atualizarStatsDesempenho() {
-      const historico = estado.imc.historico || [];
-      const ultimoPeso = historico.length ? historico[historico.length - 1].peso : (estado.aluno.peso || '--');
-      const ultimoImc = historico.length ? historico[historico.length - 1].imc : '--';
-      const cargaMedia = calcularCargaMediaAtual();
-      const diasPresenca = Object.keys(estado.treinoPorData || {}).length;
-
-      document.getElementById('stat-peso').textContent = ultimoPeso;
-      document.getElementById('stat-imc').textContent = ultimoImc;
-      document.getElementById('stat-carga').textContent = cargaMedia > 0 ? cargaMedia.toFixed(1) : '--';
-      document.getElementById('stat-dias').textContent = diasPresenca;
-    }
-
-    function renderizarGraficos() {
-      const historico = estado.imc.historico || [];
-      
-      // 1. Gráfico de Peso
-      const ctx1 = document.getElementById('grafico-peso')?.getContext('2d');
-      if (ctx1) {
-        if (chartPeso) chartPeso.destroy();
-        chartPeso = new Chart(ctx1, {
-          type: 'line',
-          data: {
-            labels: historico.length ? historico.map((_, i) => '#' + (i + 1)) : ['1'],
-            datasets: [{
-              label: 'Peso (kg)',
-              data: historico.length ? historico.map(i => i.peso) : [parseFloat(estado.aluno.peso) || 0],
-              borderColor: '#d4a14b',
-              backgroundColor: 'rgba(212,161,75,0.15)',
-              fill: true,
-              tension: 0.4
-            }]
-          },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-      }
-
-      // 2. Gráfico de IMC
-      const ctx2 = document.getElementById('grafico-imc-idade')?.getContext('2d');
-      if (ctx2) {
-        if (chartImcIdade) chartImcIdade.destroy();
-        chartImcIdade = new Chart(ctx2, {
-          type: 'line',
-          data: {
-            labels: historico.length ? historico.map((_, i) => '#' + (i + 1)) : ['1'],
-            datasets: [{
-              label: 'IMC',
-              data: historico.length ? historico.map(i => parseFloat(i.imc)) : [0],
-              borderColor: '#64b5f6',
-              backgroundColor: 'rgba(100,181,246,0.15)',
-              fill: true,
-              tension: 0.4
-            }]
-          },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-      }
-
-      // 3. Gráfico de Evolução de Carga
-      const ctxCarga = document.getElementById('grafico-carga')?.getContext('2d');
-      if (ctxCarga) {
-        if (chartCarga) chartCarga.destroy();
-        const cargaHist = (estado.historicoCarga && estado.historicoCarga.length)
-          ? estado.historicoCarga
-          : [{ data: 'Hoje', carga: calcularCargaMediaAtual() }];
-
-        chartCarga = new Chart(ctxCarga, {
-          type: 'line',
-          data: {
-            labels: cargaHist.map(c => c.data || '#'),
-            datasets: [{
-              label: 'Carga Média (kg)',
-              data: cargaHist.map(c => c.carga || 0),
-              borderColor: '#4caf50',
-              backgroundColor: 'rgba(76,175,80,0.15)',
-              fill: true,
-              tension: 0.4
-            }]
-          },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-      }
-
-      // 4. Gráfico de Dias de Treino por Semana
-      const ctx3 = document.getElementById('grafico-treinos')?.getContext('2d');
-      if (ctx3) {
-        if (chartTreinos) chartTreinos.destroy();
-        const labels = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
-        const qtd = labels.map((_, i) => ((estado.treinoPorDia && estado.treinoPorDia[i]) || []).length);
-        chartTreinos = new Chart(ctx3, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{ label: 'Exercícios', data: qtd, backgroundColor: 'rgba(212,161,75,0.6)', borderColor: '#d4a14b', borderWidth: 1, borderRadius: 6 }]
-          },
-          options: { responsive: true, plugins: { legend: { display: false } } }
-        });
-      }
-    }
-
-    // ==================== EVENTOS DOS BOTÕES ====================
-    document.getElementById('btn-menu-treinos').addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
-    document.getElementById('btn-menu-exercicios').addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
-    document.getElementById('btn-menu-x5').addEventListener('click', () => { abrirTela('view-x5'); });
-    document.getElementById('x5-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('btn-menu-imc').addEventListener('click', () => { renderizarIMC(); abrirTela('view-imc'); });
-    document.getElementById('btn-menu-dietas').addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
-    document.getElementById('btn-menu-bonus').addEventListener('click', () => { abrirTela('view-bonus'); });
-    document.getElementById('dash-banner-btn').addEventListener('click', () => { renderizarPerfilEdit(); abrirTela('view-perfil'); });
-
-    // Botões Voltar
-    document.getElementById('treinos-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('btn-voltar-treinos').addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
-    document.getElementById('cat-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('btn-voltar-categorias').addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
-    document.getElementById('btn-voltar-para-lista').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
-    document.getElementById('perfil-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('dietas-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('btn-voltar-dietas').addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
-    document.getElementById('notas-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('pagamentos-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    
-    // BOTÃO VOLTAR DO BÔNUS PDF
-    document.getElementById('bonus-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    
-    document.getElementById('btn-voltar-abaixo-detalhe').addEventListener('click', () => abrirTela(telaOrigemDetalhe));
-    document.getElementById('imc-back').addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('desempenho-back').addEventListener('click', () => abrirTela('view-dashboard'));
-
-    // Configurar exercício e registrar progressão de carga
-    document.getElementById('btn-toggle-treino').addEventListener('click', function() {
-      if (!exercicioAtualId) return;
-      const ex = DATABASE_EXERCICIOS.find(e => e.id === exercicioAtualId);
-      if (!ex) return;
-      if (!estado.customExercicios) estado.customExercicios = {};
-      if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
-
-      const novaCarga = parseFloat(document.getElementById('edit-peso').value) || 0;
-
-      estado.customExercicios[exercicioAtualId] = {
-        series: parseInt(document.getElementById('edit-series').value) || 3,
-        reps: parseInt(document.getElementById('edit-reps').value) || 12,
-        peso: novaCarga,
-        descanso: parseInt(document.getElementById('edit-descanso').value) || 60
-      };
-
-      const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      for (let d = 0; d < 7; d++) {
-        if (d === diaSelecionado) continue;
-        const outra = estado.treinoPorDia[d] || [];
-        const ix = outra.indexOf(exercicioAtualId);
-        if (ix > -1) outra.splice(ix, 1);
-      }
-      if (!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
-      const lista = estado.treinoPorDia[diaSelecionado];
-      const pos = lista.indexOf(exercicioAtualId);
-
-      if (pos === -1) {
-        lista.push(exercicioAtualId);
-        mostrarToast(`Adicionado ao treino de ${nomes[diaSelecionado]}`);
-      } else {
-        lista.splice(pos, 1);
-        mostrarToast(`Removido do treino de ${nomes[diaSelecionado]}`);
-      }
-
-      const mediaAtual = calcularCargaMediaAtual();
-      const hojeBR = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-      if (!estado.historicoCarga) estado.historicoCarga = [];
-      estado.historicoCarga.push({ data: hojeBR, carga: parseFloat(mediaAtual.toFixed(1)) });
-      if (estado.historicoCarga.length > 10) estado.historicoCarga.shift();
-
-      salvarEstado();
-      atualizarBotaoTreino(ex);
-      renderizarTreinosVertical();
-      renderizarListaExercicios();
-      atualizarTreinoHoje();
-      renderizarDesempenho();
-    });
-
-    document.querySelectorAll('#day-selector .day-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        diaSelecionado = parseInt(this.dataset.day);
-        document.querySelectorAll('#day-selector .day-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        if (exercicioAtualId) {
-          const ex = DATABASE_EXERCICIOS.find(e => e.id === exercicioAtualId);
-          if (ex) atualizarBotaoTreino(ex);
-        }
-      });
-    });
-
-    document.getElementById('btn-fav').addEventListener('click', function() {
-      if (!exercicioAtualId) return;
-      if (!estado.favoritos) estado.favoritos = [];
-      const idx = estado.favoritos.indexOf(exercicioAtualId);
-      if (idx === -1) {
-        estado.favoritos.push(exercicioAtualId);
-        this.textContent = '★';
-        this.style.color = 'var(--gold)';
-        mostrarToast('⭐ Favoritado!');
-      } else {
-        estado.favoritos.splice(idx, 1);
-        this.textContent = '☆';
-        this.style.color = '#fff';
-        mostrarToast('Removido dos favoritos');
-      }
-      salvarEstado();
-    });
-
-    // Menu inferior
-    document.querySelectorAll('.bottom-item').forEach(item => {
-      item.addEventListener('click', function() {
-        const target = this.dataset.target;
-        document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        if (target === 'view-dashboard') abrirTela('view-dashboard');
-        else if (target === 'view-desempenho') { renderizarDesempenho(); abrirTela('view-desempenho'); }
-        else if (target === 'view-pagamentos') { carregarPagamentos(); abrirTela('view-pagamentos'); }
-        else if (target === 'view-notas') { carregarNotas(); abrirTela('view-notas'); }
-        else if (target === 'view-perfil') { renderizarPerfilEdit(); abrirTela('view-perfil'); }
-        else { document.getElementById('tituloInterno').textContent = 'Opção'; document.getElementById('conteudoInterno').innerHTML = '<p>Em desenvolvimento.</p>'; abrirTela('view-interna'); }
-      });
-    });
-
-    // ==================== WIZARD ====================
-    let passoAtual = 0;
-    const totalPassos = 7;
-    const wizardOverlay = document.getElementById('wizard-overlay');
-    const wizardNext = document.getElementById('wizard-next');
-    const wizardBack = document.getElementById('wizard-back');
-    const wizardProgressFill = document.getElementById('wizard-progress-fill');
-    let objetivoSelecionado = '';
-
-    function atualizarWizard() {
-      document.querySelectorAll('.wizard-step').forEach((p, i) => p.classList.toggle('active', i === passoAtual));
-      wizardProgressFill.style.width = `${((passoAtual + 1) / totalPassos) * 100}%`;
-      wizardBack.style.visibility = passoAtual === 0 ? 'hidden' : 'visible';
-      wizardNext.textContent = passoAtual === totalPassos - 1 ? 'Concluir' : 'Próximo';
-      
-      if (passoAtual === 1) wizardNext.disabled = !document.getElementById('w-nome').value.trim();
-      else if (passoAtual === 2) wizardNext.disabled = !document.getElementById('w-altura').value;
-      else if (passoAtual === 3) wizardNext.disabled = !document.getElementById('w-peso').value;
-      else if (passoAtual === 4) wizardNext.disabled = !objetivoSelecionado;
-      else if (passoAtual === 5) wizardNext.disabled = !document.getElementById('w-meta').value.trim();
-      else wizardNext.disabled = false;
-    }
-
-    wizardNext.addEventListener('click', function() {
-      if (passoAtual < totalPassos - 1) { passoAtual++; atualizarWizard(); }
-      else {
-        estado.aluno.nome = document.getElementById('w-nome').value.trim();
-        let alt = parseFloat(document.getElementById('w-altura').value);
-        if (alt < 3) alt = alt * 100;
-        estado.aluno.altura = alt;
-        estado.aluno.peso = document.getElementById('w-peso').value;
-        estado.aluno.objetivo = objetivoSelecionado;
-        estado.aluno.meta = document.getElementById('w-meta').value.trim();
-        estado.configurado = true;
-        salvarEstado();
-        atualizarNomeTopo();
-        atualizarAguaUI();
-        renderizarDesempenho();
-        wizardOverlay.style.display = 'none';
-        mostrarToast('Perfil configurado!');
-        renderizarPerfilEdit();
+    document.getElementById('btn-calcular-imc')?.addEventListener('click', () => {
+      const p = parseFloat(document.getElementById('imc-peso').value);
+      const a = parseFloat(document.getElementById('imc-altura').value) / 100;
+      if(p && a) {
+        const imc = (p / (a*a)).toFixed(1);
+        document.getElementById('imc-resultado').style.display = 'block';
+        document.getElementById('imc-valor').textContent = imc;
       }
     });
 
-    wizardBack.addEventListener('click', function() {
-      if (passoAtual > 0) { passoAtual--; atualizarWizard(); }
-    });
+    document.getElementById('bonus-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('x5-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
 
-    document.getElementById('w-nome').addEventListener('input', atualizarWizard);
-    document.getElementById('w-altura').addEventListener('input', atualizarWizard);
-    document.getElementById('w-peso').addEventListener('input', atualizarWizard);
-    document.getElementById('w-meta').addEventListener('input', atualizarWizard);
-    document.querySelectorAll('.wizard-option').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.wizard-option').forEach(b => b.classList.remove('selected'));
-        this.classList.add('selected');
-        objetivoSelecionado = this.dataset.value;
-        atualizarWizard();
-      });
-    });
+    document.querySelectorAll('.bottom-item').forEach(i => i.addEventListener('click', () => {
+      document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
+      i.classList.add('active');
+      const t = i.dataset.target;
+      if(t) abrirTela(t);
+    }));
 
-    // ==================== VERIFICAÇÃO DE VENCIMENTO ====================
-    function verificarVencimento() {
-      const venc = estado.pagamento.dataVencimento;
-      if (venc && estado.pagamento.liberado) {
-        const hoje = new Date();
-        hoje.setHours(0,0,0,0);
-        const dataVenc = new Date(venc);
-        dataVenc.setHours(0,0,0,0);
-        if (hoje > dataVenc) {
-          estado.pagamento.liberado = false;
-          salvarEstado();
-          document.getElementById('app-blocker').style.display = 'flex';
-          document.getElementById('app-content').style.display = 'none';
-          mostrarToast('🔒 Assinatura vencida! Renove para continuar.');
-        }
-      }
-    }
-
-    // ==================== INICIALIZAÇÃO ====================
     function init() {
       popularSeletoresConfiguracao();
-      verificarVencimento();
-      
-      if (!estado.pagamento.liberado) {
+      if(!estado.pagamento.liberado) {
         document.getElementById('app-blocker').style.display = 'flex';
         document.getElementById('app-content').style.display = 'none';
       } else {
         document.getElementById('app-blocker').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
-        if (!estado.configurado) {
-          wizardOverlay.style.display = 'flex';
-          atualizarWizard();
-        }
       }
-
-      atualizarNomeTopo();
+      gerarPix();
+      renderizarCalendario();
       atualizarAguaUI();
-      renderizarCategorias();
-      renderizarListaExercicios();
-      renderizarTreinosVertical();
-      renderizarListaReceitas();
-      carregarNotas();
-      carregarPagamentos();
-      renderizarIMC();
-      renderizarDesempenho();
-      atualizarStatusPagamento();
-
-      document.getElementById('senha-liberacao').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') verificarSenha();
-      });
-      document.getElementById('senha-cliente').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') liberarApp();
-      });
-
-      setInterval(verificarVencimento, 300000);
     }
-
     init();
   </script>
 </body>
