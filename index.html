@@ -570,7 +570,7 @@
     <iframe id="pdf-viewer-frame" class="pdf-viewer-frame" src=""></iframe>
   </div>
 
-  <!-- MODAL DE NOTIFICAÇÕES (SINO - EXCLUSIVO HIDRATAÇÃO PROFISSIONAL) -->
+  <!-- MODAL DE NOTIFICAÇÕES (SINO - HIDRATAÇÃO) -->
   <div class="modal-overlay" id="modal-notificacoes">
     <div class="modal-card" style="max-height:90vh;overflow-y:auto;padding:18px;">
       <div class="modal-header" style="margin-bottom:12px;">
@@ -578,7 +578,6 @@
         <button class="modal-close" onclick="fecharNotificacoes()">✕</button>
       </div>
 
-      <!-- BONECO ANATÔMICO VETORIAL EM PÉ -->
       <div class="water-card-pro">
         <div class="water-status-badge normal" id="water-status-badge">Pronto para Hidratar</div>
         
@@ -629,7 +628,6 @@
     <div class="drawer-nav-item" onclick="navegarDrawer('view-dietas')">🥗 Receitas Saudáveis</div>
     <div class="drawer-nav-item" onclick="navegarDrawer('view-bonus')">📚 Bônus em PDF</div>
     <div class="drawer-nav-item" onclick="navegarDrawer('view-pagamentos')">💳 Assinatura & Pix</div>
-    <div style="margin-top:auto; font-size:11px; color:var(--muted); text-align:center;">Smart Physical v3.5<br>Controle Total</div>
   </div>
 
   <!-- MODAL: TREINO RÁPIDO -->
@@ -639,21 +637,9 @@
         <h3>⚡ Exercício Rápido</h3>
         <button class="modal-close" onclick="fecharModalTreinoRapido()">✕</button>
       </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:14px; line-height:1.5;">
-        Selecione o nível do aluno para montar e distribuir os exercícios automaticamente:
-      </p>
-      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('iniciante')">
-        <b>🟢 Novato (Iniciante)</b>
-        <span>Divisão ABC (Peito/Tríceps, Costas/Bíceps, Pernas)</span>
-      </button>
-      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('intermediario')">
-        <b>🟡 Intermediário</b>
-        <span>Divisão ABCD para ganho de massa muscular</span>
-      </button>
-      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('profissional')">
-        <b>🔴 Profissional (Avançado)</b>
-        <span>Divisão ABCDE de alta intensidade</span>
-      </button>
+      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('iniciante')"><b>🟢 Novato (Iniciante)</b><span>Divisão ABC</span></button>
+      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('intermediario')"><b>🟡 Intermediário</b><span>Divisão ABCD</span></button>
+      <button class="modal-opt-btn" onclick="aplicarTreinoAutomatico('profissional')"><b>🔴 Profissional</b><span>Divisão ABCDE</span></button>
     </div>
   </div>
 
@@ -662,15 +648,8 @@
     <div style="max-width:380px;width:100%;text-align:center;">
       <div style="font-size:48px;margin-bottom:16px;">🔒</div>
       <h2 style="font-size:22px;font-weight:800;color:var(--gold);margin-bottom:8px;">App Bloqueado</h2>
-      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Faça o pagamento ou insira a senha de liberação.</p>
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;">
-        <p style="color:var(--text);font-weight:700;margin-bottom:4px;">💳 Pix: <span style="color:var(--gold);">5521981378219</span></p>
-        <p style="font-size:12px;color:var(--muted);">Envie o comprovante e receba a senha</p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-        <input type="text" id="senha-liberacao" placeholder="Digite a senha" style="background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:12px 16px;color:var(--text);font-size:16px;flex:1;min-width:150px;outline:none;">
-        <button onclick="verificarSenha()" style="background:var(--gold);color:#080c14;border:none;border-radius:10px;padding:12px 24px;font-weight:800;font-size:14px;cursor:pointer;">Liberar</button>
-      </div>
+      <input type="text" id="senha-liberacao" placeholder="Digite a senha" style="background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:12px 16px;color:var(--text);font-size:16px;width:100%;margin-bottom:12px;outline:none;">
+      <button onclick="verificarSenha()" style="background:var(--gold);color:#080c14;border:none;border-radius:10px;padding:12px 24px;font-weight:800;font-size:14px;cursor:pointer;width:100%;">Liberar</button>
       <div id="senha-erro" style="color:#ff5252;font-size:13px;margin-top:8px;display:none;">Senha incorreta.</div>
     </div>
   </div>
@@ -685,13 +664,13 @@
     <div class="wizard-overlay" id="wizard-overlay">
       <div class="wizard-top"><button class="wizard-back" id="wizard-back">←</button><div class="wizard-progress"><div class="wizard-progress-fill" id="wizard-progress-fill"></div></div></div>
       <div class="wizard-body">
-        <div class="wizard-step active" data-step="0"><h1 class="wizard-title">Vamos começar</h1><p class="wizard-hint" style="font-size:15px;line-height:1.6;">Precisamos de algumas informações sobre o aluno.</p></div>
+        <div class="wizard-step active" data-step="0"><h1 class="wizard-title">Vamos começar</h1></div>
         <div class="wizard-step" data-step="1"><h1 class="wizard-title">Qual o nome do aluno?</h1><input type="text" id="w-nome" class="wizard-input" placeholder="Nome completo"></div>
-        <div class="wizard-step" data-step="2"><h1 class="wizard-title">Qual a altura?</h1><input type="number" id="w-altura" class="wizard-input" placeholder="Ex: 175" inputmode="numeric"><p class="wizard-hint">Em centímetros</p></div>
-        <div class="wizard-step" data-step="3"><h1 class="wizard-title">Qual o peso atual?</h1><input type="number" id="w-peso" class="wizard-input" placeholder="Ex: 78" inputmode="numeric"><p class="wizard-hint">Em quilos</p></div>
-        <div class="wizard-step" data-step="4"><h1 class="wizard-title">Qual o objetivo?</h1><div class="wizard-options" id="w-objetivo-opcoes"><button class="wizard-option" data-value="Hipertrofia"><b>Hipertrofia</b><span>Ganhar massa muscular</span></button><button class="wizard-option" data-value="Emagrecimento"><b>Emagrecimento</b><span>Perder gordura</span></button><button class="wizard-option" data-value="Condicionamento"><b>Condicionamento</b><span>Resistência</span></button><button class="wizard-option" data-value="Definição"><b>Definição</b><span>Músculos definidos</span></button></div></div>
-        <div class="wizard-step" data-step="5"><h1 class="wizard-title">Qual a meta?</h1><input type="text" id="w-meta" class="wizard-input" placeholder="Ex: -5kg até dezembro"></div>
-        <div class="wizard-step" data-step="6"><h1 class="wizard-title">Concluído!</h1><p class="wizard-hint" style="font-size:15px;line-height:1.6;">Agora você pode montar o treino do aluno.</p></div>
+        <div class="wizard-step" data-step="2"><h1 class="wizard-title">Qual a altura?</h1><input type="number" id="w-altura" class="wizard-input" placeholder="Ex: 175"></div>
+        <div class="wizard-step" data-step="3"><h1 class="wizard-title">Qual o peso atual?</h1><input type="number" id="w-peso" class="wizard-input" placeholder="Ex: 78"></div>
+        <div class="wizard-step" data-step="4"><h1 class="wizard-title">Qual o objetivo?</h1><div class="wizard-options"><button class="wizard-option" data-value="Hipertrofia"><b>Hipertrofia</b></button><button class="wizard-option" data-value="Emagrecimento"><b>Emagrecimento</b></button></div></div>
+        <div class="wizard-step" data-step="5"><h1 class="wizard-title">Qual a meta?</h1><input type="text" id="w-meta" class="wizard-input" placeholder="Ex: -5kg"></div>
+        <div class="wizard-step" data-step="6"><h1 class="wizard-title">Pronto!</h1></div>
       </div>
       <div class="wizard-bottom"><button class="wizard-next" id="wizard-next">Próximo</button></div>
     </div>
@@ -699,28 +678,24 @@
     <!-- DASHBOARD -->
     <div class="pane active" id="view-dashboard">
       <div class="topbar">
-        <button class="topbar-icon-btn" id="btn-menu-hamburger" onclick="abrirDrawer()"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <button class="topbar-icon-btn" onclick="abrirDrawer()"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
         <div class="topbar-title">Smart Physical</div>
-        <button class="topbar-icon-btn bell" id="btn-menu-bell" onclick="abrirNotificacoes()"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot"></span></button>
+        <button class="topbar-icon-btn bell" onclick="abrirNotificacoes()"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot"></span></button>
       </div>
       <div class="vip-banner" id="dash-banner-btn">
         <div class="vip-icon-ring"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="4" y="27" width="8" height="10" rx="2"/><rect x="52" y="27" width="8" height="10" rx="2"/><rect x="14" y="20" width="6" height="24" rx="2"/><rect x="44" y="20" width="6" height="24" rx="2"/><rect x="20" y="29" width="24" height="6" rx="3"/></svg></div>
         <div class="vip-info">
           <div class="vip-label">VIP</div>
-          <div class="vip-sub">Membro Premium</div>
-          <div class="vip-aluno-label">Aluno</div>
           <div class="vip-nome" id="dash-nome">Nome do Aluno</div>
           <div class="vip-plano-badge">Plano Black ★</div>
         </div>
       </div>
 
-      <!-- TREINO DE HOJE -->
-      <div id="treino-hoje-card" onclick="abrirTreinoHoje()" style="display:none; margin:0 20px 16px; padding:14px 16px; background:linear-gradient(135deg,#1c150b 0%,#111824 100%); border:2px solid var(--gold); border-radius:var(--radius); cursor:pointer; box-shadow:0 4px 18px var(--gold-glow);">
+      <div id="treino-hoje-card" onclick="abrirTreinoHoje()" style="display:none; margin:0 20px 16px; padding:14px 16px; background:linear-gradient(135deg,#1c150b 0%,#111824 100%); border:2px solid var(--gold); border-radius:var(--radius); cursor:pointer;">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
-            <div style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">⭐ Treino de Hoje</div>
+            <div style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;">⭐ Treino de Hoje</div>
             <div id="treino-hoje-titulo" style="font-size:16px;font-weight:800;color:#fff;">—</div>
-            <div id="treino-hoje-qtd" style="font-size:12px;color:var(--muted);margin-top:2px;">0 exercícios</div>
           </div>
           <div style="background:var(--gold);color:#080c14;font-weight:800;font-size:12px;padding:8px 14px;border-radius:20px;">Iniciar ›</div>
         </div>
@@ -730,41 +705,39 @@
         <div class="btn-dash" id="btn-menu-treinos">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="4" y="27" width="8" height="10" rx="2"/><rect x="52" y="27" width="8" height="10" rx="2"/><rect x="14" y="20" width="6" height="24" rx="2"/><rect x="44" y="20" width="6" height="24" rx="2"/><rect x="20" y="29" width="24" height="6" rx="3"/></svg></div>
-          <div class="card-body"><div class="label">Treinos</div><div class="card-sub">Veja seus treinos</div></div>
+          <div class="card-body"><div class="label">Treinos</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-exercicios">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/><rect x="6" y="40" width="16" height="6" rx="3"/></svg></div>
-          <div class="card-body"><div class="label">Exercícios</div><div class="card-sub">Catálogo de exercícios</div></div>
+          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/></svg></div>
+          <div class="card-body"><div class="label">Exercícios</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-x5">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>
-          <div class="card-body"><div class="label">X5</div><div class="card-sub">Execução de Séries</div></div>
+          <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);letter-spacing:-1px;">X5</div></div>
+          <div class="card-body"><div class="label">X5</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-imc">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="10" y="6" width="44" height="52" rx="6"/><g fill="#0a0e17"><rect x="17" y="16" width="30" height="6" rx="2"/><circle cx="21" cy="32" r="3.2"/><circle cx="32" cy="32" r="3.2"/><circle cx="43" cy="32" r="3.2"/><circle cx="21" cy="43" r="3.2"/><circle cx="32" cy="43" r="3.2"/></g></svg></div>
-          <div class="card-body"><div class="label">Cálculo de IMC</div><div class="card-sub">Índice de Massa Corporal</div></div>
+          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="10" y="6" width="44" height="52" rx="6"/></svg></div>
+          <div class="card-body"><div class="label">IMC</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-dietas">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><path d="M32 10c-3-6-11-8-17-4 1 6 5 11 11 13-6 3-10 10-10 18 0 12 9 21 16 21s16-9 16-21c0-8-4-15-10-18 6-2 10-7 11-13-6-4-14-2-17 4Z"/></svg></div>
-          <div class="card-body"><div class="label">Nutrição</div><div class="card-sub">Plano alimentar</div></div>
+          <div class="card-body"><div class="label">Nutrição</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-bonus">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="8" y="24" width="48" height="12" rx="2"/><rect x="12" y="36" width="40" height="22" rx="2"/><rect x="29" y="24" width="6" height="34"/><path d="M32 24c-4-10-20-10-16-1 2 5 10 4 16 1Z"/><path d="M32 24c4-10 20-10 16-1-2 5-10 4-16 1Z"/></svg></div>
-          <div class="card-body"><div class="label">Bônus</div><div class="card-sub">Conteúdos exclusivos</div></div>
+          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="8" y="24" width="48" height="12" rx="2"/><rect x="12" y="36" width="40" height="22" rx="2"/></svg></div>
+          <div class="card-body"><div class="label">Bônus</div></div>
         </div>
       </div>
     </div>
 
-    <!-- TELAS INTERNAS: TREINOS & AGENDA -->
+    <!-- TREINOS -->
     <div class="pane" id="view-treinos">
       <div class="internal-header"><button class="back-btn" id="treinos-back">← Voltar</button><span class="internal-title">Histórico e Treinos</span></div>
-      
-      <!-- CALENDÁRIO INTERATIVO -->
       <div class="agenda-section">
         <div class="cal-container">
           <div class="cal-header">
@@ -772,13 +745,8 @@
             <h3 id="cal-mes-ano">Mês Ano</h3>
             <button class="cal-nav-btn" onclick="mudarMes(1)">›</button>
           </div>
-          <p style="font-size:11px;color:var(--muted);margin:0 0 10px;line-height:1.4;text-align:center;">Dias treinados ficam dourados. Toque para ver ou segure para desmarcar.</p>
           <div class="cal-days-grid" id="cal-grid"></div>
         </div>
-      </div>
-
-      <div style="padding: 0 16px 4px 16px; font-size:12px; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:1px;">
-        Rotina semanal do aluno
       </div>
       <div class="dias-vertical" id="container-dias-vertical"></div>
     </div>
@@ -786,12 +754,9 @@
     <div class="pane" id="view-treino-dia"><div class="internal-header"><button class="back-btn" id="btn-voltar-treinos">← Voltar</button><span class="internal-title" id="dia-titulo-topo">Treino</span></div><div class="ex-list-container" id="container-exercicios-dia"></div></div>
 
     <div class="pane" id="view-categorias">
-      <div class="internal-header"><button class="back-btn" id="cat-back">← Voltar</button><span class="internal-title" style="color:var(--gold);">Tipos de Exercícios</span></div>
+      <div class="internal-header"><button class="back-btn" id="cat-back">← Voltar</button><span class="internal-title">Exercícios</span></div>
       <div class="btn-exercicio-rapido" id="btn-abrir-treino-rapido">
-        <div class="er-info">
-          <div class="er-title">⚡ Exercício Rápido</div>
-          <div class="er-desc">Monte o treino da semana automaticamente por nível</div>
-        </div>
+        <div class="er-info"><div class="er-title">⚡ Exercício Rápido</div><div class="er-desc">Montar automático</div></div>
         <div class="er-badge">Escolher ›</div>
       </div>
       <div class="cat-grid" id="cat-grid-container"></div>
@@ -799,195 +764,111 @@
 
     <div class="pane" id="view-lista-exercicios">
       <div class="internal-header"><button class="back-btn" id="btn-voltar-categorias">← Voltar</button><span class="internal-title" id="cat-titulo-topo">Exercícios</span></div>
-      <div style="padding:12px 16px 0;">
-        <input type="search" id="busca-exercicios" placeholder="🔍 Buscar exercício..." style="width:100%;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none;" oninput="filtrarExercicios()">
-      </div>
       <div class="ex-list-container" id="container-lista-exercicios"></div>
     </div>
     
     <div class="pane" id="view-detalhe-exercicio">
       <div class="view-detalhe-container">
-        <div class="detalhe-top-nav"><button class="btn-voltar-texto" id="btn-voltar-para-lista"><span class="circle-icon"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span><span>Voltar</span></button><button class="btn-fav" id="btn-fav">☆</button></div>
+        <div class="detalhe-top-nav"><button class="btn-voltar-texto" id="btn-voltar-para-lista"><span class="circle-icon"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span><span>Voltar</span></button></div>
         <h1 class="detalhe-title" id="d-title">Exercício</h1>
-        <p class="detalhe-sub" id="d-app-sub">Aparelho</p>
-        <div class="tags-row-custom"><span class="tag-custom dark" id="d-tag-grupo">GRUPO</span><span class="tag-custom gold" id="d-tag-popular">POPULAR</span></div>
-        <div class="gif-box-card">
-          <span class="gif-label">DEMONSTRAÇÃO</span>
-          <img id="d-gif-img" src="" alt="Demonstração" onerror="this.style.display='none'; document.getElementById('d-gif-fallback-icon').style.display='block';">
-          <svg id="d-gif-fallback-icon" class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6.5 6.5l11 11M4 4l3 3M20 20l-3-3M2 9l3 3-3 3M22 15l-3-3 3-3M9 2l3 3-3 3M15 22l-3-3 3-3"/></svg>
-        </div>
-        <div class="sec-label">ALVO</div>
-        <div class="info-card-box"><div class="info-card-icon" style="background:#1a120c;border-color:rgba(212,161,75,0.3);"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:var(--gold);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div><div class="info-card-text"><h4>Músculo Principal</h4><p id="d-primary-muscle">--</p></div></div>
-        <div class="sec-label">INSTRUÇÕES</div><p class="text-instructions" id="d-instructions-text">--</p>
-        <div class="sec-label">EQUIPAMENTO</div>
-        <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">--</p></div></div>
-        
-        <div class="sec-label" style="margin-top:24px;">CONFIGURAÇÃO</div>
+        <div class="gif-box-card"><img id="d-gif-img" src="" alt="Demil"></div>
         <div class="metric-row-edit">
-          <div class="metric-edit-item">
-            <label>Séries</label>
-            <select id="edit-series" class="metric-select-wheel"></select>
-          </div>
-          <div class="metric-edit-item">
-            <label>Repetições</label>
-            <select id="edit-reps" class="metric-select-wheel"></select>
-          </div>
-          <div class="metric-edit-item">
-            <label>Peso (kg)</label>
-            <select id="edit-peso" class="metric-select-wheel"></select>
-          </div>
-          <div class="metric-edit-item">
-            <label>Descanso</label>
-            <select id="edit-descanso" class="metric-select-wheel"></select>
-          </div>
+          <div class="metric-edit-item"><label>Séries</label><select id="edit-series" class="metric-select-wheel"></select></div>
+          <div class="metric-edit-item"><label>Repetições</label><select id="edit-reps" class="metric-select-wheel"></select></div>
+          <div class="metric-edit-item"><label>Peso</label><select id="edit-peso" class="metric-select-wheel"></select></div>
+          <div class="metric-edit-item"><label>Descanso</label><select id="edit-descanso" class="metric-select-wheel"></select></div>
         </div>
-
-        <button class="btn-confirmar" style="background:#1f3144;color:var(--gold);margin-top:12px;" onclick="iniciarTimerManual()">⏱️ Iniciar Descanso Agora (Opcional)</button>
-
-        <div class="sec-label" style="margin-top:20px;">DIA DA SEMANA</div>
-        <div class="day-selector" id="day-selector">
-          <button class="day-btn" data-day="0">Dom</button>
-          <button class="day-btn" data-day="1">Seg</button>
-          <button class="day-btn" data-day="2">Ter</button>
-          <button class="day-btn" data-day="3">Qua</button>
-          <button class="day-btn" data-day="4">Qui</button>
-          <button class="day-btn" data-day="5">Sex</button>
-          <button class="day-btn" data-day="6">Sáb</button>
-        </div>
-        <div id="data-semana-hint" style="font-size:12px;color:var(--gold);font-weight:700;margin:0 0 10px;text-align:center;"></div>
-        <button class="btn-confirmar" id="btn-toggle-treino">Adicionar ao Treino</button>
-        <button class="btn-voltar-abaixo" id="btn-voltar-abaixo-detalhe">← Voltar</button>
+        <button class="btn-confirmar" id="btn-toggle-treino" style="margin-top:16px;">Adicionar ao Treino</button>
       </div>
     </div>
 
-    <!-- FICHA / PERFIL -->
     <div class="pane" id="view-perfil">
-      <div class="internal-header"><button class="back-btn" id="perfil-back">← Voltar</button><span class="internal-title">Ficha do Aluno</span></div>
+      <div class="internal-header"><button class="back-btn" id="perfil-back">← Voltar</button><span class="internal-title">Perfil</span></div>
       <div class="perfil-edit" id="perfil-edit-container"></div>
-      <div style="padding:0 20px 20px 20px;">
-        <button class="btn-whatsapp" onclick="exportarFichaWhatsApp()">📲 Enviar Ficha no WhatsApp</button>
-      </div>
     </div>
 
-    <!-- CÁLCULO DE IMC -->
     <div class="pane" id="view-imc">
-      <div class="internal-header"><button class="back-btn" id="imc-back">← Voltar</button><span class="internal-title">Cálculo de IMC</span></div>
+      <div class="internal-header"><button class="back-btn" id="imc-back">← Voltar</button><span class="internal-title">IMC</span></div>
       <div class="imc-area">
-        <div class="campo"><label>⚖️ Peso (kg)</label><input type="number" id="imc-peso" placeholder="Ex: 78" step="0.1"></div>
-        <div class="campo"><label>📏 Altura (cm)</label><input type="number" id="imc-altura" placeholder="Ex: 175"></div>
-        <button class="btn-salvar-perfil" id="btn-calcular-imc">Calcular IMC</button>
-        <div class="imc-resultado-card" id="imc-resultado">
-          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Seu IMC</div>
-          <div class="imc-valor" id="imc-valor">--</div>
-          <div class="imc-classificacao" id="imc-classificacao">--</div>
-          <div class="imc-detalhe" id="imc-detalhe"></div>
-        </div>
-        <div class="imc-historico" id="imc-historico"><h4>📊 Histórico de IMC</h4><div id="imc-lista"></div></div>
+        <div class="campo"><label>Peso (kg)</label><input type="number" id="imc-peso" placeholder="78"></div>
+        <div class="campo"><label>Altura (cm)</label><input type="number" id="imc-altura" placeholder="175"></div>
+        <button class="btn-salvar-perfil" id="btn-calcular-imc">Calcular</button>
+        <div class="imc-resultado-card" id="imc-resultado"><div class="imc-valor" id="imc-valor">--</div></div>
       </div>
     </div>
 
-    <!-- X5 - EXECUÇÃO DE SÉRIES (TODOS OS VÍDEOS X5 DISPONÍVEIS) -->
+    <!-- X5 - VÍDEOS COM TELA CHEIA GARANTIDA -->
     <div class="pane" id="view-x5">
       <div class="internal-header">
         <button class="back-btn" id="x5-back">← Voltar</button>
         <span class="internal-title">X5 - Séries</span>
       </div>
       <div style="padding:16px 16px 30px;">
-        <div style="background:linear-gradient(135deg,#1c150b 0%,#111824 100%);border:1px solid var(--gold);border-radius:var(--radius);padding:14px;margin-bottom:12px;">
-          <h3 style="color:var(--gold);font-size:15px;margin-bottom:4px;font-weight:800;">⚡ Método X5 de Alta Intensidade</h3>
-          <p style="font-size:11px;color:var(--muted);line-height:1.4;margin:0;">
-            Assista aos vídeos demonstrativos para garantir cadência e postura perfeitas. Toque em Tela Cheia para ampliar sem download.
-          </p>
-        </div>
-
-        <!-- QUADRINHOS DE VÍDEO -->
         <div class="x5-video-grid" id="x5-videos-grid">
           
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 2</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-2" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-2" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_2.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-2')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 3</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-3" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-3" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_3.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-3')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 4</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-4" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-4" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_4.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-4')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 5</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-5" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_5.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-5" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_5.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-5')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 6</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-6" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_6.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-6" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_6.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-6')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 7</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-7" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_7.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-7" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_7.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-7')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 8</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-8" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_8.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-8" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_8.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-8')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 9</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-9" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_9.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-9" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_9.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-9')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 10</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-10" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_10.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-10" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_10.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-10')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 11</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-11" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_11.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-11" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_11.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-11')">⛶ Tela Cheia</button>
           </div>
 
           <div class="x5-card">
             <div class="x5-card-header"><span style="color:var(--gold);">▶</span> Execução X5 - Vídeo 12</div>
-            <div class="x5-video-box">
-              <video id="vid-x5-12" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_12.mp4"></video>
-            </div>
+            <div class="x5-video-box"><video id="vid-x5-12" controls playsinline preload="metadata" src="https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/x5_12.mp4"></video></div>
             <button class="btn-x5-card" onclick="expandirVideoTelaCheia('vid-x5-12')">⛶ Tela Cheia</button>
           </div>
 
@@ -995,116 +876,45 @@
       </div>
     </div>
 
-    <!-- DESEMPENHO -->
-    <div class="pane" id="view-desempenho">
-      <div class="internal-header"><button class="back-btn" id="desempenho-back">← Voltar</button><span class="internal-title">Desempenho & Evolução</span></div>
-      <div class="desempenho-area">
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-valor" id="stat-peso">--</div><div class="stat-label">Peso Atual (kg)</div></div>
-          <div class="stat-card"><div class="stat-valor" id="stat-carga">--</div><div class="stat-label">Carga Média (kg)</div></div>
-          <div class="stat-card"><div class="stat-valor" id="stat-imc">--</div><div class="stat-label">IMC Atual</div></div>
-          <div class="stat-card"><div class="stat-valor" id="stat-dias">--</div><div class="stat-label">Dias Treinados</div></div>
-        </div>
-
-        <div class="graficos-container">
-          <div class="grafico-card">
-            <div class="grafico-titulo">📈 Evolução do Peso</div>
-            <canvas id="grafico-peso"></canvas>
-          </div>
-          <div class="grafico-card">
-            <div class="grafico-titulo">🧮 Evolução do IMC</div>
-            <canvas id="grafico-imc-idade"></canvas>
-          </div>
-          <div class="grafico-card">
-            <div class="grafico-titulo">🏋️ Evolução de Carga (kg)</div>
-            <canvas id="grafico-carga"></canvas>
-          </div>
-          <div class="grafico-card">
-            <div class="grafico-titulo">📅 Dias na Academia</div>
-            <canvas id="grafico-treinos"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NUTRIÇÃO / DIETAS -->
+    <div class="pane" id="view-desempenho"><div class="internal-header"><button class="back-btn" id="desempenho-back">← Voltar</button><span class="internal-title">Desempenho</span></div></div>
+    
     <div class="pane" id="view-dietas">
-      <div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">Nutrição & Receitas</span></div>
+      <div class="internal-header"><button class="back-btn" id="dietas-back">← Voltar</button><span class="internal-title">Nutrição</span></div>
       <div class="receitas-grid" id="container-lista-receitas"></div>
     </div>
 
     <div class="pane" id="view-detalhe-receita">
       <div class="internal-header"><button class="back-btn" id="btn-voltar-dietas">← Voltar</button><span class="internal-title" id="receita-titulo">Receita</span></div>
-      <div class="receita-detalhe" style="padding:0 16px 20px 16px;">
-        <img id="receita-imagem" class="receita-imagem" src="" alt="Receita" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80';">
-        <div class="ingredientes">
-          <strong>Ingredientes <button class="btn-copiar" id="btn-copiar-ingredientes">Copiar</button></strong>
-          <div id="receita-ingredientes-texto" style="margin-top:6px;white-space:pre-line;"></div>
-        </div>
-        <div class="instrucoes">
-          <strong>Modo de Preparo <button class="btn-copiar" id="btn-copiar-instrucoes">Copiar</button></strong>
-          <div id="receita-instrucoes-texto" style="margin-top:6px;white-space:pre-line;"></div>
-        </div>
+      <div style="padding:16px;">
+        <img id="receita-imagem" class="receita-imagem" src="">
+        <div class="ingredientes"><strong>Ingredientes</strong><div id="receita-ingredientes-texto"></div></div>
+        <div class="instrucoes"><strong>Preparo</strong><div id="receita-instrucoes-texto"></div></div>
       </div>
     </div>
 
-    <div class="pane" id="view-notas"><div class="internal-header"><button class="back-btn" id="notas-back">← Voltar</button><span class="internal-title">Bloco de Notas</span></div><div class="notas-area"><textarea id="notas-texto" placeholder="Escreva suas anotações aqui..."></textarea><button class="btn-salvar-notas" id="btn-salvar-notas">Salvar Notas</button></div></div>
+    <div class="pane" id="view-notas">
+      <div class="internal-header"><button class="back-btn" id="notas-back">← Voltar</button><span class="internal-title">Notas</span></div>
+      <div class="notas-area"><textarea id="notas-texto"></textarea><button class="btn-salvar-notas" id="btn-salvar-notas">Salvar</button></div>
+    </div>
 
     <div class="pane" id="view-pagamentos">
       <div class="internal-header"><button class="back-btn" id="pagamentos-back">← Voltar</button><span class="internal-title">Pagamentos</span></div>
       <div class="pagamento-area">
-        <div id="pag-status" class="status-bloqueado">🔒 App Bloqueado - Faça o pagamento</div>
-        <div class="pix-qr-area">
-          <div style="font-size:14px; color:var(--muted); margin-bottom:4px;">💳 Assinatura Mensal</div>
-          <div class="pix-valor">R$ 29,90 / mês</div>
-          <div id="qrcode" style="display:inline-block;"></div>
-          <div class="pix-code-box" id="pix-code-text">Carregando...</div>
-          <button class="btn-copiar-pix" id="btn-copiar-pix">📋 Copiar Código Pix</button>
-        </div>
-        <div class="info-pix"><strong>💳 Chave Pix:</strong><div class="chave-pix">5521981378219</div></div>
-        <div class="campo"><label>Data da Compra</label><input type="date" id="data-compra"></div>
-        <div class="campo"><label>Data de Vencimento</label><input type="date" id="data-vencimento"></div>
-        <div class="campo"><label>Senha de Liberação</label>
-          <div class="senha-input"><input type="text" id="senha-cliente" placeholder="Digite a senha"><button class="btn-liberar" onclick="liberarApp()">Liberar</button></div>
-        </div>
-        <button class="btn-salvar-pagamento" id="btn-salvar-pagamento">Salvar Dados</button>
-        <button class="btn-confirmar" id="btn-confirmar-pagamento" style="margin-top:10px; background:#4caf50; color:#fff;">✅ Já paguei! Liberar App</button>
+        <div id="pag-status" class="status-bloqueado">🔒 Bloqueado</div>
+        <div class="pix-qr-area"><div id="qrcode"></div><div class="pix-code-box" id="pix-code-text"></div><button class="btn-copiar-pix" id="btn-copiar-pix">Copiar Pix</button></div>
+        <input type="text" id="senha-cliente" placeholder="Senha"><button class="btn-liberar" onclick="liberarApp()">Liberar</button>
       </div>
     </div>
 
-    <!-- BÔNUS EM PDF -->
     <div class="pane" id="view-bonus">
-      <div class="internal-header">
-        <button class="back-btn" id="bonus-back">← Voltar</button>
-        <span class="internal-title">📚 Bônus - PDFs</span>
-      </div>
-      <div class="bonus-grid" id="bonus-grid-container">
+      <div class="internal-header"><button class="back-btn" id="bonus-back">← Voltar</button><span class="internal-title">Bônus - PDFs</span></div>
+      <div class="bonus-grid">
         <div class="bonus-card" onclick="abrirPDFViewer('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/Treinos-em-Casa(1).pdf', 'Treinos em Casa')">
-          <div class="bonus-icon">🏠</div>
-          <div class="bonus-titulo">Treinos em Casa</div>
-          <div class="bonus-desc">Treinos com halteres</div>
-        </div>
-        <div class="bonus-card" onclick="abrirPDFViewer('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/Funcional.pdf', 'Funcional')">
-          <div class="bonus-icon">🏃</div>
-          <div class="bonus-titulo">Funcional</div>
-          <div class="bonus-desc">Condicionamento físico</div>
-        </div>
-        <div class="bonus-card" onclick="abrirPDFViewer('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/Personalizadas_1.pdf', 'Planilhas Personalizadas')">
-          <div class="bonus-icon">📊</div>
-          <div class="bonus-titulo">Planilhas Personalizadas</div>
-          <div class="bonus-desc">Acompanhamento e evolução</div>
-        </div>
-        <div class="bonus-card" onclick="abrirPDFViewer('https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/Treinos.pdf', 'Treinos Completos')">
-          <div class="bonus-icon">📄</div>
-          <div class="bonus-titulo">Treinos</div>
-          <div class="bonus-desc">Guias e rotinas</div>
+          <div class="bonus-icon">🏠</div><div class="bonus-titulo">Treinos em Casa</div>
         </div>
       </div>
     </div>
 
-    <div class="pane" id="view-interna"><div class="internal-header"><button class="back-btn" id="interna-back">← Voltar</button><span class="internal-title" id="tituloInterno">Opção</span></div><div class="internal-content" id="conteudoInterno">Conteúdo em breve.</div></div>
-
-    <!-- MENU INFERIOR -->
     <nav class="bottom-nav">
       <button class="bottom-item active" data-target="view-dashboard"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg><span>Início</span></button>
       <button class="bottom-item" data-target="view-desempenho"><svg viewBox="0 0 24 24"><path d="M4 20V10M9 20V4M14 20v-8M19 20V8"/></svg><span>Desempenho</span></button>
@@ -1116,66 +926,28 @@
 
   <script>
     function popularSeletoresConfiguracao() {
-      const selectSeries = document.getElementById('edit-series');
-      const selectReps = document.getElementById('edit-reps');
-      const selectPeso = document.getElementById('edit-peso');
-      const selectDescanso = document.getElementById('edit-descanso');
-      if (!selectSeries || selectSeries.children.length > 0) return;
-      for (let s = 1; s <= 12; s++) selectSeries.add(new Option(`${s} séries`, s));
-      for (let r = 1; r <= 60; r++) selectReps.add(new Option(`${r} reps`, r));
-      for (let p = 0; p <= 300; p += 0.5) selectPeso.add(new Option(`${p % 1 === 0 ? p : p.toFixed(1)} kg`, p));
-      for (let d = 10; d <= 300; d += 5) selectDescanso.add(new Option(`${d}s descanso`, d));
+      const s = document.getElementById('edit-series'), r = document.getElementById('edit-reps'), p = document.getElementById('edit-peso'), d = document.getElementById('edit-descanso');
+      if (!s || s.children.length > 0) return;
+      for (let i = 1; i <= 12; i++) s.add(new Option(`${i} séries`, i));
+      for (let i = 1; i <= 60; i++) r.add(new Option(`${i} reps`, i));
+      for (let i = 0; i <= 300; i += 0.5) p.add(new Option(`${i} kg`, i));
+      for (let i = 10; i <= 300; i += 5) d.add(new Option(`${i}s`, i));
     }
 
+    // FUNÇÃO DE TELA CHEIA CORRIGIDA E ROBUSTA
     function expandirVideoTelaCheia(videoId) {
       const vid = document.getElementById(videoId);
       if (!vid) return;
       vid.play();
-      if (vid.requestFullscreen) vid.requestFullscreen();
-      else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
-      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
-      else if (vid.msRequestFullscreen) vid.msRequestFullscreen();
-    }
-
-    let tempoRestante = 60;
-    let timerInterval = null;
-
-    function iniciarTimerManual() {
-      const descansoConfig = parseInt(document.getElementById('edit-descanso')?.value) || 60;
-      iniciarTimer(descansoConfig);
-    }
-
-    function iniciarTimer(segundos) {
-      clearInterval(timerInterval);
-      tempoRestante = segundos;
-      atualizarTimerDisplay();
-      document.getElementById('rest-timer-bar').classList.add('active');
-      timerInterval = setInterval(() => {
-        tempoRestante--;
-        atualizarTimerDisplay();
-        if (tempoRestante <= 0) {
-          clearInterval(timerInterval);
-          if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
-          mostrarToast('⏰ Tempo de descanso encerrado!');
-          pararTimer();
-        }
-      }, 1000);
-    }
-
-    function atualizarTimerDisplay() {
-      const min = Math.floor(tempoRestante / 60).toString().padStart(2, '0');
-      const sec = (tempoRestante % 60).toString().padStart(2, '0');
-      document.getElementById('timer-display').textContent = `${min}:${sec}`;
-    }
-
-    function ajustarTimer(seg) {
-      tempoRestante = Math.max(5, tempoRestante + seg);
-      atualizarTimerDisplay();
-    }
-
-    function pararTimer() {
-      clearInterval(timerInterval);
-      document.getElementById('rest-timer-bar').classList.remove('active');
+      if (vid.requestFullscreen) {
+        vid.requestFullscreen().catch(() => {});
+      } else if (vid.webkitRequestFullscreen) {
+        vid.webkitRequestFullscreen();
+      } else if (vid.webkitEnterFullscreen) {
+        vid.webkitEnterFullscreen();
+      } else if (vid.msRequestFullscreen) {
+        vid.msRequestFullscreen();
+      }
     }
 
     function atualizarAguaUI() {
@@ -1219,13 +991,6 @@
       mostrarToast('Água resetada.');
     }
 
-    function exportarFichaWhatsApp() {
-      const a = estado.aluno;
-      let texto = `📋 *FICHA DE TREINO - SMART PHYSICAL*\n👤 *Aluno:* ${a.nome || 'Não informado'}\n`;
-      const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(texto);
-      window.open(url, '_blank');
-    }
-
     function abrirPDFViewer(url, titulo) {
       document.getElementById('pdf-viewer-title').textContent = titulo;
       document.getElementById('pdf-viewer-frame').src = "https://docs.google.com/gview?embedded=true&url=" + encodeURIComponent(url);
@@ -1236,140 +1001,10 @@
       document.getElementById('pdf-viewer-frame').src = "";
     }
 
-    function abrirNotificacoes() {
-      atualizarAguaUI();
-      document.getElementById('modal-notificacoes').classList.add('active');
-    }
+    function abrirNotificacoes() { atualizarAguaUI(); document.getElementById('modal-notificacoes').classList.add('active'); }
     function fecharNotificacoes() { document.getElementById('modal-notificacoes').classList.remove('active'); }
-
-    function abrirDrawer() {
-      document.getElementById('drawer-overlay').classList.add('active');
-      document.getElementById('drawer-panel').classList.add('active');
-    }
-    function fecharDrawer() {
-      document.getElementById('drawer-overlay').classList.remove('active');
-      document.getElementById('drawer-panel').classList.remove('active');
-    }
-    function navegarDrawer(viewId) {
-      fecharDrawer();
-      if (viewId === 'view-treinos') renderizarTreinosVertical();
-      if (viewId === 'view-categorias') renderizarCategorias();
-      if (viewId === 'view-dietas') renderizarListaReceitas();
-      if (viewId === 'view-pagamentos') carregarPagamentos();
-      abrirTela(viewId);
-    }
-
-    const MAPEAMENTO_GIFS = {
-      "Supino Reto Barra": "supindo reto barra.gif"
-    };
-
-    const NOMES_EXERCICIOS = [
-      "Crucifixo Peitoral Maquina","Supino Sentado Maquina","Supino Reto Barra","Supino Reto Halteres","Crucifixo Reto Halteres",
-      "Supino Inclinado Barra","Supino Inclinado Halteres","Crossover Polia Alta","Crossover Polia Baixa","Flexao Tradicional",
-      "Rosca Direta Barra","Rosca Alternada Halteres","Rosca Martelo","Rosca Concentrada","Rosca Scott",
-      "Rosca Inversa","Rosca Barra W","Rosca na Polia","Rosca Foco no Banco","Rosca 21",
-      "Triceps Polia Alta","Triceps Frances","Triceps na Corda","Triceps no Banco","Triceps Testa Barra",
-      "Triceps Barra W","Triceps Unilateral Polia","Flexao Diamante","Triceps Mergulho Paralelas","Triceps Corda Supinada",
-      "Agachamento Livre","Leg Press","Cadeira Extensora","Mesa Flexora","Afundo Halteres",
-      "Stiff","Cadeira Flexora","Elevacao Pelvica","Cadeira Abdutora","Agachamento Bulgaro",
-      "Abdominal Tradicional","Prancha","Abdominal Infra","Abdominal Obliquo","Bicicleta no Ar",
-      "Abdominal Superior","Prancha Lateral","Elevacao de Pernas na Barra","Abdominal Tesoura","Abdominal Rolinho",
-      "Desenvolvimento Barra","Elevacao Lateral","Elevacao Frontal","Desenvolvimento Halteres","Face Pull",
-      "Elevacao Lateral Polia","Remada Alta","Encolhimento Ombros","Crucifixo Inverso","Arnold Press",
-      "Puxada Frontal","Remada Curvada","Remada Sentado","Barra Fixa","Remada Halter",
-      "Puxada Triangulo","Remada Baixa","Remada Cavalinho","Pulldown Braco Reto","Remada Invertida",
-      "Encolhimento Barra","Encolhimento Halteres","Remada Alta Trapezio","Face Pull Trapezio","Prancha Toque Ombro",
-      "Remada Alta Polia","Encolhimento Polia","Trapezio Sentado Halteres","Remada Alta Halteres","Prancha Toque Ombro Alt",
-      "Elevacao Pelvica Gluteo","Agachamento Profundo","Passada (Afundo)","Ponte de Gluteo no Solo","Abducao de Quadril",
-      "Agachamento Halteres","Coice de Gluteo Polia","Passada Lateral","Ponte Unilateral","Agachamento Sumo",
-      "Panturrilha em Pe","Panturrilha Sentado","Panturrilha Unilateral","Saltos com Corda","Panturrilha Polia",
-      "Panturrilha Halteres","Panturrilha Plataforma","Panturrilha Joelho Flexionado","Treino de Panturrilha com Pulo","Panturrilha Maquina"
-    ];
-    const GRUPOS = [
-      "PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO","PEITO",
-      "BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS","BICEPS",
-      "TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS","TRICEPS",
-      "PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA","PERNA",
-      "ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN","ABDOMEN",
-      "OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO","OMBRO",
-      "COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS","COSTAS",
-      "TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO","TRAPEZIO",
-      "GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO","GLUTEO",
-      "PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA"
-    ];
-    const APARELHOS = new Array(100).fill("Aparelho");
-    const MUSCULOS = new Array(100).fill("Musculo");
-
-    const FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%2314202e' width='100' height='100'/%3E%3C/svg%3E";
-    const GITHUB_BASE = "https://raw.githubusercontent.com/claudio41cg-max/App-academia-/main/";
-
-    function getGifNome(nomeExercicio) {
-      if (MAPEAMENTO_GIFS[nomeExercicio]) return MAPEAMENTO_GIFS[nomeExercicio];
-      return nomeExercicio.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '_').toLowerCase() + ".gif";
-    }
-
-    const DATABASE_EXERCICIOS = [];
-    for (let i = 0; i < 100; i++) {
-      const nome = NOMES_EXERCICIOS[i];
-      const nomeGif = getGifNome(nome);
-      DATABASE_EXERCICIOS.push({
-        id: "e" + (i+1),
-        nome: nome,
-        aparelho: APARELHOS[i],
-        musculo: MUSCULOS[i],
-        grupo: GRUPOS[i],
-        popular: i % 3 === 0,
-        gif: GITHUB_BASE + encodeURIComponent(nomeGif).replace(/%2F/g, '/'),
-        instrucao: "1. Posicione-se corretamente no equipamento.\n2. Mantenha a postura firme e o core contraído.",
-        series: 3, reps: 12, descanso: 60, peso: 0
-      });
-    }
-
-    const RECEITAS_FOTOS = new Array(50).fill("https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80");
-    const NOMES_RECEITAS = new Array(50).fill("Receita Saudável Fit");
-    const RECEITAS = [];
-    for (let i = 0; i < 50; i++) {
-      RECEITAS.push({ id: i+1, nome: `Refeição Fit #${i+1}`, ingredientes: "• Ingredientes frescos e selecionados", instrucoes: "1. Prepare e sirva.", imagem: RECEITAS_FOTOS[i] });
-    }
-
-    const SENHA_MASTER = "smart3535";
-    function verificarSenha() {
-      if (document.getElementById('senha-liberacao').value.trim().toLowerCase() === SENHA_MASTER) {
-        estado.pagamento.liberado = true;
-        salvarEstado();
-        document.getElementById('app-blocker').style.display = 'none';
-        document.getElementById('app-content').style.display = 'block';
-        mostrarToast('Liberado!');
-      } else {
-        document.getElementById('senha-erro').style.display = 'block';
-      }
-    }
-    function liberarApp() {
-      if (document.getElementById('senha-cliente').value.trim().toLowerCase() === SENHA_MASTER) {
-        estado.pagamento.liberado = true;
-        salvarEstado();
-        atualizarStatusPagamento();
-        mostrarToast('Liberado!');
-      } else {
-        mostrarToast('Senha incorreta.');
-      }
-    }
-
-    function gerarPix() {
-      const codeEl = document.getElementById('pix-code-text');
-      if (codeEl) codeEl.textContent = "00020126580014BR.GOV.BCB.PIX01145521981378219520400005303986540529.905802BR5915SMART PHYSICAL6008RIO DE JANEIRO62070503SMART63041234";
-      const qrContainer = document.getElementById('qrcode');
-      if (qrContainer && !qrContainer.hasChildNodes()) {
-        try {
-          new QRCode(qrContainer, { text: "PIX_TESTE", width: 180, height: 180 });
-        } catch(e){}
-      }
-    }
-
-    document.getElementById('btn-copiar-pix')?.addEventListener('click', () => {
-      navigator.clipboard.writeText(document.getElementById('pix-code-text').textContent);
-      mostrarToast('Pix copiado!');
-    });
+    function abrirDrawer() { document.getElementById('drawer-overlay').classList.add('active'); document.getElementById('drawer-panel').classList.add('active'); }
+    function fecharDrawer() { document.getElementById('drawer-overlay').classList.remove('active'); document.getElementById('drawer-panel').classList.remove('active'); }
 
     const STORAGE_KEY = "smartphysical_v30";
     function carregarEstado() {
@@ -1381,21 +1016,6 @@
     }
     function salvarEstado() { localStorage.setItem(STORAGE_KEY, JSON.stringify(estado)); }
     let estado = carregarEstado();
-
-    function hojeISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-    function formatarDataBR(iso) { const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; }
-    function nomeDiaSemana(iso) { const [y,m,d] = iso.split('-').map(Number); return ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][new Date(y,m-1,d).getDay()]; }
-    function dataDoWeekdayNaSemana(wd) {
-      const base = new Date();
-      const diff = wd - base.getDay();
-      const d = new Date(base);
-      d.setDate(base.getDate() + diff);
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    }
-
-    let diaSelecionado = new Date().getDay();
-    let dataTreinoAtual = hojeISO();
-    let dataCalendario = new Date();
 
     function abrirTela(id) {
       document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
@@ -1423,11 +1043,10 @@
       for (let d = 1; d <= totalDias; d++) {
         const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
         const tem = (estado.treinoPorData[iso] || []).length > 0;
-        gridEl.innerHTML += `<div class="cal-day-cell ${tem ? 'tem-treino-cal':''} ${iso===hojeISO()?'hoje':''}" data-iso="${iso}">${d}</div>`;
+        gridEl.innerHTML += `<div class="cal-day-cell ${tem ? 'tem-treino-cal':''}" data-iso="${iso}">${d}</div>`;
       }
-      gridEl.querySelectorAll('.cal-day-cell[data-iso]').forEach(c => c.addEventListener('click', () => abrirTreinoData(c.dataset.iso)));
     }
-
+    let dataCalendario = new Date();
     function mudarMes(delta) { dataCalendario.setMonth(dataCalendario.getMonth() + delta); renderizarCalendario(); }
 
     function renderizarTreinosVertical() {
@@ -1441,33 +1060,9 @@
         const div = document.createElement('div');
         div.className = `dia-vertical-item ${ids.length ? 'tem-treino':''}`;
         div.innerHTML = `<div class="dia-info-box"><span class="dia-nome">${nomes[i]}</span></div><span class="dia-qtd">${ids.length} exercíciosa</span>`;
-        div.addEventListener('click', () => abrirTreinoDia(i));
+        div.addEventListener('click', () => { abrirTela('view-treino-dia'); });
         container.appendChild(div);
       }
-    }
-
-    function abrirTreinoDia(wd) {
-      dataTreinoAtual = dataDoWeekdayNaSemana(wd);
-      document.getElementById('dia-titulo-topo').textContent = `Treino de ${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][wd]}`;
-      const container = document.getElementById('container-exercicios-dia');
-      container.innerHTML = `<button class="btn-confirmar" onclick="marcarDiaNoCalendario('${dataTreinoAtual}')">📅 Marcar Presença</button>`;
-      abrirTela('view-treino-dia');
-    }
-
-    function abrirTreinoData(iso) {
-      dataTreinoAtual = iso;
-      document.getElementById('dia-titulo-topo').textContent = formatarDataBR(iso);
-      const container = document.getElementById('container-exercicios-dia');
-      container.innerHTML = `<button class="btn-confirmar" onclick="marcarDiaNoCalendario('${iso}')">📅 Marcar Presença</button>`;
-      abrirTela('view-treino-dia');
-    }
-
-    function marcarDiaNoCalendario(iso) {
-      if(!estado.treinoPorData) estado.treinoPorData = {};
-      estado.treinoPorData[iso] = ['marcado'];
-      salvarEstado();
-      renderizarCalendario();
-      mostrarToast('Presença confirmada!');
     }
 
     function renderizarCategorias() {
@@ -1491,28 +1086,19 @@
       DATABASE_EXERCICIOS.filter(e => e.grupo === categoriaAtual).forEach(ex => {
         const div = document.createElement('div');
         div.className = 'ex-item-card';
-        div.innerHTML = `<div class="ex-card-top"><div class="ex-item-info"><p class="title">${ex.nome}</p><p class="app-name">${ex.aparelho}</p></div></div>`;
+        div.innerHTML = `<div class="ex-card-top"><div class="ex-item-info"><p class="title">${ex.nome}</p></div></div>`;
         div.addEventListener('click', () => abrirDetalheExercicio(ex));
         container.appendChild(div);
       });
     }
 
+    let exercicioAtualId = null;
     function abrirDetalheExercicio(ex) {
       exercicioAtualId = ex.id;
       document.getElementById('d-title').textContent = ex.nome;
       document.getElementById('d-gif-img').src = ex.gif;
       abrirTela('view-detalhe-exercicio');
     }
-
-    let exercicioAtualId = null;
-    document.getElementById('btn-toggle-treino')?.addEventListener('click', () => {
-      if(!exercicioAtualId) return;
-      if(!estado.treinoPorDia) estado.treinoPorDia = {0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
-      if(!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
-      estado.treinoPorDia[diaSelecionado].push(exercicioAtualId);
-      salvarEstado();
-      mostrarToast('Adicionado ao treino!');
-    });
 
     function renderizarListaReceitas() {
       const container = document.getElementById('container-lista-receitas');
@@ -1539,18 +1125,27 @@
       mostrarToast('Notas salvas!');
     });
 
-    document.getElementById('btn-calcular-imc')?.addEventListener('click', () => {
-      const p = parseFloat(document.getElementById('imc-peso').value);
-      const a = parseFloat(document.getElementById('imc-altura').value) / 100;
-      if(p && a) {
-        const imc = (p / (a*a)).toFixed(1);
-        document.getElementById('imc-resultado').style.display = 'block';
-        document.getElementById('imc-valor').textContent = imc;
-      }
-    });
-
+    // Links de navegação dos botões do menu inferior e cabeçalhos
+    document.getElementById('treinos-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('cat-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('perfil-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('imc-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('dietas-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('notas-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('pagamentos-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('bonus-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('x5-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    document.getElementById('btn-voltar-categorias')?.addEventListener('click', () => abrirTela('view-categorias'));
+    document.getElementById('btn-voltar-para-lista')?.addEventListener('click', () => abrirTela('view-lista-exercicios'));
+    document.getElementById('btn-voltar-treinos')?.addEventListener('click', () => abrirTela('view-treinos'));
+    document.getElementById('btn-voltar-dietas')?.addEventListener('click', () => abrirTela('view-dietas'));
+
+    document.getElementById('btn-menu-treinos')?.addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
+    document.getElementById('btn-menu-exercicios')?.addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
+    document.getElementById('btn-menu-x5')?.addEventListener('click', () => abrirTela('view-x5'));
+    document.getElementById('btn-menu-imc')?.addEventListener('click', () => abrirTela('view-imc'));
+    document.getElementById('btn-menu-dietas')?.addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
+    document.getElementById('btn-menu-bonus')?.addEventListener('click', () => abrirTela('view-bonus'));
 
     document.querySelectorAll('.bottom-item').forEach(i => i.addEventListener('click', () => {
       document.querySelectorAll('.bottom-item').forEach(b => b.classList.remove('active'));
