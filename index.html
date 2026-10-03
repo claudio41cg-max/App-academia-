@@ -1260,16 +1260,16 @@
       "Rosca na Polia": "rosca direta no cross barra W.gif",
       "Rosca Foco no Banco": "rosca unilateral com halteres sentado no banco.gif",
       "Rosca 21": "rosca direta barra W sentado banco.gif",
-      "Triceps Polia Alta": "triceps no cross barra triangulo.gif",
-      "Triceps Frances": "triceps françes bilateral no cross.gif",
-      "Triceps na Corda": "triceps pegada pronada uniatres no cross.gif",
-      "Triceps no Banco": "triceps paralelo no banco.gif",
+      "Triceps Polia Barra Triangulo": "triceps no cross barra triangulo.gif",
+      "Triceps Polia Unilateral": "triceps pegada pronada uniatres no cross.gif",
+      "Triceps Frances Polia": "triceps françes bilateral no cross.gif",
+      "Triceps Frances Unilateral Polia": "triceps françes unilateral no corss.gif",
+      "Triceps Frances Barra W": "Triceps frances barra W.gif",
       "Triceps Testa Barra": "triceps testa com barra.gif",
-      "Triceps Barra W": "triceps testa pegada neutra deitado no banco.gif",
-      "Triceps Unilateral Polia": "triceps unilateral deitado no banco.gif",
-      "Flexao Diamante": "triceps no cross deitado no banco reto.gif",
-      "Triceps Mergulho Paralelas": "peito na paralela.gif",
-      "Triceps Corda Supinada": "triceps pateda com alteres.gif",
+      "Triceps Testa Pegada Neutra": "triceps testa pegada neutra deitado no banco.gif",
+      "Triceps Testa Halteres": "triceps tresta com halteres.gif",
+      "Triceps no Banco": "triceps paralelo no banco.gif",
+      "Triceps Paralelas Maquina": "triceps na paralela maquiba.gif",
       "Agachamento Livre": "agachamento livre com barra.gif",
       "Leg Press": "leg press.gif",
       "Cadeira Extensora": "cadeira extensora.gif",
@@ -1347,8 +1347,8 @@
       "Supino Inclinado Barra","Supino Inclinado Halteres","Crossover Polia Alta","Crossover Polia Baixa","Supino Declinado Barra",
       "Rosca Direta Barra","Rosca Alternada Halteres","Rosca Martelo","Rosca Concentrada","Rosca Scott",
       "Rosca Inversa","Rosca Barra W","Rosca na Polia","Rosca Foco no Banco","Rosca 21",
-      "Triceps Polia Alta","Triceps Frances","Triceps na Corda","Triceps no Banco","Triceps Testa Barra",
-      "Triceps Barra W","Triceps Unilateral Polia","Flexao Diamante","Triceps Mergulho Paralelas","Triceps Corda Supinada",
+      "Triceps Polia Barra Triangulo","Triceps Polia Unilateral","Triceps Frances Polia","Triceps Frances Unilateral Polia","Triceps Frances Barra W",
+      "Triceps Testa Barra","Triceps Testa Pegada Neutra","Triceps Testa Halteres","Triceps no Banco","Triceps Paralelas Maquina",
       "Agachamento Livre","Leg Press","Cadeira Extensora","Mesa Flexora","Afundo Halteres",
       "Stiff","Cadeira Flexora","Elevacao Pelvica","Cadeira Abdutora","Agachamento Bulgaro",
       "Abdominal Tradicional","Prancha","Abdominal Infra","Abdominal Obliquo","Bicicleta no Ar",
@@ -1381,8 +1381,8 @@
       "Banco inclinado + barra","Banco inclinado + halteres","Crossover","Crossover","Banco declinado + barra",
       "Barra Reta","Halteres","Halteres","Halter","Banco Scott",
       "Barra","Barra W","Polia Baixa","Banco","Barra",
-      "Polia Alta","Halteres","Polia Alta","Banco","Barra",
-      "Barra W","Polia","Solo","Paralelas","Polia Alta",
+      "Polia Alta + barra triângulo","Polia Alta","Polia Alta","Polia Alta","Barra W",
+      "Banco + barra","Banco + halteres","Banco + halteres","Banco","Máquina de paralelas",
       "Barra","Leg Press","Maquina Extensora","Maquina Flexora","Halteres",
       "Barra","Maquina Flexora","Barra","Maquina Abdutora","Banco",
       "Colchonete","Colchonete","Colchonete","Colchonete","Colchonete",
@@ -1494,6 +1494,85 @@
     };
 
     Object.entries(PEITO_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const TRICEPS_INFO = {
+      e21: {
+        ordem: 1, familia: "POLIA", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS NA POLIA COM BARRA TRIÂNGULO",
+        execucao: "Mantenha os cotovelos junto ao corpo. Estenda os braços para baixo sem mover os ombros e retorne devagar até cerca de 90 graus.",
+        respiracao: "Expire ao estender os cotovelos e inspire no retorno.",
+        errosComuns: "Abrir os cotovelos, inclinar o tronco para ganhar impulso ou deixar o peso subir sem controle."
+      },
+      e22: {
+        ordem: 2, familia: "POLIA", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS UNILATERAL NA POLIA",
+        execucao: "Fique estável diante da polia. Mantenha o braço colado ao tronco e faça a extensão de um cotovelo por vez, controlando toda a volta.",
+        respiracao: "Expire na extensão e inspire no retorno.",
+        errosComuns: "Girar o tronco, afastar o cotovelo do corpo ou usar carga que obrigue a balançar."
+      },
+      e23: {
+        ordem: 3, familia: "FRANCÊS", foco: "Tríceps braquial · cabeça longa",
+        instrucao: "TRÍCEPS FRANCÊS NA POLIA",
+        execucao: "Posicione a polia atrás ou acima da cabeça. Mantenha os cotovelos apontados para a frente e estenda os braços sem abrir os cotovelos.",
+        respiracao: "Expire ao estender e inspire ao flexionar os cotovelos.",
+        errosComuns: "Abrir demais os cotovelos, arquear a lombar ou transformar o movimento em balanço de ombros."
+      },
+      e24: {
+        ordem: 4, familia: "FRANCÊS", foco: "Tríceps braquial · cabeça longa",
+        instrucao: "TRÍCEPS FRANCÊS UNILATERAL NA POLIA",
+        execucao: "Faça o movimento com um braço por vez, mantendo o cotovelo estável próximo à cabeça. Estenda até quase travar e volte com controle.",
+        respiracao: "Expire na extensão e inspire no retorno.",
+        errosComuns: "Mover o cotovelo para frente e para trás, inclinar o tronco ou perder o controle da volta."
+      },
+      e25: {
+        ordem: 5, familia: "FRANCÊS", foco: "Tríceps braquial · cabeça longa",
+        instrucao: "TRÍCEPS FRANCÊS COM BARRA W",
+        execucao: "Segure a barra W acima da cabeça. Flexione apenas os cotovelos levando a barra para trás e depois estenda os braços mantendo os cotovelos fechados.",
+        respiracao: "Inspire ao descer a barra e expire ao estender.",
+        errosComuns: "Abrir os cotovelos, exagerar na carga ou compensar arqueando a lombar."
+      },
+      e26: {
+        ordem: 6, familia: "TESTA", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS TESTA COM BARRA",
+        execucao: "Deite no banco e mantenha os braços apontados para cima. Flexione os cotovelos levando a barra em direção à testa ou ligeiramente atrás dela, depois estenda.",
+        respiracao: "Inspire na descida e expire na extensão.",
+        errosComuns: "Abrir os cotovelos, mover demais os ombros ou descer a barra sem controle."
+      },
+      e27: {
+        ordem: 7, familia: "TESTA", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS TESTA PEGADA NEUTRA",
+        execucao: "Deitado no banco, mantenha as mãos em pegada neutra. Flexione os cotovelos mantendo os braços estáveis e estenda sem deixar os cotovelos abrirem.",
+        respiracao: "Inspire ao flexionar e expire ao estender.",
+        errosComuns: "Deixar os braços cair para trás sem controle, abrir os cotovelos ou usar impulso."
+      },
+      e28: {
+        ordem: 8, familia: "TESTA", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS TESTA COM HALTERES",
+        execucao: "Com um halter em cada mão, mantenha os braços verticais. Dobre os cotovelos de forma controlada e volte estendendo sem bater os halteres.",
+        respiracao: "Inspire na descida e expire na extensão.",
+        errosComuns: "Abrir demais os cotovelos, mover os ombros ou usar amplitude desconfortável."
+      },
+      e29: {
+        ordem: 9, familia: "BANCO / PARALELAS", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS NO BANCO",
+        execucao: "Apoie as mãos no banco atrás do corpo. Desça dobrando os cotovelos e mantenha o tronco próximo ao banco. Empurre até retornar.",
+        respiracao: "Inspire na descida e expire na subida.",
+        errosComuns: "Afastar demais o quadril do banco, abrir os cotovelos ou descer além da amplitude confortável do ombro."
+      },
+      e30: {
+        ordem: 10, familia: "BANCO / PARALELAS", foco: "Tríceps braquial",
+        instrucao: "TRÍCEPS NAS PARALELAS NA MÁQUINA",
+        execucao: "Ajuste a máquina e mantenha o tronco estável. Empurre as alças para baixo estendendo os cotovelos e retorne devagar.",
+        respiracao: "Expire ao empurrar e inspire no retorno.",
+        errosComuns: "Encolher os ombros, usar impulso ou deixar os cotovelos abrirem demais."
+      }
+    };
+
+    Object.entries(TRICEPS_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
     });
@@ -1970,7 +2049,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
