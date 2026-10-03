@@ -24,12 +24,32 @@ Sempre que for corrigido e testado, a contagem diminui e a correção fica regis
 
 ---
 
+## Auditoria concluída — PEITO
+
+- Mídias revisadas: **10/10**
+- Pendências de GIF dentro de PEITO: **0**
+- Exercícios de PEITO com instrução específica: **10/10**
+- Organização didática aplicada: **SUPINO → CRUCIFIXO → CROSSOVER**
+- Todos os 10 exercícios de peito agora usam uma demonstração correspondente ao movimento nominal.
+
+> Observação: várias mídias foram obtidas de fontes externas. Para uma versão comercial definitiva, o ideal é migrar as demonstrações aprovadas para uma biblioteca própria/licenciada e estável, evitando dependência de links externos.
+
+---
+
 ## GIFs/mídias com problema confirmado
 
 ### Corrigidos — PEITO
 
-- [x] **Supino Inclinado Barra** — antes usava um GIF de supino inclinado no Smith; agora usa demonstração de barra em banco inclinado.
-- [x] **Flexão Tradicional** — estava usando uma flexão ajoelhada que não representava o nome. Na reorganização do peito, este slot virou **Supino Declinado Barra**, com demonstração correspondente.
+- [x] **Supino Reto Barra** — mídia revisada e trocada por demonstração correspondente.
+- [x] **Supino Inclinado Barra** — antes usava um GIF de supino inclinado no Smith; agora usa barra livre em banco inclinado.
+- [x] **Supino Declinado Barra** — o antigo slot da flexão ajoelhada virou supino declinado, com demonstração correspondente.
+- [x] **Supino Reto Halteres** — mídia revisada e trocada por demonstração correspondente.
+- [x] **Supino Inclinado Halteres** — mídia revisada e trocada por demonstração correspondente.
+- [x] **Supino Horizontal na Máquina** — mídia revisada e trocada por chest press em máquina.
+- [x] **Crucifixo na Máquina** — mídia revisada e trocada por pec deck fly.
+- [x] **Crucifixo Reto Halteres** — mídia revisada e trocada por dumbbell chest fly.
+- [x] **Crossover Polia Alta** — mídia revisada com trajetória de cima para baixo.
+- [x] **Crossover Polia Baixa** — mídia revisada com trajetória de baixo para cima.
 
 ### Ainda pendentes
 
