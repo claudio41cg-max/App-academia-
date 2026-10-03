@@ -1311,15 +1311,15 @@
       "Remada Inclinada Smith": "remada inclinada no smith.gif",
       "Hiperextensao Tronco": "Hiperextensão do tronco.gif",
       "Encolhimento Barra": "encolhimento na barra livre.gif",
-      "Encolhimento Halteres": "encolhimento sentado no banco com halteres.gif",
-      "Remada Alta Trapezio": "remada alta com halteres bilateral.gif",
-      "Face Pull Trapezio": "face pull.gif",
-      "Prancha Toque Ombro": "apoio de frente com medball.gif",
-      "Remada Alta Polia": "remada alta no cross.gif",
+      "Encolhimento Halteres": "encolhimento livre com halteres.gif",
+      "Encolhimento Smith": "encolhimento no smith.gif",
+      "Encolhimento Maquina": "encolhimento maquina.gif",
       "Encolhimento Polia": "encolhimento pegada fechada barra no cross.gif",
-      "Trapezio Sentado Halteres": "encolhimento sentado no banco inlinado com halteres.gif",
-      "Remada Alta Halteres": "remada alta com halteres.gif",
-      "Prancha Toque Ombro Alt": "apoio de frente com step.gif",
+      "Encolhimento Sentado Halteres": "encolhimento sentado no banco com halteres.gif",
+      "Encolhimento Banco Inclinado": "encolhimento sentado no banco inlinado com halteres.gif",
+      "Remada Alta Barra W Trapezio": "remada alta com barra W.gif",
+      "Remada Alta Halteres Trapezio": "remada alta com halteres bilateral.gif",
+      "Remada Alta Cross Trapezio": "remada alta no cross.gif",
       "Elevacao Pelvica Gluteo": "elevação pelvica livre.gif",
       "Agachamento Profundo": "agachamento livre pés juntos.gif",
       "Passada (Afundo)": "afundo livre.gif",
@@ -1357,8 +1357,8 @@
       "Elevacao Lateral no Cross","Elevacao Frontal com Halteres","Elevacao Frontal no Cross","Crucifixo Inverso com Halteres","Remada Alta Barra W",
       "Puxada Frontal Pegada Pronada","Puxada Frontal Pegada Supinada","Puxada Fechada Triangulo","Remada Curvada Barra","Remada Serrote",
       "Remada Articulada","Remada Baixa Triangulo","Remada Cavalinho Barra","Remada Inclinada Smith","Hiperextensao Tronco",
-      "Encolhimento Barra","Encolhimento Halteres","Remada Alta Trapezio","Face Pull Trapezio","Prancha Toque Ombro",
-      "Remada Alta Polia","Encolhimento Polia","Trapezio Sentado Halteres","Remada Alta Halteres","Prancha Toque Ombro Alt",
+      "Encolhimento Barra","Encolhimento Halteres","Encolhimento Smith","Encolhimento Maquina","Encolhimento Polia",
+      "Encolhimento Sentado Halteres","Encolhimento Banco Inclinado","Remada Alta Barra W Trapezio","Remada Alta Halteres Trapezio","Remada Alta Cross Trapezio",
       "Elevacao Pelvica Gluteo","Agachamento Profundo","Passada (Afundo)","Ponte de Gluteo no Solo","Abducao de Quadril",
       "Agachamento Halteres","Coice de Gluteo Polia","Passada Lateral","Ponte Unilateral","Agachamento Sumo",
       "Panturrilha em Pe","Panturrilha Sentado","Panturrilha Unilateral","Saltos com Corda","Panturrilha Polia",
@@ -1391,8 +1391,8 @@
       "Crossover","Halteres","Crossover","Halteres","Barra W",
       "Pulley","Pulley","Pulley + triângulo","Barra","Halter",
       "Máquina de remada","Pulley + triângulo","Barra T","Smith","Banco de hiperextensão",
-      "Barra","Halteres","Barra","Polia","Colchonete",
-      "Polia","Polia","Banco","Halteres","Colchonete",
+      "Barra","Halteres","Smith","Máquina","Crossover",
+      "Banco + halteres","Banco inclinado + halteres","Barra W","Halteres","Crossover",
       "Barra","Barra","Halteres","Colchonete","Polia",
       "Halteres","Polia","Halter","Colchonete","Barra",
       "Maquina","Maquina","Halter","Corda","Polia",
@@ -1413,8 +1413,8 @@
       "Deltoide medio","Deltoide anterior","Deltoide anterior","Deltoide posterior","Deltoide medio e trapezio",
       "Latíssimo do dorso","Latíssimo do dorso","Latíssimo do dorso","Latíssimo e romboides","Latíssimo e romboides",
       "Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Eretores da coluna e glúteos",
-      "Trapezio Superior","Trapezio Superior","Trapezio","Trapezio Medio","Trapezio",
-      "Trapezio","Trapezio Superior","Trapezio","Trapezio","Trapezio",
+      "Trapézio superior","Trapézio superior","Trapézio superior","Trapézio superior","Trapézio superior",
+      "Trapézio superior","Trapézio superior e médio","Trapézio e deltoide","Trapézio e deltoide","Trapézio e deltoide",
       "Gluteo Maximo","Gluteo","Gluteo","Gluteo","Gluteo Medio",
       "Gluteo","Gluteo","Gluteo Medio","Gluteo","Gluteo",
       "Gastrocnemio","Soleo","Gastrocnemio","Panturrilha","Gastrocnemio",
@@ -1496,6 +1496,25 @@
     Object.entries(PEITO_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const TRAPEZIO_INFO = {
+      e71:{ordem:1,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO COM BARRA",execucao:"Segure a barra à frente do corpo e eleve os ombros verticalmente, sem girá-los. Faça uma breve contração no alto e desça devagar.",respiracao:"Expire ao elevar e inspire ao descer.",errosComuns:"Girar os ombros, flexionar demais os cotovelos ou usar balanço."},
+      e72:{ordem:2,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO COM HALTERES",execucao:"Mantenha os halteres ao lado do corpo e eleve os ombros em direção às orelhas, mantendo os braços relaxados.",respiracao:"Expire ao subir e inspire ao retornar.",errosComuns:"Fazer círculos com os ombros, inclinar o tronco ou usar impulso."},
+      e73:{ordem:3,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO NO SMITH",execucao:"Fique estável diante da barra do Smith e eleve os ombros mantendo a trajetória vertical.",respiracao:"Expire na subida e inspire na descida.",errosComuns:"Dobrar os braços, projetar a cabeça para frente ou exagerar na carga."},
+      e74:{ordem:4,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO NA MÁQUINA",execucao:"Ajuste a máquina e eleve os ombros contra a resistência sem flexionar os cotovelos.",respiracao:"Expire ao elevar e inspire ao descer.",errosComuns:"Perder a postura, fazer movimento curto demais ou soltar o peso rapidamente."},
+      e75:{ordem:5,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO NA POLIA",execucao:"Com a polia baixa, segure a barra e eleve os ombros mantendo tensão constante.",respiracao:"Expire ao subir e inspire ao retornar.",errosComuns:"Puxar a barra com os braços, balançar o corpo ou girar os ombros."},
+      e76:{ordem:6,familia:"ENCOLHIMENTO",foco:"Trapézio superior",instrucao:"ENCOLHIMENTO SENTADO COM HALTERES",execucao:"Sente-se com o tronco ereto, deixe os halteres ao lado do corpo e eleve os ombros sem inclinar o tronco.",respiracao:"Expire na subida e inspire na descida.",errosComuns:"Inclinar o tronco, usar impulso ou dobrar os cotovelos."},
+      e77:{ordem:7,familia:"ENCOLHIMENTO",foco:"Trapézio superior · médio",instrucao:"ENCOLHIMENTO NO BANCO INCLINADO",execucao:"Apoie o peito no banco inclinado e eleve/retraia os ombros controlando a escápula.",respiracao:"Expire na contração e inspire no retorno.",errosComuns:"Tirar o peito do apoio, acelerar o movimento ou puxar apenas com os braços."},
+      e78:{ordem:8,familia:"REMADA ALTA",foco:"Trapézio · deltoide",instrucao:"REMADA ALTA COM BARRA W",execucao:"Puxe a barra W próxima ao corpo até uma amplitude confortável, mantendo cotovelos controlados.",respiracao:"Expire ao puxar e inspire ao descer.",errosComuns:"Subir além do conforto do ombro, usar balanço ou deixar os punhos dobrarem muito."},
+      e79:{ordem:9,familia:"REMADA ALTA",foco:"Trapézio · deltoide",instrucao:"REMADA ALTA COM HALTERES",execucao:"Eleve os halteres próximos ao corpo conduzindo pelos cotovelos e retorne lentamente.",respiracao:"Expire ao subir e inspire ao descer.",errosComuns:"Encolher excessivamente o pescoço, usar impulso ou abrir demais os braços."},
+      e80:{ordem:10,familia:"REMADA ALTA",foco:"Trapézio · deltoide",instrucao:"REMADA ALTA NO CROSS",execucao:"Puxe a barra da polia baixa em direção ao tronco, mantendo o caminho vertical e controlado.",respiracao:"Expire na puxada e inspire no retorno.",errosComuns:"Balançar o corpo, usar carga excessiva ou elevar os cotovelos além do conforto."}
+    };
+
+    Object.entries(TRAPEZIO_INFO).forEach(([id,info])=>{
+      const ex=DATABASE_EXERCICIOS.find(item=>item.id===id);
+      if(ex)Object.assign(ex,info,{musculo:info.foco});
     });
 
 
@@ -2186,7 +2205,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS' || categoriaAtual === 'TRAPEZIO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
