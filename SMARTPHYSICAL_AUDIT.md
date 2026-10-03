@@ -121,6 +121,16 @@ Cada um dos 10 exercícios recebeu:
 
 ---
 
+## Evolução da tela de exercício — PEITO
+
+- [x] Separar **Como executar** em card próprio.
+- [x] Adicionar **Respiração** específica por família de movimento.
+- [x] Separar **Erros comuns** em card visual de atenção.
+- [x] Mostrar **última carga usada** no exercício.
+- [x] Mostrar até 4 registros recentes de **carga · séries · repetições**.
+- [x] Atualizar o histórico automaticamente ao salvar/adicionar o exercício com peso.
+- [x] Evitar várias duplicações do mesmo exercício no mesmo dia: o registro do dia é atualizado.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
