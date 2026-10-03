@@ -777,7 +777,7 @@
         <div class="metric-row-edit">
           <div class="metric-edit-item"><label>Séries</label><select id="edit-series" class="metric-select-wheel"></select></div>
           <div class="metric-edit-item"><label>Repetições</label><select id="edit-reps" class="metric-select-wheel"></select></div>
-          <div class="metric-edit-item"><label>Peso (kg)</label><select id="edit-peso" class="metric-select-wheel"></select></div>
+          <div class="metric-edit-item"><label>Peso (kg)</label><select id="edit-peso-exercicio" class="metric-select-wheel"></select></div>
           <div class="metric-edit-item"><label>Descanso</label><select id="edit-descanso" class="metric-select-wheel"></select></div>
         </div>
 
@@ -1032,7 +1032,7 @@
     function popularSeletoresConfiguracao() {
       const selectSeries = document.getElementById('edit-series');
       const selectReps = document.getElementById('edit-reps');
-      const selectPeso = document.getElementById('edit-peso');
+      const selectPeso = document.getElementById('edit-peso-exercicio');
       const selectDescanso = document.getElementById('edit-descanso');
 
       if (!selectSeries || selectSeries.children.length > 0) return;
@@ -1925,6 +1925,8 @@
       exs.forEach(ex => {
         const card = document.createElement('div');
         card.className = 'ex-item-card';
+        card.dataset.exerciseId = ex.id;
+        card.style.cursor = 'pointer';
         card.innerHTML = `
           <div class="ex-card-top">
             <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"></div>
@@ -1936,7 +1938,7 @@
             <div class="chev-icon">›</div>
           </div>
         `;
-        card.querySelector('.ex-card-top').addEventListener('click', () => abrirDetalheExercicio(ex, 'view-lista-exercicios'));
+        card.addEventListener('click', () => abrirDetalheExercicio(ex, 'view-lista-exercicios'));
         container.appendChild(card);
       });
     }
@@ -1945,25 +1947,53 @@
     let telaOrigemDetalhe = 'view-lista-exercicios';
 
     function abrirDetalheExercicio(ex, origem) {
+      if (!ex) return;
       exercicioAtualId = ex.id;
       telaOrigemDetalhe = origem || 'view-lista-exercicios';
-      popularSeletoresConfiguracao();
 
-      document.getElementById('d-title').textContent = ex.nome;
-      document.getElementById('d-app-sub').textContent = ex.aparelho;
-      document.getElementById('d-tag-grupo').textContent = ex.grupo;
-      document.getElementById('d-primary-muscle').textContent = ex.musculo;
-      document.getElementById('d-instructions-text').innerText = ex.instrucao;
-      document.getElementById('d-equip-name').textContent = `Aparelho: ${ex.aparelho}`;
-      document.getElementById('d-gif-img').src = ex.gif;
-
-      const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-      document.getElementById('edit-series').value = custom.series || ex.series || 3;
-      document.getElementById('edit-reps').value = custom.reps || ex.reps || 12;
-      document.getElementById('edit-peso').value = custom.peso !== undefined ? custom.peso : 0;
-      document.getElementById('edit-descanso').value = custom.descanso || ex.descanso || 60;
-
+      // Abre primeiro. Assim um erro secundário não mata a navegação.
       abrirTela('view-detalhe-exercicio');
+
+      try {
+        popularSeletoresConfiguracao();
+
+        const setText = (id, value) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = value ?? '';
+        };
+        setText('d-title', ex.nome);
+        setText('d-app-sub', ex.aparelho);
+        setText('d-tag-grupo', ex.grupo);
+        setText('d-primary-muscle', ex.foco || ex.musculo);
+        setText('d-instructions-text', ex.instrucao);
+        setText('d-equip-name', `Aparelho: ${ex.aparelho}`);
+
+        const gif = document.getElementById('d-gif-img');
+        const fallback = document.getElementById('d-gif-fallback-icon');
+        if (gif) {
+          gif.style.display = 'block';
+          gif.onerror = function() {
+            this.style.display = 'none';
+            if (fallback) fallback.style.display = 'block';
+          };
+          if (fallback) fallback.style.display = 'none';
+          gif.src = ex.gif;
+        }
+
+        const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
+        const series = document.getElementById('edit-series');
+        const reps = document.getElementById('edit-reps');
+        const peso = document.getElementById('edit-peso-exercicio');
+        const descanso = document.getElementById('edit-descanso');
+
+        if (series) series.value = custom.series || ex.series || 3;
+        if (reps) reps.value = custom.reps || ex.reps || 12;
+        if (peso) peso.value = custom.peso !== undefined ? custom.peso : 0;
+        if (descanso) descanso.value = custom.descanso || ex.descanso || 60;
+      } catch (error) {
+        console.error('Falha ao preencher detalhe do exercício:', error);
+        mostrarToast('O exercício abriu, mas alguns detalhes não carregaram.');
+      }
     }
 
     function renderizarTreinosVertical() {
@@ -2133,7 +2163,7 @@
       estado.customExercicios[exercicioAtualId] = {
         series: parseInt(document.getElementById('edit-series').value) || 3,
         reps: parseInt(document.getElementById('edit-reps').value) || 12,
-        peso: parseFloat(document.getElementById('edit-peso').value) || 0,
+        peso: parseFloat(document.getElementById('edit-peso-exercicio').value) || 0,
         descanso: parseInt(document.getElementById('edit-descanso').value) || 60
       };
 
