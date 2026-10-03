@@ -1752,6 +1752,71 @@
       if (ex) Object.assign(ex, info, { musculo: info.foco });
     });
 
+
+    const ABDOMEN_INFO = {
+      e41: {
+        ordem: 1, familia: "POLIA", foco: "Reto abdominal",
+        nome: "Abdominal na Polia",
+        aparelho: "Polia alta",
+        gif: GITHUB_BASE + encodeURIComponent("Abdominal com Carga.gif"),
+        instrucao: "ABDOMINAL NA POLIA",
+        execucao: "Ajoelhe ou fique bem estabilizado diante da polia. Mantenha o quadril praticamente parado e aproxime as costelas da pelve flexionando o tronco, sem puxar apenas com os braços.",
+        respiracao: "Expire ao flexionar o tronco e inspire ao retornar com controle.",
+        errosComuns: "Puxar só com os braços, mover demais o quadril ou transformar o exercício em uma inclinação de corpo inteiro."
+      },
+      e42: {
+        ordem: 2, familia: "SOLO", foco: "Reto abdominal",
+        nome: "Abdominal Concentrado no Solo",
+        aparelho: "Colchonete",
+        gif: GITHUB_BASE + encodeURIComponent("Abdominal Concentrado.gif"),
+        instrucao: "ABDOMINAL CONCENTRADO NO SOLO",
+        execucao: "Deite com os joelhos flexionados e lombar confortável. Eleve o tronco aproximando as costelas da pelve e desça devagar sem relaxar completamente o abdômen.",
+        respiracao: "Expire ao subir e inspire na descida controlada.",
+        errosComuns: "Puxar o pescoço, usar impulso dos braços ou subir além do ponto em que o abdômen deixa de controlar o movimento."
+      }
+    };
+
+    Object.entries(ABDOMEN_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco, ativo: true });
+    });
+    ["e43","e44","e45","e46","e47","e48","e49","e50"].forEach(id => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) ex.ativo = false;
+    });
+
+    const PANTURRILHA_INFO = {
+      e91: {
+        ordem: 1, familia: "EM PÉ", foco: "Gastrocnêmio · sóleo",
+        nome: "Panturrilha em Pé Peso Corporal",
+        aparelho: "Peso corporal",
+        gif: GITHUB_BASE + encodeURIComponent("Flexão Plantar com peso corporal.gif"),
+        instrucao: "PANTURRILHA EM PÉ",
+        execucao: "Fique em pé com os pés paralelos. Eleve os calcanhares o máximo que conseguir sem perder o equilíbrio, faça uma breve contração no alto e desça devagar.",
+        respiracao: "Expire ao subir e inspire ao descer.",
+        errosComuns: "Quicar na ponta dos pés, deixar os tornozelos cair para dentro ou fazer o movimento rápido demais."
+      },
+      e92: {
+        ordem: 2, familia: "LEG PRESS", foco: "Gastrocnêmio · sóleo",
+        nome: "Panturrilha no Leg Press",
+        aparelho: "Leg Press",
+        gif: GITHUB_BASE + encodeURIComponent("panturrinha no leg press.gif"),
+        instrucao: "PANTURRILHA NO LEG PRESS",
+        execucao: "Apoie apenas a parte da frente dos pés na plataforma com os joelhos estáveis. Empurre pela ponta dos pés elevando os calcanhares e retorne até alongar a panturrilha de forma confortável.",
+        respiracao: "Expire ao fazer a flexão plantar e inspire no retorno.",
+        errosComuns: "Dobrar e estender os joelhos durante a repetição, usar amplitude curta demais ou deixar os pés escorregarem na plataforma."
+      }
+    };
+
+    Object.entries(PANTURRILHA_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco, ativo: true });
+    });
+    ["e93","e94","e95","e96","e97","e98","e99","e100"].forEach(id => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) ex.ativo = false;
+    });
+
     function prepararDetalhesTecnicosPeito(ex) {
       if (!ex || ex.grupo !== 'PEITO') return ex;
       const texto = String(ex.instrucao || '');
@@ -2194,7 +2259,7 @@
       container.innerHTML = '';
       categorias.forEach(cat => {
         const catKey = cat.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
-        const count = DATABASE_EXERCICIOS.filter(e => e.grupo === catKey).length;
+        const count = DATABASE_EXERCICIOS.filter(e => e.grupo === catKey && e.ativo !== false).length;
         const div = document.createElement('div');
         div.className = 'cat-card';
         div.innerHTML = `<b>${cat.nome}</b><span>${count} exercícios</span>`;
@@ -2223,8 +2288,8 @@
       const container = document.getElementById('container-lista-exercicios');
       if (!container) return;
       container.innerHTML = '';
-      let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS' || categoriaAtual === 'TRAPEZIO' || categoriaAtual === 'GLUTEO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual && ex.ativo !== false);
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'ABDÔMEN' || categoriaAtual === 'ABDOMEN' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS' || categoriaAtual === 'TRAPEZIO' || categoriaAtual === 'GLUTEO' || categoriaAtual === 'PANTURRILHA') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
