@@ -272,18 +272,6 @@
     .gif-box-card img { max-width: 95%; max-height: 95%; object-fit: contain; }
     .gif-box-card .fallback-icon { display: none; width: 64px; height: 64px; stroke: var(--gold); }
     .gif-label { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(4px); }
-    .gif-box-card.clickable, .second-gif-card { cursor: zoom-in; }
-    .second-gif-wrap { display:none; margin:-6px 0 20px; }
-    .second-gif-wrap.active { display:block; }
-    .second-gif-title { font-size:12px; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:.08em; margin:0 0 8px; }
-    .second-gif-card { position:relative; height:220px; background:#0a0e17; border:1px solid var(--border); border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .second-gif-card img { max-width:96%; max-height:96%; object-fit:contain; }
-    .second-gif-hint { margin-top:7px; font-size:11px; color:var(--muted); text-align:center; }
-    .gif-lightbox { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.94); display:none; align-items:center; justify-content:center; padding:18px; }
-    .gif-lightbox.active { display:flex; }
-    .gif-lightbox img { max-width:100%; max-height:88vh; object-fit:contain; border-radius:14px; }
-    .gif-lightbox-close { position:absolute; top:max(18px,env(safe-area-inset-top)); right:18px; width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.28); background:rgba(20,20,20,.82); color:white; font-size:24px; font-weight:800; }
-
     .sec-label { font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; margin: 20px 0 10px; }
     .info-card-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 14px; }
     .info-card-icon { width: 48px; height: 48px; border-radius: 12px; background: #080c14; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); flex: none; }
@@ -788,17 +776,10 @@
         <h1 class="detalhe-title" id="d-title">Exercício</h1>
         <p class="detalhe-sub" id="d-app-sub">Aparelho</p>
         <div class="tags-row-custom"><span class="tag-custom dark" id="d-tag-grupo">GRUPO</span><span class="tag-custom gold" id="d-tag-popular">POPULAR</span></div>
-        <div class="gif-box-card clickable" id="d-gif-box">
-          <span class="gif-label">DEMONSTRAÇÃO PRINCIPAL</span>
+        <div class="gif-box-card">
+          <span class="gif-label">DEMONSTRAÇÃO</span>
           <img id="d-gif-img" src="" alt="Demonstração" onerror="this.style.display='none'; document.getElementById('d-gif-fallback-icon').style.display='block';">
           <svg id="d-gif-fallback-icon" class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6.5 6.5l11 11M4 4l3 3M20 20l-3-3M2 9l3 3-3 3M22 15l-3-3 3-3M9 2l3 3-3 3M15 22l-3-3 3-3"/></svg>
-        </div>
-        <div class="second-gif-wrap" id="d-second-gif-wrap">
-          <div class="second-gif-title">Outro ângulo</div>
-          <div class="second-gif-card" id="d-second-gif-box">
-            <img id="d-second-gif-img" src="" alt="Segundo ângulo do exercício">
-          </div>
-          <div class="second-gif-hint">Toque no GIF para ampliar</div>
         </div>
         <div class="sec-label">ALVO</div>
         <div class="info-card-box"><div class="info-card-icon" style="background:#1a120c;border-color:rgba(212,161,75,0.3);"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:var(--gold);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div><div class="info-card-text"><h4>Músculo Principal</h4><p id="d-primary-muscle">--</p></div></div>
@@ -1068,11 +1049,6 @@
       <button class="bottom-item" data-target="view-notas"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Notas</span></button>
       <button class="bottom-item" data-target="view-perfil"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg><span>Perfil</span></button>
     </nav>
-  </div>
-
-  <div class="gif-lightbox" id="gif-lightbox" onclick="fecharGifAmpliado(event)">
-    <button class="gif-lightbox-close" type="button" onclick="fecharGifAmpliado(event)">×</button>
-    <img id="gif-lightbox-img" src="" alt="Demonstração ampliada">
   </div>
 
   <script>
@@ -1474,15 +1450,6 @@
       });
     }
 
-    const PEITO_GIF_SECUNDARIO = {
-      e3: "https://d3d2ynhodh9o1z.cloudfront.net/exercises/barbell-bench-press.gif",
-      e6: "https://www.deportrainer.com/img/cms/Post%20de%20blog/press_banca_inclinado/como-hacer-el-press-inclinado-con-barra.gif",
-      e10: "https://d3d2ynhodh9o1z.cloudfront.net/exercises/decline-barbell-bench-press.gif",
-      e4: "https://d3d2ynhodh9o1z.cloudfront.net/exercises/dumbbell-bench-press.gif",
-      e7: "https://d3d2ynhodh9o1z.cloudfront.net/exercises/incline-dumbbell-press.gif",
-      e8: "https://d3d2ynhodh9o1z.cloudfront.net/exercises/cable-crossover.gif"
-    };
-
     const PEITO_INFO = {
       e3: {
         ordem: 1, familia: "SUPINO", foco: "Peitoral médio",
@@ -1559,9 +1526,6 @@
     }
 
     DATABASE_EXERCICIOS.filter(ex => ex.grupo === 'PEITO').forEach(prepararDetalhesTecnicosPeito);
-    DATABASE_EXERCICIOS.filter(ex => ex.grupo === 'PEITO').forEach(ex => {
-      ex.gifSecundario = PEITO_GIF_SECUNDARIO[ex.id] || '';
-    });
 
     const RECEITAS_FOTOS = [
       "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&auto=format&fit=crop&q=80",
@@ -2034,25 +1998,6 @@
     let exercicioAtualId = null;
     let telaOrigemDetalhe = 'view-lista-exercicios';
 
-    function abrirGifAmpliado(src) {
-      if (!src) return;
-      const box = document.getElementById('gif-lightbox');
-      const img = document.getElementById('gif-lightbox-img');
-      if (!box || !img) return;
-      img.src = src;
-      box.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function fecharGifAmpliado(event) {
-      if (event) event.stopPropagation();
-      const box = document.getElementById('gif-lightbox');
-      const img = document.getElementById('gif-lightbox-img');
-      if (box) box.classList.remove('active');
-      if (img) img.src = '';
-      document.body.style.overflow = '';
-    }
-
     function abrirDetalheExercicio(ex, origem) {
       if (!ex) return;
       exercicioAtualId = ex.id;
@@ -2087,27 +2032,8 @@
           };
           if (fallback) fallback.style.display = 'none';
           gif.src = ex.gif;
-          gif.onclick = () => abrirGifAmpliado(ex.gif);
         }
 
-        const secondWrap = document.getElementById('d-second-gif-wrap');
-        const secondGif = document.getElementById('d-second-gif-img');
-        if (secondWrap && secondGif) {
-          if (ex.gifSecundario) {
-            secondWrap.classList.add('active');
-            secondGif.style.display = 'block';
-            secondGif.onerror = function() {
-              secondWrap.classList.remove('active');
-              this.src = '';
-            };
-            secondGif.src = ex.gifSecundario;
-            secondGif.onclick = () => abrirGifAmpliado(ex.gifSecundario);
-          } else {
-            secondWrap.classList.remove('active');
-            secondGif.src = '';
-            secondGif.onclick = null;
-          }
-        }
 
         const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
         const series = document.getElementById('edit-series');
