@@ -131,6 +131,17 @@ Cada um dos 10 exercícios recebeu:
 - [x] Atualizar o histórico automaticamente ao salvar/adicionar o exercício com peso.
 - [x] Evitar várias duplicações do mesmo exercício no mesmo dia: o registro do dia é atualizado.
 
+## Segunda demonstração visual — PEITO
+
+- [x] Supino Reto com Barra — segundo ângulo.
+- [x] Supino Inclinado com Barra — segundo ângulo.
+- [x] Supino Declinado com Barra — segundo ângulo.
+- [x] Supino Reto com Halteres — segundo ângulo.
+- [x] Supino Inclinado com Halteres — segundo ângulo.
+- [x] Crossover Polia Alta — segundo ângulo.
+- [x] GIF principal e GIF secundário podem ser ampliados ao toque.
+- [x] Exercícios sem necessidade de segunda mídia continuam com apenas um GIF para não pesar a tela.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
