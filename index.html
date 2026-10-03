@@ -279,6 +279,20 @@
     .info-card-text h4 { margin: 0 0 2px; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
     .info-card-text p { margin: 0; font-size: 15px; font-weight: 800; color: #fff; }
     .text-instructions { font-size: 13px; color: #d1d5db; line-height: 1.6; margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; white-space: pre-line; }
+    .technique-grid { display: grid; gap: 10px; margin-bottom: 8px; }
+    .technique-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+    .technique-card h4 { margin: 0 0 8px; font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: .07em; }
+    .technique-card p { margin: 0; font-size: 13px; color: #d1d5db; line-height: 1.6; white-space: pre-line; }
+    .technique-card.warning { border-color: rgba(255,167,38,.45); background: rgba(255,167,38,.05); }
+    .technique-card.warning h4 { color: #ffb74d; }
+    .load-history-card { background: linear-gradient(135deg,#111b28,#101722); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-top: 12px; }
+    .load-history-head { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
+    .load-history-head b { color:var(--gold); font-size:14px; }
+    .load-history-head span { color:var(--muted); font-size:11px; text-align:right; }
+    .load-history-row { display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-top:1px solid rgba(255,255,255,.06); font-size:12px; }
+    .load-history-row span { color:var(--muted); }
+    .load-history-row strong { color:#fff; }
+
 
     /* SELETORES DE ROLAGEM SUAVE */
     .metric-row-edit { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
@@ -769,7 +783,12 @@
         </div>
         <div class="sec-label">ALVO</div>
         <div class="info-card-box"><div class="info-card-icon" style="background:#1a120c;border-color:rgba(212,161,75,0.3);"><svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:var(--gold);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div><div class="info-card-text"><h4>Músculo Principal</h4><p id="d-primary-muscle">--</p></div></div>
-        <div class="sec-label">INSTRUÇÕES</div><p class="text-instructions" id="d-instructions-text">--</p>
+        <div class="sec-label">EXECUÇÃO</div>
+        <div class="technique-grid">
+          <div class="technique-card"><h4>▶ Como executar</h4><p id="d-execution-text">--</p></div>
+          <div class="technique-card"><h4>💨 Respiração</h4><p id="d-breathing-text">--</p></div>
+          <div class="technique-card warning"><h4>⚠️ Erros comuns</h4><p id="d-errors-text">--</p></div>
+        </div>
         <div class="sec-label">EQUIPAMENTO</div>
         <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">--</p></div></div>
         
@@ -782,6 +801,10 @@
         </div>
 
         <button class="btn-confirmar" style="background:#1f3144;color:var(--gold);margin-top:12px;" onclick="iniciarTimerManual()">⏱️ Iniciar Descanso Agora (Opcional)</button>
+        <div class="load-history-card" id="d-load-history">
+          <div class="load-history-head"><b>📈 Evolução de carga</b><span id="d-last-load">Nenhuma carga registrada</span></div>
+          <div id="d-load-history-list"><div class="meta" style="font-size:12px;color:var(--muted)">Quando você salvar este exercício com peso, o histórico aparecerá aqui.</div></div>
+        </div>
 
         <div class="sec-label" style="margin-top:20px;">DIA DA SEMANA</div>
         <div class="day-selector" id="day-selector">
@@ -1475,6 +1498,35 @@
       if (ex) Object.assign(ex, info, { musculo: info.foco });
     });
 
+    function prepararDetalhesTecnicosPeito(ex) {
+      if (!ex || ex.grupo !== 'PEITO') return ex;
+      const texto = String(ex.instrucao || '');
+      const comoTag = 'Como fazer:';
+      const errosTag = 'Erros comuns:';
+      const comoIndex = texto.indexOf(comoTag);
+      const errosIndex = texto.indexOf(errosTag);
+
+      ex.execucao = comoIndex >= 0
+        ? texto.slice(comoIndex + comoTag.length, errosIndex >= 0 ? errosIndex : texto.length).trim()
+        : texto;
+      ex.errosComuns = errosIndex >= 0
+        ? texto.slice(errosIndex + errosTag.length).trim()
+        : 'Mantenha o movimento controlado e interrompa se houver dor articular.';
+
+      if (ex.familia === 'SUPINO') {
+        ex.respiracao = 'Inspire enquanto desce a barra, os halteres ou as manoplas de forma controlada. Expire ao empurrar a carga para cima, sem prender a respiração por tempo excessivo.';
+      } else if (ex.familia === 'CRUCIFIXO') {
+        ex.respiracao = 'Inspire ao abrir os braços e alongar o peitoral. Expire ao fechar os braços e contrair o peito.';
+      } else if (ex.familia === 'CROSSOVER') {
+        ex.respiracao = 'Inspire no retorno das polias. Expire ao aproximar as mãos e completar a contração do peitoral.';
+      } else {
+        ex.respiracao = 'Inspire na fase de retorno e expire na fase de esforço.';
+      }
+      return ex;
+    }
+
+    DATABASE_EXERCICIOS.filter(ex => ex.grupo === 'PEITO').forEach(prepararDetalhesTecnicosPeito);
+
     const RECEITAS_FOTOS = [
       "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&auto=format&fit=crop&q=80",
@@ -1965,7 +2017,9 @@
         setText('d-app-sub', ex.aparelho);
         setText('d-tag-grupo', ex.grupo);
         setText('d-primary-muscle', ex.foco || ex.musculo);
-        setText('d-instructions-text', ex.instrucao);
+        setText('d-execution-text', ex.execucao || ex.instrucao);
+        setText('d-breathing-text', ex.respiracao || 'Inspire na fase de retorno e expire na fase de esforço.');
+        setText('d-errors-text', ex.errosComuns || 'Mantenha o movimento controlado e evite compensações.');
         setText('d-equip-name', `Aparelho: ${ex.aparelho}`);
 
         const gif = document.getElementById('d-gif-img');
@@ -1990,10 +2044,58 @@
         if (reps) reps.value = custom.reps || ex.reps || 12;
         if (peso) peso.value = custom.peso !== undefined ? custom.peso : 0;
         if (descanso) descanso.value = custom.descanso || ex.descanso || 60;
+        renderizarHistoricoCargaExercicio(ex.id);
       } catch (error) {
         console.error('Falha ao preencher detalhe do exercício:', error);
         mostrarToast('O exercício abriu, mas alguns detalhes não carregaram.');
       }
+    }
+
+    function renderizarHistoricoCargaExercicio(exercicioId) {
+      const list = document.getElementById('d-load-history-list');
+      const lastEl = document.getElementById('d-last-load');
+      if (!list || !lastEl) return;
+
+      const registros = (estado.historicoCarga || [])
+        .filter(item => item.exercicioId === exercicioId)
+        .sort((a,b) => String(b.data || '').localeCompare(String(a.data || '')))
+        .slice(0, 4);
+
+      if (!registros.length) {
+        lastEl.textContent = 'Nenhuma carga registrada';
+        list.innerHTML = '<div style="font-size:12px;color:var(--muted)">Quando você salvar este exercício com peso, o histórico aparecerá aqui.</div>';
+        return;
+      }
+
+      const ultimo = registros[0];
+      lastEl.textContent = `Última: ${Number(ultimo.peso || 0).toLocaleString('pt-BR')} kg`;
+      list.innerHTML = registros.map(item => `
+        <div class="load-history-row">
+          <span>${formatarDataBR(item.data)}</span>
+          <strong>${Number(item.peso || 0).toLocaleString('pt-BR')} kg · ${item.series || 3}×${item.reps || 12}</strong>
+        </div>
+      `).join('');
+    }
+
+    function registrarCargaExercicio(exercicioId, config) {
+      const peso = Number(config?.peso || 0);
+      if (!exercicioId || peso <= 0) return;
+      if (!Array.isArray(estado.historicoCarga)) estado.historicoCarga = [];
+
+      const data = hojeISO();
+      const existenteHoje = [...estado.historicoCarga].reverse().find(item => item.exercicioId === exercicioId && item.data === data);
+      const registro = {
+        exercicioId,
+        data,
+        peso,
+        series: Number(config.series || 3),
+        reps: Number(config.reps || 12)
+      };
+
+      if (existenteHoje) Object.assign(existenteHoje, registro);
+      else estado.historicoCarga.push(registro);
+
+      renderizarHistoricoCargaExercicio(exercicioId);
     }
 
     function renderizarTreinosVertical() {
@@ -2160,12 +2262,14 @@
       if (!estado.customExercicios) estado.customExercicios = {};
       if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
 
-      estado.customExercicios[exercicioAtualId] = {
+      const configAtual = {
         series: parseInt(document.getElementById('edit-series').value) || 3,
         reps: parseInt(document.getElementById('edit-reps').value) || 12,
         peso: parseFloat(document.getElementById('edit-peso-exercicio').value) || 0,
         descanso: parseInt(document.getElementById('edit-descanso').value) || 60
       };
+      estado.customExercicios[exercicioAtualId] = configAtual;
+      registrarCargaExercicio(exercicioAtualId, configAtual);
 
       if (!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
       if (!estado.treinoPorDia[diaSelecionado].includes(exercicioAtualId)) {
