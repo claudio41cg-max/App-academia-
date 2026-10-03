@@ -1222,11 +1222,11 @@
       "Supino Reto Barra": "supindo reto barra.gif",
       "Supino Reto Halteres": "supino reto com halteres.gif",
       "Crucifixo Reto Halteres": "supino crucifixo com halteres.gif",
-      "Supino Inclinado Barra": "supino inclinado no smith.gif",
+      "Supino Inclinado Barra": "https://www.deportrainer.com/img/cms/Post%20de%20blog/press_banca_inclinado/como-hacer-el-press-inclinado-con-barra.gif",
       "Supino Inclinado Halteres": "supino inclinado com halteres.gif",
       "Crossover Polia Alta": "crucifixo no cross polia alta.gif",
       "Crossover Polia Baixa": "crucifixo no cross em pé.gif",
-      "Flexao Tradicional": "apoio de frente de joelhos.gif",
+      "Supino Declinado Barra": "https://gnqcmanyfymgobvhymsj.supabase.co/storage/v1/object/public/exercise-gifs/musculacao/peitoral/supino-com-barra-declinado.gif",
       "Rosca Direta Barra": "rosca dierta pegada aberta.gif",
       "Rosca Alternada Halteres": "rosca alternada com giro.gif",
       "Rosca Martelo": "rosca neutra com halteres.gif",
@@ -1321,7 +1321,7 @@
 
     const NOMES_EXERCICIOS = [
       "Crucifixo Peitoral Maquina","Supino Sentado Maquina","Supino Reto Barra","Supino Reto Halteres","Crucifixo Reto Halteres",
-      "Supino Inclinado Barra","Supino Inclinado Halteres","Crossover Polia Alta","Crossover Polia Baixa","Flexao Tradicional",
+      "Supino Inclinado Barra","Supino Inclinado Halteres","Crossover Polia Alta","Crossover Polia Baixa","Supino Declinado Barra",
       "Rosca Direta Barra","Rosca Alternada Halteres","Rosca Martelo","Rosca Concentrada","Rosca Scott",
       "Rosca Inversa","Rosca Barra W","Rosca na Polia","Rosca Foco no Banco","Rosca 21",
       "Triceps Polia Alta","Triceps Frances","Triceps na Corda","Triceps no Banco","Triceps Testa Barra",
@@ -1354,8 +1354,8 @@
       "PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA","PANTURRILHA"
     ];
     const APARELHOS = [
-      "Peck Deck","Peck Deck","Supino Reto","Supino Reto","Supino Reto",
-      "Supino Inclinado","Supino Inclinado","Crossover","Crossover","Flexao",
+      "Peck Deck","Máquina Chest Press","Banco reto + barra","Banco reto + halteres","Banco reto + halteres",
+      "Banco inclinado + barra","Banco inclinado + halteres","Crossover","Crossover","Banco declinado + barra",
       "Barra Reta","Halteres","Halteres","Halter","Banco Scott",
       "Barra","Barra W","Polia Baixa","Banco","Barra",
       "Polia Alta","Halteres","Polia Alta","Banco","Barra",
@@ -1376,8 +1376,8 @@
       "Halteres","Degrau","Colchonete","Solo","Maquina"
     ];
     const MUSCULOS = [
-      "Peitoral Maior","Peitoral Medio","Peitoral Medio","Peitoral Medio","Peitoral Medio",
-      "Peitoral Superior","Peitoral Superior","Peitoral Inferior","Peitoral Superior","Peitoral e Core",
+      "Peitoral maior","Peitoral médio","Peitoral médio","Peitoral médio","Peitoral maior",
+      "Peitoral superior","Peitoral superior","Peitoral inferior","Peitoral superior","Peitoral inferior",
       "Biceps Braquial","Biceps","Biceps e Braquial","Biceps (Pico)","Biceps Braquial",
       "Antebraco e Biceps","Biceps","Biceps","Biceps","Biceps",
       "Triceps","Triceps","Triceps","Triceps","Triceps",
@@ -1417,7 +1417,7 @@
         musculo: MUSCULOS[i] || "Musculo",
         grupo: GRUPOS[i] || "OUTRO",
         popular: i % 3 === 0,
-        gif: GITHUB_BASE + encodeURIComponent(nomeGif).replace(/%2F/g, '/'),
+        gif: /^https?:\/\//i.test(nomeGif) ? nomeGif : GITHUB_BASE + encodeURIComponent(nomeGif).replace(/%2F/g, '/'),
         gifFallback: FALLBACK_IMG,
         instrucao: "1. Posicione-se corretamente no equipamento.\n2. Mantenha a postura firme e o core contraído.\n3. Realize o movimento de forma controlada.\n4. Foque na contração muscular durante todo o exercício.",
         series: 3,
@@ -1426,6 +1426,54 @@
         peso: 0
       });
     }
+
+    const PEITO_INFO = {
+      e3: {
+        ordem: 1, familia: "SUPINO", foco: "Peitoral médio",
+        instrucao: "SUPINO RETO COM BARRA\n\nFoco: peitoral maior, com participação de tríceps e deltoide anterior.\n\nComo fazer:\n1. Deite no banco reto, com os pés firmes no chão.\n2. Retraia e abaixe as escápulas antes de tirar a barra do suporte.\n3. Segure a barra um pouco além da largura dos ombros, com punhos firmes.\n4. Desça com controle em direção ao meio do peito.\n5. Empurre a barra para cima sem perder a posição das escápulas.\n\nErros comuns:\n• Quicar a barra no peito.\n• Tirar o quadril do banco.\n• Abrir demais os cotovelos.\n• Usar carga que faz perder o controle."
+      },
+      e6: {
+        ordem: 2, familia: "SUPINO", foco: "Peitoral superior",
+        instrucao: "SUPINO INCLINADO COM BARRA\n\nFoco: porção superior (clavicular) do peitoral, com auxílio do deltoide anterior e tríceps.\n\nComo fazer:\n1. Ajuste o banco em inclinação moderada.\n2. Mantenha pés firmes, escápulas retraídas e peito elevado.\n3. Desça a barra com controle em direção à parte alta do peito.\n4. Empurre para cima mantendo os punhos alinhados.\n\nErros comuns:\n• Inclinar o banco demais e transformar o movimento em desenvolvimento de ombro.\n• Deixar os ombros avançarem.\n• Bater a barra no peito."
+      },
+      e10: {
+        ordem: 3, familia: "SUPINO", foco: "Peitoral inferior",
+        instrucao: "SUPINO DECLINADO COM BARRA\n\nFoco: porção inferior do peitoral maior, com participação de tríceps e deltoide anterior.\n\nComo fazer:\n1. Prenda bem as pernas no banco declinado.\n2. Retraia as escápulas e estabilize o tronco.\n3. Desça a barra de forma controlada em direção à região inferior do peito.\n4. Empurre para cima sem tirar os ombros da posição.\n\nErros comuns:\n• Descer a barra perto do pescoço.\n• Perder a estabilidade no banco.\n• Usar amplitude ou carga que cause desconforto no ombro."
+      },
+      e4: {
+        ordem: 4, familia: "SUPINO", foco: "Peitoral médio",
+        instrucao: "SUPINO RETO COM HALTERES\n\nFoco: peitoral maior. Os halteres permitem que cada braço trabalhe de forma independente.\n\nComo fazer:\n1. Deite no banco reto com um halter em cada mão.\n2. Mantenha escápulas estáveis e pés firmes.\n3. Desça os halteres ao lado do peito com controle.\n4. Empurre para cima aproximando os halteres sem bater um no outro.\n\nErros comuns:\n• Descer além da amplitude confortável do ombro.\n• Girar excessivamente os punhos.\n• Perder o contato do quadril com o banco."
+      },
+      e7: {
+        ordem: 5, familia: "SUPINO", foco: "Peitoral superior",
+        instrucao: "SUPINO INCLINADO COM HALTERES\n\nFoco: parte superior do peitoral.\n\nComo fazer:\n1. Ajuste o banco em inclinação moderada.\n2. Apoie bem as costas e retraia as escápulas.\n3. Desça os halteres ao lado da parte alta do peito.\n4. Suba controlando os dois lados igualmente.\n\nErros comuns:\n• Banco excessivamente vertical.\n• Cotovelos muito abertos.\n• Perder o controle na descida."
+      },
+      e2: {
+        ordem: 6, familia: "SUPINO", foco: "Peitoral médio",
+        instrucao: "SUPINO HORIZONTAL NA MÁQUINA\n\nFoco: peitoral maior com trajetória guiada, útil para controlar melhor o movimento.\n\nComo fazer:\n1. Ajuste o banco para que as manoplas fiquem aproximadamente na linha do peito.\n2. Mantenha costas e cabeça apoiadas.\n3. Empurre as manoplas sem projetar os ombros para frente.\n4. Retorne lentamente até alongar o peitoral de forma confortável.\n\nErros comuns:\n• Banco alto ou baixo demais.\n• Tirar as costas do encosto.\n• Deixar o peso voltar sem controle."
+      },
+      e1: {
+        ordem: 7, familia: "CRUCIFIXO", foco: "Peitoral maior",
+        instrucao: "CRUCIFIXO NA MÁQUINA (PECK DECK)\n\nFoco: adução horizontal do ombro e contração do peitoral maior.\n\nComo fazer:\n1. Ajuste o banco para manter os braços na altura do peito.\n2. Mantenha peito aberto e escápulas estáveis.\n3. Feche os braços à frente do corpo sem bater as manoplas.\n4. Retorne devagar até sentir alongamento confortável.\n\nErros comuns:\n• Projetar a cabeça e os ombros para frente.\n• Usar impulso.\n• Abrir além da mobilidade confortável."
+      },
+      e5: {
+        ordem: 8, familia: "CRUCIFIXO", foco: "Peitoral maior",
+        instrucao: "CRUCIFIXO RETO COM HALTERES\n\nFoco: peitoral maior, com ênfase no alongamento sob controle.\n\nComo fazer:\n1. Deite no banco reto com halteres acima do peito.\n2. Mantenha leve flexão dos cotovelos durante todo o movimento.\n3. Abra os braços em arco até uma amplitude confortável.\n4. Feche os braços usando o peito, sem transformar o movimento em supino.\n\nErros comuns:\n• Esticar totalmente os cotovelos.\n• Descer demais e sobrecarregar os ombros.\n• Dobrar muito o cotovelo e virar um supino."
+      },
+      e8: {
+        ordem: 9, familia: "CROSSOVER", foco: "Peitoral inferior",
+        instrucao: "CROSSOVER NA POLIA ALTA\n\nFoco: peitoral maior, com trajetória de cima para baixo enfatizando a porção inferior.\n\nComo fazer:\n1. Ajuste as polias acima da linha dos ombros.\n2. Dê um passo à frente e incline levemente o tronco.\n3. Com cotovelos levemente flexionados, leve as mãos para baixo e para dentro.\n4. Retorne devagar mantendo tensão no peitoral.\n\nErros comuns:\n• Transformar o movimento em extensão de tríceps.\n• Balançar o tronco.\n• Usar carga alta demais."
+      },
+      e9: {
+        ordem: 10, familia: "CROSSOVER", foco: "Peitoral superior",
+        instrucao: "CROSSOVER NA POLIA BAIXA\n\nFoco: porção superior do peitoral, levando as mãos de baixo para cima.\n\nComo fazer:\n1. Posicione as polias próximas ao chão.\n2. Mantenha tronco firme e cotovelos levemente flexionados.\n3. Leve as mãos para cima e para dentro, em direção à parte alta do peito.\n4. Volte com controle.\n\nErros comuns:\n• Encolher os ombros.\n• Usar impulso do corpo.\n• Fechar os cotovelos como numa rosca."
+      }
+    };
+
+    Object.entries(PEITO_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
 
     const RECEITAS_FOTOS = [
       "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&auto=format&fit=crop&q=80",
@@ -1870,6 +1918,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
+      if (categoriaAtual === 'PEITO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
@@ -1881,8 +1930,8 @@
             <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"></div>
             <div class="ex-item-info">
               <p class="title">${ex.nome}</p>
-              <p class="app-name">${ex.aparelho}</p>
-              <p class="muscle">${ex.musculo}</p>
+              <p class="app-name">${ex.familia ? ex.familia + ' · ' : ''}${ex.aparelho}</p>
+              <p class="muscle">${ex.foco || ex.musculo}</p>
             </div>
             <div class="chev-icon">›</div>
           </div>
