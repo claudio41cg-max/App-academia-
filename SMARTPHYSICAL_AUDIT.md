@@ -139,6 +139,21 @@ Cada um dos 10 exercícios recebeu:
 - [ ] Próximo objetivo: migrar os exercícios para uma biblioteca de GIFs visualmente padronizada e com licença adequada.
 
 
+## Padronização Exercise Library — PEITO
+
+- [x] Supino Reto com Barra → Exercise Library
+- [x] Supino Inclinado com Barra → Exercise Library
+- [x] Supino Declinado com Barra → Exercise Library
+- [x] Supino Reto com Halteres → Exercise Library
+- [x] Supino Inclinado com Halteres → Exercise Library
+- [x] Supino Horizontal na Máquina → Exercise Library
+- [x] Crucifixo Reto com Halteres → Exercise Library
+- [x] Crossover Polia Alta → Exercise Library
+- [x] Crossover Polia Baixa → Exercise Library
+- [ ] Crucifixo na Máquina / Pec Deck → não foi encontrado equivalente exato na biblioteca; manter mídia atual até achar correspondência correta.
+
+Resultado: **9/10 exercícios de peito usando o mesmo pacote visual**.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
