@@ -1321,15 +1321,15 @@
       "Remada Alta Halteres Trapezio": "remada alta com halteres bilateral.gif",
       "Remada Alta Cross Trapezio": "remada alta no cross.gif",
       "Elevacao Pelvica Gluteo": "elevação pelvica livre.gif",
-      "Agachamento Profundo": "agachamento livre pés juntos.gif",
-      "Passada (Afundo)": "afundo livre.gif",
-      "Ponte de Gluteo no Solo": "elevação pelvica livre.gif",
-      "Abducao de Quadril": "Abdução de quadril em pé.gif",
-      "Agachamento Halteres": "agachamento sumo com halteres.gif",
-      "Coice de Gluteo Polia": "extensão de quadril em pé na polia.gif",
-      "Passada Lateral": "seitlicher_ausfallschritt_mit_langhantel.gif",
-      "Ponte Unilateral": "elevação pelvica livre.gif",
-      "Agachamento Sumo": "agachamento sumo com halteres.gif",
+      "Abducao Quadril em Pe": "Abduçao de quadril em pé.gif",
+      "Extensao Quadril Polia": "Extensão de quadril em pé na polia.gif",
+      "Extensao Quadril Joelho Flexionado": "Extensão de quadril em pé com joelhos flexionados.gif",
+      "Afundo Livre": "afundo livre.gif",
+      "Passada Frente Halteres": "passada a frente com halteres.gif",
+      "Passada Frente Barra": "passada a frente com barra.gif",
+      "Agachamento Sumo Halteres": "agachamento sumo com halteres.gif",
+      "Agachamento Sumo Livre": "agachamento sumo livre.gif",
+      "Agachamento Sumo Peso Corporal": "Agachamento Sumo Peso Corporal.gif",
       "Panturrilha em Pe": "panturrinha no leg press.gif",
       "Panturrilha Sentado": "flex de joelho em pé no cabo cross.gif",
       "Panturrilha Unilateral": "flex de joelho em pé no cabo cross.gif",
@@ -1359,8 +1359,8 @@
       "Remada Articulada","Remada Baixa Triangulo","Remada Cavalinho Barra","Remada Inclinada Smith","Hiperextensao Tronco",
       "Encolhimento Barra","Encolhimento Halteres","Encolhimento Smith","Encolhimento Maquina","Encolhimento Polia",
       "Encolhimento Sentado Halteres","Encolhimento Banco Inclinado","Remada Alta Barra W Trapezio","Remada Alta Halteres Trapezio","Remada Alta Cross Trapezio",
-      "Elevacao Pelvica Gluteo","Agachamento Profundo","Passada (Afundo)","Ponte de Gluteo no Solo","Abducao de Quadril",
-      "Agachamento Halteres","Coice de Gluteo Polia","Passada Lateral","Ponte Unilateral","Agachamento Sumo",
+      "Elevacao Pelvica Gluteo","Abducao Quadril em Pe","Extensao Quadril Polia","Extensao Quadril Joelho Flexionado","Afundo Livre",
+      "Passada Frente Halteres","Passada Frente Barra","Agachamento Sumo Halteres","Agachamento Sumo Livre","Agachamento Sumo Peso Corporal",
       "Panturrilha em Pe","Panturrilha Sentado","Panturrilha Unilateral","Saltos com Corda","Panturrilha Polia",
       "Panturrilha Halteres","Panturrilha Plataforma","Panturrilha Joelho Flexionado","Treino de Panturrilha com Pulo","Panturrilha Maquina"
     ];
@@ -1393,8 +1393,8 @@
       "Máquina de remada","Pulley + triângulo","Barra T","Smith","Banco de hiperextensão",
       "Barra","Halteres","Smith","Máquina","Crossover",
       "Banco + halteres","Banco inclinado + halteres","Barra W","Halteres","Crossover",
-      "Barra","Barra","Halteres","Colchonete","Polia",
-      "Halteres","Polia","Halter","Colchonete","Barra",
+      "Banco + barra","Polia ou livre","Crossover","Crossover","Peso corporal",
+      "Halteres","Barra","Halter","Peso corporal","Peso corporal",
       "Maquina","Maquina","Halter","Corda","Polia",
       "Halteres","Degrau","Colchonete","Solo","Maquina"
     ];
@@ -1415,8 +1415,8 @@
       "Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Eretores da coluna e glúteos",
       "Trapézio superior","Trapézio superior","Trapézio superior","Trapézio superior","Trapézio superior",
       "Trapézio superior","Trapézio superior e médio","Trapézio e deltoide","Trapézio e deltoide","Trapézio e deltoide",
-      "Gluteo Maximo","Gluteo","Gluteo","Gluteo","Gluteo Medio",
-      "Gluteo","Gluteo","Gluteo Medio","Gluteo","Gluteo",
+      "Glúteo máximo","Glúteo médio","Glúteo máximo","Glúteo máximo","Glúteo máximo",
+      "Glúteo máximo e quadríceps","Glúteo máximo e quadríceps","Glúteos e adutores","Glúteos e adutores","Glúteos e adutores",
       "Gastrocnemio","Soleo","Gastrocnemio","Panturrilha","Gastrocnemio",
       "Gastrocnemio","Soleo","Soleo","Panturrilha","Gastrocnemio"
     ];
@@ -1496,6 +1496,25 @@
     Object.entries(PEITO_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const GLUTEO_INFO = {
+      e81:{ordem:1,familia:"ELEVAÇÃO PÉLVICA",foco:"Glúteo máximo",instrucao:"ELEVAÇÃO PÉLVICA",execucao:"Apoie as costas no banco, mantenha os pés firmes e eleve o quadril até alinhar tronco e coxas, contraindo os glúteos no alto.",respiracao:"Expire ao elevar e inspire ao descer.",errosComuns:"Hiperestender a lombar, afastar demais os pés ou subir sem contrair os glúteos."},
+      e82:{ordem:2,familia:"ABDUÇÃO",foco:"Glúteo médio",instrucao:"ABDUÇÃO DE QUADRIL EM PÉ",execucao:"Mantenha o tronco estável e afaste a perna lateralmente sem girar o quadril. Retorne devagar.",respiracao:"Expire ao afastar e inspire no retorno.",errosComuns:"Inclinar o tronco, girar o pé excessivamente ou usar impulso."},
+      e83:{ordem:3,familia:"EXTENSÃO",foco:"Glúteo máximo",instrucao:"EXTENSÃO DE QUADRIL NA POLIA",execucao:"Com a polia presa ao tornozelo, leve a perna para trás mantendo o tronco firme e o joelho estável.",respiracao:"Expire ao estender e inspire no retorno.",errosComuns:"Arquear a lombar, girar o quadril ou usar impulso."},
+      e84:{ordem:4,familia:"EXTENSÃO",foco:"Glúteo máximo",instrucao:"EXTENSÃO DE QUADRIL COM JOELHO FLEXIONADO",execucao:"Mantenha o joelho flexionado e leve a coxa para trás, concentrando a força no glúteo sem movimentar a lombar.",respiracao:"Expire na extensão e inspire no retorno.",errosComuns:"Hiperestender a coluna, abrir o quadril ou acelerar o movimento."},
+      e85:{ordem:5,familia:"UNILATERAL",foco:"Glúteo máximo",instrucao:"AFUNDO LIVRE",execucao:"Dê um passo confortável, desça os dois joelhos com controle e empurre o chão para retornar.",respiracao:"Inspire na descida e expire ao subir.",errosComuns:"Passo curto demais, joelho colapsando para dentro ou perder o equilíbrio."},
+      e86:{ordem:6,familia:"UNILATERAL",foco:"Glúteo máximo · quadríceps",instrucao:"PASSADA À FRENTE COM HALTERES",execucao:"Com halteres ao lado do corpo, dê um passo à frente e desça mantendo o joelho alinhado ao pé.",respiracao:"Inspire na descida e expire ao retornar.",errosComuns:"Balançar o tronco, bater o joelho de trás no chão ou dar passos estreitos demais."},
+      e87:{ordem:7,familia:"UNILATERAL",foco:"Glúteo máximo · quadríceps",instrucao:"PASSADA À FRENTE COM BARRA",execucao:"Com a barra apoiada nas costas, avance um passo e desça com controle mantendo o tronco estável.",respiracao:"Inspire ao descer e expire ao subir.",errosComuns:"Perder a estabilidade da barra, juntar os joelhos ou usar passo inadequado."},
+      e88:{ordem:8,familia:"SUMÔ",foco:"Glúteos · adutores",instrucao:"AGACHAMENTO SUMÔ COM HALTER",execucao:"Afaste os pés e aponte levemente as pontas para fora. Segure o halter entre as pernas e agache mantendo os joelhos alinhados.",respiracao:"Inspire na descida e expire na subida.",errosComuns:"Deixar joelhos cair para dentro, arredondar a lombar ou tirar os calcanhares do chão."},
+      e89:{ordem:9,familia:"SUMÔ",foco:"Glúteos · adutores",instrucao:"AGACHAMENTO SUMÔ LIVRE",execucao:"Use base ampla, desça levando quadril para baixo e para trás e suba contraindo glúteos.",respiracao:"Inspire ao descer e expire ao subir.",errosComuns:"Perder o alinhamento dos joelhos, inclinar demais o tronco ou encurtar a amplitude sem necessidade."},
+      e90:{ordem:10,familia:"SUMÔ",foco:"Glúteos · adutores",instrucao:"AGACHAMENTO SUMÔ COM PESO CORPORAL",execucao:"Faça o agachamento em base ampla usando apenas o peso do corpo, mantendo coluna neutra e joelhos acompanhando os pés.",respiracao:"Inspire na descida e expire na subida.",errosComuns:"Fechar os joelhos, perder os calcanhares do chão ou descer sem controle."}
+    };
+
+    Object.entries(GLUTEO_INFO).forEach(([id,info])=>{
+      const ex=DATABASE_EXERCICIOS.find(item=>item.id===id);
+      if(ex)Object.assign(ex,info,{musculo:info.foco});
     });
 
 
@@ -2205,7 +2224,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS' || categoriaAtual === 'TRAPEZIO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS' || categoriaAtual === 'TRAPEZIO' || categoriaAtual === 'GLUTEO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
