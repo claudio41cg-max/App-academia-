@@ -197,6 +197,30 @@ Em 03/10/2026, a categoria TRÍCEPS foi reorganizada por famílias de movimento,
 
 Resultado: **10/10 exercícios de Tríceps usando GIFs locais 360×360**, organizados em sequência lógica. Os nomes antigos que não se encaixavam bem foram substituídos, mantendo os IDs internos para preservar compatibilidade com treinos salvos. Também foram adicionadas instruções, respiração e erros comuns específicos.
 
+## Auditoria — PERNA
+
+Em 03/10/2026, a categoria PERNA foi reorganizada por famílias de movimento, priorizando exercícios conhecidos e GIFs locais compatíveis.
+
+### AGACHAMENTO
+1. Agachamento Livre Barra → `Agachamento livre com barra.gif`
+2. Agachamento Máquina → `agachamento na maquina.gif`
+
+### MÁQUINAS
+3. Leg Press Pés Afastados → `leg press pés afastados.gif`
+4. Cadeira Extensora → `cadeira extensora.gif`
+5. Cadeira Flexora → `cadeira flex.gif`
+
+### POSTERIOR
+6. Stiff Barra → `stiff com barra.gif`
+7. Stiff Halteres → `Stiff com Halteres.gif`
+
+### UNILATERAL / TERRA
+8. Passada Halteres → `passada com halteres.gif`
+9. Agachamento Búlgaro → `agachamento bulgaro.gif`
+10. Levantamento Terra Barra → `levantamento terra com barra.gif`
+
+Resultado: **10 exercícios de perna reorganizados em sequência lógica**, usando GIFs locais. O `leg press.gif` 720×720 foi evitado para manter o padrão visual 360×360. Foram adicionadas instruções, respiração e erros comuns específicos, preservando os IDs internos para compatibilidade com treinos salvos.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
