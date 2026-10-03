@@ -221,10 +221,40 @@ Em 03/10/2026, a categoria PERNA foi reorganizada por famílias de movimento, pr
 
 Resultado: **10 exercícios de perna reorganizados em sequência lógica**, usando GIFs locais. O `leg press.gif` 720×720 foi evitado para manter o padrão visual 360×360. Foram adicionadas instruções, respiração e erros comuns específicos, preservando os IDs internos para compatibilidade com treinos salvos.
 
+
+
+## Auditoria — OMBRO
+
+Em 03/10/2026, a categoria OMBRO foi reorganizada por famílias de movimento, mantendo os IDs internos e usando GIFs locais da biblioteca enviada pelo usuário.
+
+### DESENVOLVIMENTO
+1. Desenvolvimento com Halteres → `Desenvolvimento com Halteres.gif`
+2. Desenvolvimento na Máquina → `Desenvolmento Máquina.gif`
+3. Desenvolvimento Smith → `Desenvolvimento Smith.gif`
+4. Arnold Press → `desenvolvimento com rotação.gif`
+
+### ELEVAÇÃO LATERAL
+5. Elevação Lateral com Halteres → `elevação letaral com haltrers.gif`
+6. Elevação Lateral no Cross → `elevação leteral cruzada no cross.gif`
+
+### ELEVAÇÃO FRONTAL
+7. Elevação Frontal com Halteres → `elevação frontal com halteres.gif`
+8. Elevação Frontal no Cross → `Elevação Frontal Crossover.gif`
+
+### POSTERIOR / REMADA ALTA
+9. Crucifixo Inverso com Halteres → `Crucifixo Invertido com Halteres.gif`
+10. Remada Alta Barra W → `remada alta com barra W.gif`
+
+Resultado: **10/10 exercícios de ombro organizados com GIFs locais compatíveis**, instruções, respiração e erros comuns específicos.
+
+## ABDÔMEN — observação de continuidade
+
+A categoria ABDÔMEN ainda precisa de revisão completa. Entre os GIFs locais já publicados no repositório, apenas `Abdominal Concentrado.gif` e `Abdominal com Carga.gif` têm correspondência nominal clara com exercícios abdominais. Os demais mapeamentos atuais incluem demonstrações incompatíveis (apoios, crucifixo inverso e barra/cross). Para não repetir o erro de colocar GIF errado com nome certo, a categoria fica marcada como pendente até selecionar mídias realmente compatíveis.
+
 ## Próxima sequência planejada
 
-1. Testar PEITO no celular.
-2. Conferir visualmente os 10 GIFs de peito.
-3. Ajustar qualquer GIF de peito ainda duvidoso.
-4. Depois seguir para outro grupo muscular, somente após PEITO ficar aprovado.
-5. Continuar reduzindo este placar.
+1. Revisar e corrigir ABDÔMEN sem usar GIFs incompatíveis.
+2. Conferir visualmente OMBRO no celular.
+3. Seguir para COSTAS.
+4. Depois TRAPÉZIO, GLÚTEO e PANTURRILHA.
+5. Continuar reduzindo o placar oficial de erros.
