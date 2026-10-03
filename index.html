@@ -1300,16 +1300,16 @@
       "Elevacao Frontal no Cross": "Elevação Frontal Crossover.gif",
       "Crucifixo Inverso com Halteres": "Crucifixo Invertido com Halteres.gif",
       "Remada Alta Barra W": "remada alta com barra W.gif",
-      "Puxada Frontal": "pulley frente pegada supinada.gif",
-      "Remada Curvada": "remada livre com barra.gif",
-      "Remada Sentado": "remada articulada.gif",
-      "Barra Fixa": "barra livre pegada aberta joelhos flexionados.gif",
-      "Remada Halter": "remada serrote.gif",
-      "Puxada Triangulo": "pulley frente pegaga fechda pronada.gif",
-      "Remada Baixa": "remada baixa no pulley triangulo.gif",
-      "Remada Cavalinho": "remada cavalinho unilateral.gif",
-      "Pulldown Braco Reto": "pulley costa unilateral.gif",
-      "Remada Invertida": "remada inclinda no banco pegada supinda puxada fechada.gif",
+      "Puxada Frontal Pegada Pronada": "pulley pegada aberta pronada.gif",
+      "Puxada Frontal Pegada Supinada": "pulley frente pegada supinada.gif",
+      "Puxada Fechada Triangulo": "pulley frente pegaga fechda pronada.gif",
+      "Remada Curvada Barra": "remada livre com barra.gif",
+      "Remada Serrote": "remada serrote.gif",
+      "Remada Articulada": "remada articulada.gif",
+      "Remada Baixa Triangulo": "remada beixa no pulley triangulo.gif",
+      "Remada Cavalinho Barra": "remada cavalino com barra.gif",
+      "Remada Inclinada Smith": "remada inclinada no smith.gif",
+      "Hiperextensao Tronco": "Hiperextensão do tronco.gif",
       "Encolhimento Barra": "encolhimento na barra livre.gif",
       "Encolhimento Halteres": "encolhimento sentado no banco com halteres.gif",
       "Remada Alta Trapezio": "remada alta com halteres bilateral.gif",
@@ -1355,8 +1355,8 @@
       "Abdominal Superior","Prancha Lateral","Elevacao de Pernas na Barra","Abdominal Tesoura","Abdominal Rolinho",
       "Desenvolvimento com Halteres","Desenvolvimento na Maquina","Desenvolvimento Smith","Arnold Press","Elevacao Lateral com Halteres",
       "Elevacao Lateral no Cross","Elevacao Frontal com Halteres","Elevacao Frontal no Cross","Crucifixo Inverso com Halteres","Remada Alta Barra W",
-      "Puxada Frontal","Remada Curvada","Remada Sentado","Barra Fixa","Remada Halter",
-      "Puxada Triangulo","Remada Baixa","Remada Cavalinho","Pulldown Braco Reto","Remada Invertida",
+      "Puxada Frontal Pegada Pronada","Puxada Frontal Pegada Supinada","Puxada Fechada Triangulo","Remada Curvada Barra","Remada Serrote",
+      "Remada Articulada","Remada Baixa Triangulo","Remada Cavalinho Barra","Remada Inclinada Smith","Hiperextensao Tronco",
       "Encolhimento Barra","Encolhimento Halteres","Remada Alta Trapezio","Face Pull Trapezio","Prancha Toque Ombro",
       "Remada Alta Polia","Encolhimento Polia","Trapezio Sentado Halteres","Remada Alta Halteres","Prancha Toque Ombro Alt",
       "Elevacao Pelvica Gluteo","Agachamento Profundo","Passada (Afundo)","Ponte de Gluteo no Solo","Abducao de Quadril",
@@ -1389,8 +1389,8 @@
       "Colchonete","Colchonete","Barra Fixa","Colchonete","Rolinho",
       "Halteres","Máquina de ombros","Smith","Halteres","Halteres",
       "Crossover","Halteres","Crossover","Halteres","Barra W",
-      "Pulley","Barra","Maquina Remada","Barra Fixa","Halter",
-      "Pulley","Pulley","Maquina","Pulley","Barra Baixa",
+      "Pulley","Pulley","Pulley + triângulo","Barra","Halter",
+      "Máquina de remada","Pulley + triângulo","Barra T","Smith","Banco de hiperextensão",
       "Barra","Halteres","Barra","Polia","Colchonete",
       "Polia","Polia","Banco","Halteres","Colchonete",
       "Barra","Barra","Halteres","Colchonete","Polia",
@@ -1411,8 +1411,8 @@
       "Abdomen Superior","Obliquos e Core","Abdomen Inferior","Abdomen Inferior","Abdomen e Core",
       "Deltoide anterior e medio","Deltoide anterior e medio","Deltoide anterior e medio","Deltoide anterior e medio","Deltoide medio",
       "Deltoide medio","Deltoide anterior","Deltoide anterior","Deltoide posterior","Deltoide medio e trapezio",
-      "Latissimo","Latissimo e Romboides","Latissimo","Latissimo","Latissimo",
-      "Latissimo","Latissimo","Latissimo","Latissimo","Latissimo",
+      "Latíssimo do dorso","Latíssimo do dorso","Latíssimo do dorso","Latíssimo e romboides","Latíssimo e romboides",
+      "Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Latíssimo e romboides","Eretores da coluna e glúteos",
       "Trapezio Superior","Trapezio Superior","Trapezio","Trapezio Medio","Trapezio",
       "Trapezio","Trapezio Superior","Trapezio","Trapezio","Trapezio",
       "Gluteo Maximo","Gluteo","Gluteo","Gluteo","Gluteo Medio",
@@ -1496,6 +1496,25 @@
     Object.entries(PEITO_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const COSTAS_INFO = {
+      e61:{ordem:1,familia:"PUXADA",foco:"Latíssimo do dorso",instrucao:"PUXADA FRONTAL PEGADA PRONADA",execucao:"Puxe a barra em direção à parte alta do peito, mantendo o peito aberto e os cotovelos apontando para baixo.",respiracao:"Expire ao puxar e inspire ao retornar.",errosComuns:"Jogar o tronco para trás, puxar atrás da nuca ou deixar o peso subir sem controle."},
+      e62:{ordem:2,familia:"PUXADA",foco:"Latíssimo do dorso",instrucao:"PUXADA FRONTAL PEGADA SUPINADA",execucao:"Segure a barra com as palmas voltadas para você e puxe em direção ao peito, mantendo os ombros longe das orelhas.",respiracao:"Expire na puxada e inspire no retorno.",errosComuns:"Usar balanço, fechar demais os ombros ou encurtar a amplitude."},
+      e63:{ordem:3,familia:"PUXADA",foco:"Latíssimo do dorso",instrucao:"PUXADA FECHADA COM TRIÂNGULO",execucao:"Use a pegada fechada e puxe o triângulo em direção ao peito, levando os cotovelos para baixo e para trás.",respiracao:"Expire ao puxar e inspire ao subir.",errosComuns:"Arredondar as costas, puxar com impulso ou deixar os ombros subirem."},
+      e64:{ordem:4,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA CURVADA COM BARRA",execucao:"Incline o tronco com coluna neutra e puxe a barra em direção ao abdômen, aproximando as escápulas.",respiracao:"Expire ao remar e inspire ao estender os braços.",errosComuns:"Arredondar a lombar, levantar o tronco a cada repetição ou puxar apenas com os braços."},
+      e65:{ordem:5,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA SERROTE",execucao:"Apoie uma mão e um joelho no banco. Puxe o halter em direção ao quadril mantendo o tronco estável.",respiracao:"Expire ao puxar e inspire ao descer.",errosComuns:"Girar o tronco, encolher o ombro ou puxar o halter para o peito em vez do quadril."},
+      e66:{ordem:6,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA ARTICULADA",execucao:"Ajuste o banco e puxe as alças para trás mantendo o peito apoiado ou o tronco firme, conforme a máquina.",respiracao:"Expire ao puxar e inspire no retorno.",errosComuns:"Perder contato com o apoio, encolher os ombros ou soltar o peso rapidamente."},
+      e67:{ordem:7,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA BAIXA COM TRIÂNGULO",execucao:"Sente-se com o tronco firme e puxe o triângulo em direção ao abdômen sem balançar para trás.",respiracao:"Expire na puxada e inspire no retorno.",errosComuns:"Usar impulso do tronco, arredondar a lombar ou deixar os ombros avançarem demais."},
+      e68:{ordem:8,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA CAVALINHO COM BARRA",execucao:"Com o tronco inclinado e coluna neutra, puxe a barra em direção ao tronco mantendo cotovelos controlados.",respiracao:"Expire ao puxar e inspire ao descer.",errosComuns:"Arredondar as costas, usar carga excessiva ou encurtar a amplitude."},
+      e69:{ordem:9,familia:"REMADA",foco:"Latíssimo · romboides",instrucao:"REMADA INCLINADA NO SMITH",execucao:"Incline o tronco e puxe a barra do Smith em direção ao abdômen, mantendo o caminho controlado.",respiracao:"Expire ao puxar e inspire ao retornar.",errosComuns:"Mudar a inclinação do tronco, perder a coluna neutra ou deixar os ombros subirem."},
+      e70:{ordem:10,familia:"LOMBAR",foco:"Eretores da coluna · glúteos",instrucao:"HIPEREXTENSÃO DO TRONCO",execucao:"Apoie o quadril no banco e desça o tronco com controle. Retorne até alinhar o corpo, sem hiperestender a lombar.",respiracao:"Inspire na descida e expire na subida.",errosComuns:"Subir além do alinhamento, fazer movimento brusco ou curvar excessivamente a coluna."}
+    };
+
+    Object.entries(COSTAS_INFO).forEach(([id,info])=>{
+      const ex=DATABASE_EXERCICIOS.find(item=>item.id===id);
+      if(ex)Object.assign(ex,info,{musculo:info.foco});
     });
 
 
@@ -2167,7 +2186,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO' || categoriaAtual === 'COSTAS') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
