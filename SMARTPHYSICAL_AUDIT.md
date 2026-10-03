@@ -156,6 +156,23 @@ Em 03/10/2026, os 10 exercícios de PEITO passaram a usar os GIFs locais 360×36
 
 Resultado: **10/10 exercícios de peito usando GIFs locais 360×360**, sem depender de URLs externas para esta categoria.
 
+## Auditoria — BÍCEPS
+
+Em 03/10/2026, os 10 exercícios de BÍCEPS foram conferidos na biblioteca local 360×360.
+
+- [x] Rosca Direta Barra → `rosca dierta pegada aberta.gif`
+- [x] Rosca Alternada Halteres → `rosca alternada com giro.gif`
+- [x] Rosca Martelo → `rosca neutra com halteres.gif`
+- [x] Rosca Concentrada → `Rosca Concentrada.gif`
+- [x] Rosca Scott → corrigido para `rosca  direta no banco scort.gif`
+- [x] Rosca Inversa → corrigido para `rosca dierata pegada invertida barra W.gif`
+- [x] Rosca Barra W → `rosca direta barra W.gif`
+- [x] Rosca na Polia → `rosca direta no cross barra W.gif`
+- [x] Rosca Foco no Banco → corrigido para `rosca unilateral com halteres sentado no banco.gif`
+- [!] Rosca 21 → `rosca direta barra W sentado banco.gif` é 360×360, mas não representa claramente o método 21; manter como pendência visual até existir um GIF específico.
+
+Resultado: **10/10 arquivos de Bíceps validados em 360×360** e **3 apontamentos quebrados/incorretos corrigidos**. A Rosca 21 continua com mídia provisória por falta de demonstração específica na biblioteca atual.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
