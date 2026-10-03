@@ -133,14 +133,11 @@ Cada um dos 10 exercícios recebeu:
 
 ## Segunda demonstração visual — PEITO
 
-- [x] Supino Reto com Barra — segundo ângulo.
-- [x] Supino Inclinado com Barra — segundo ângulo.
-- [x] Supino Declinado com Barra — segundo ângulo.
-- [x] Supino Reto com Halteres — segundo ângulo.
-- [x] Supino Inclinado com Halteres — segundo ângulo.
-- [x] Crossover Polia Alta — segundo ângulo.
-- [x] GIF principal e GIF secundário podem ser ampliados ao toque.
-- [x] Exercícios sem necessidade de segunda mídia continuam com apenas um GIF para não pesar a tela.
+- [x] Testada uma segunda demonstração visual.
+- [x] Removida por preferência do usuário.
+- [x] Voltamos para **um único GIF principal por exercício**.
+- [ ] Próximo objetivo: migrar os exercícios para uma biblioteca de GIFs visualmente padronizada e com licença adequada.
+
 
 ## Próxima sequência planejada
 
