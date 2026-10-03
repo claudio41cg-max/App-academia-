@@ -1270,15 +1270,15 @@
       "Triceps Testa Halteres": "triceps tresta com halteres.gif",
       "Triceps no Banco": "triceps paralelo no banco.gif",
       "Triceps Paralelas Maquina": "triceps na paralela maquiba.gif",
-      "Agachamento Livre": "agachamento livre com barra.gif",
-      "Leg Press": "leg press.gif",
+      "Agachamento Livre Barra": "Agachamento livre com barra.gif",
+      "Agachamento Maquina": "agachamento na maquina.gif",
+      "Leg Press Pes Afastados": "leg press pés afastados.gif",
       "Cadeira Extensora": "cadeira extensora.gif",
-      "Mesa Flexora": "mesa flex.gif",
-      "Afundo Halteres": "passada com halteres.gif",
-      "Stiff": "stiff com barra.gif",
+      "Stiff Halteres": "Stiff com Halteres.gif",
+      "Stiff Barra": "stiff com barra.gif",
       "Cadeira Flexora": "cadeira flex.gif",
-      "Elevacao Pelvica": "elevação pelvica livre.gif",
-      "Cadeira Abdutora": "cadeira adutora.gif",
+      "Passada Halteres": "passada com halteres.gif",
+      "Levantamento Terra Barra": "levantamento terra com barra.gif",
       "Agachamento Bulgaro": "agachamento bulgaro.gif",
       "Abdominal Tradicional": "Abdominal com Carga.gif",
       "Prancha": "apoio de frente com step.gif",
@@ -1349,8 +1349,8 @@
       "Rosca Inversa","Rosca Barra W","Rosca na Polia","Rosca Foco no Banco","Rosca 21",
       "Triceps Polia Barra Triangulo","Triceps Polia Unilateral","Triceps Frances Polia","Triceps Frances Unilateral Polia","Triceps Frances Barra W",
       "Triceps Testa Barra","Triceps Testa Pegada Neutra","Triceps Testa Halteres","Triceps no Banco","Triceps Paralelas Maquina",
-      "Agachamento Livre","Leg Press","Cadeira Extensora","Mesa Flexora","Afundo Halteres",
-      "Stiff","Cadeira Flexora","Elevacao Pelvica","Cadeira Abdutora","Agachamento Bulgaro",
+      "Agachamento Livre Barra","Agachamento Maquina","Leg Press Pes Afastados","Cadeira Extensora","Cadeira Flexora",
+      "Stiff Barra","Stiff Halteres","Passada Halteres","Agachamento Bulgaro","Levantamento Terra Barra",
       "Abdominal Tradicional","Prancha","Abdominal Infra","Abdominal Obliquo","Bicicleta no Ar",
       "Abdominal Superior","Prancha Lateral","Elevacao de Pernas na Barra","Abdominal Tesoura","Abdominal Rolinho",
       "Desenvolvimento Barra","Elevacao Lateral","Elevacao Frontal","Desenvolvimento Halteres","Face Pull",
@@ -1383,8 +1383,8 @@
       "Barra","Barra W","Polia Baixa","Banco","Barra",
       "Polia Alta + barra triângulo","Polia Alta","Polia Alta","Polia Alta","Barra W",
       "Banco + barra","Banco + halteres","Banco + halteres","Banco","Máquina de paralelas",
-      "Barra","Leg Press","Maquina Extensora","Maquina Flexora","Halteres",
-      "Barra","Maquina Flexora","Barra","Maquina Abdutora","Banco",
+      "Barra","Máquina de agachamento","Leg Press","Máquina extensora","Máquina flexora",
+      "Barra","Halteres","Halteres","Banco + halteres","Barra",
       "Colchonete","Colchonete","Colchonete","Colchonete","Colchonete",
       "Colchonete","Colchonete","Barra Fixa","Colchonete","Rolinho",
       "Barra","Halteres","Halteres","Halteres","Polia",
@@ -1573,6 +1573,65 @@
     };
 
     Object.entries(TRICEPS_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const PERNA_INFO = {
+      e31: { ordem: 1, familia: "AGACHAMENTO", foco: "Quadríceps · glúteos",
+        instrucao: "AGACHAMENTO LIVRE COM BARRA",
+        execucao: "Apoie a barra nas costas, mantenha os pés firmes e desça levando quadril e joelhos juntos. Suba empurrando o chão e mantendo o tronco estável.",
+        respiracao: "Inspire na descida e expire ao subir.",
+        errosComuns: "Deixar os joelhos colapsarem para dentro, tirar os calcanhares do chão ou perder a postura da coluna." },
+      e32: { ordem: 2, familia: "AGACHAMENTO", foco: "Quadríceps · glúteos",
+        instrucao: "AGACHAMENTO NA MÁQUINA",
+        execucao: "Ajuste a posição dos pés e mantenha costas apoiadas conforme o equipamento. Desça até uma amplitude confortável e suba sem travar os joelhos.",
+        respiracao: "Inspire na descida e expire na subida.",
+        errosComuns: "Descer rápido demais, juntar os joelhos ou posicionar os pés de forma que cause desconforto." },
+      e33: { ordem: 3, familia: "MÁQUINAS", foco: "Quadríceps · glúteos · adutores",
+        instrucao: "LEG PRESS PÉS AFASTADOS",
+        execucao: "Posicione os pés afastados na plataforma. Desça controlando o peso até a amplitude confortável e empurre sem tirar o quadril do encosto.",
+        respiracao: "Inspire na descida e expire ao empurrar.",
+        errosComuns: "Tirar o quadril do banco, aproximar os joelhos para dentro ou descer além da mobilidade confortável." },
+      e34: { ordem: 4, familia: "MÁQUINAS", foco: "Quadríceps",
+        instrucao: "CADEIRA EXTENSORA",
+        execucao: "Ajuste o encosto e o rolo acima dos tornozelos. Estenda os joelhos de forma controlada e volte sem deixar o peso cair.",
+        respiracao: "Expire na extensão e inspire no retorno.",
+        errosComuns: "Chutar o peso, tirar o quadril do banco ou usar carga alta demais." },
+      e35: { ordem: 5, familia: "MÁQUINAS", foco: "Posterior de coxa",
+        instrucao: "CADEIRA FLEXORA",
+        execucao: "Ajuste a máquina ao joelho e flexione as pernas levando os calcanhares para trás. Retorne devagar mantendo tensão.",
+        respiracao: "Expire ao flexionar e inspire ao estender.",
+        errosComuns: "Levantar o quadril, acelerar o retorno ou usar amplitude desconfortável." },
+      e36: { ordem: 6, familia: "POSTERIOR", foco: "Posterior de coxa · glúteos",
+        instrucao: "STIFF COM BARRA",
+        execucao: "Segure a barra à frente das coxas. Leve o quadril para trás mantendo a coluna neutra e joelhos levemente flexionados. Suba contraindo glúteos e posteriores.",
+        respiracao: "Inspire ao descer e expire ao subir.",
+        errosComuns: "Arredondar a lombar, transformar o movimento em agachamento ou afastar a barra do corpo." },
+      e37: { ordem: 7, familia: "POSTERIOR", foco: "Posterior de coxa · glúteos",
+        instrucao: "STIFF COM HALTERES",
+        execucao: "Com halteres ao lado ou à frente das pernas, projete o quadril para trás e desça mantendo os halteres próximos do corpo. Volte estendendo o quadril.",
+        respiracao: "Inspire na descida e expire na subida.",
+        errosComuns: "Curvar as costas, dobrar demais os joelhos ou usar impulso." },
+      e38: { ordem: 8, familia: "UNILATERAL", foco: "Quadríceps · glúteos",
+        instrucao: "PASSADA COM HALTERES",
+        execucao: "Dê um passo à frente com um halter em cada mão. Desça os dois joelhos mantendo equilíbrio e empurre o chão para retornar.",
+        respiracao: "Inspire na descida e expire ao retornar.",
+        errosComuns: "Passo curto demais, joelho da frente colapsando para dentro ou tronco balançando." },
+      e39: { ordem: 9, familia: "UNILATERAL", foco: "Quadríceps · glúteos",
+        instrucao: "AGACHAMENTO BÚLGARO",
+        execucao: "Apoie o pé de trás no banco e mantenha a maior parte do peso na perna da frente. Desça com controle e suba mantendo o joelho alinhado.",
+        respiracao: "Inspire na descida e expire na subida.",
+        errosComuns: "Ficar perto demais do banco, perder o equilíbrio ou jogar todo o peso para a perna de trás." },
+      e40: { ordem: 10, familia: "TERRA", foco: "Posterior · glúteos · costas",
+        instrucao: "LEVANTAMENTO TERRA COM BARRA",
+        execucao: "Posicione a barra próxima às canelas. Segure firme, mantenha coluna neutra e empurre o chão enquanto estende joelhos e quadril juntos.",
+        respiracao: "Inspire e estabilize antes de tirar a barra do chão; expire após passar a fase mais difícil da subida.",
+        errosComuns: "Arredondar a lombar, afastar a barra do corpo ou subir primeiro o quadril sem movimentar a barra." }
+    };
+
+    Object.entries(PERNA_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
     });
@@ -2049,7 +2108,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
