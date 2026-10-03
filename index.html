@@ -1290,16 +1290,16 @@
       "Elevacao de Pernas na Barra": "barra livre pegada aberta no cross.gif",
       "Abdominal Tesoura": "apoio de frente com step.gif",
       "Abdominal Rolinho": "apoio de frente de joelhos.gif",
-      "Desenvolvimento Barra": "desenvolvimento na barra.gif",
-      "Elevacao Lateral": "elevação leteral com haltrers.gif",
-      "Elevacao Frontal": "elevação frontal com halteres.gif",
-      "Desenvolvimento Halteres": "desenvolvimento com halteres.gif",
-      "Face Pull": "face pull.gif",
-      "Elevacao Lateral Polia": "elevação unilateral no cross.gif",
-      "Remada Alta": "remada alta com halteres.gif",
-      "Encolhimento Ombros": "encolhimento livre com halteres.gif",
-      "Crucifixo Inverso": "Crucifixo Invertido com Halteres.gif",
+      "Desenvolvimento com Halteres": "Desenvolvimento com Halteres.gif",
+      "Desenvolvimento na Maquina": "Desenvolmento Máquina.gif",
+      "Desenvolvimento Smith": "Desenvolvimento Smith.gif",
       "Arnold Press": "desenvolvimento com rotação.gif",
+      "Elevacao Lateral com Halteres": "elevação letaral com haltrers.gif",
+      "Elevacao Lateral no Cross": "elevação leteral cruzada no cross.gif",
+      "Elevacao Frontal com Halteres": "elevação frontal com halteres.gif",
+      "Elevacao Frontal no Cross": "Elevação Frontal Crossover.gif",
+      "Crucifixo Inverso com Halteres": "Crucifixo Invertido com Halteres.gif",
+      "Remada Alta Barra W": "remada alta com barra W.gif",
       "Puxada Frontal": "pulley frente pegada supinada.gif",
       "Remada Curvada": "remada livre com barra.gif",
       "Remada Sentado": "remada articulada.gif",
@@ -1353,8 +1353,8 @@
       "Stiff Barra","Stiff Halteres","Passada Halteres","Agachamento Bulgaro","Levantamento Terra Barra",
       "Abdominal Tradicional","Prancha","Abdominal Infra","Abdominal Obliquo","Bicicleta no Ar",
       "Abdominal Superior","Prancha Lateral","Elevacao de Pernas na Barra","Abdominal Tesoura","Abdominal Rolinho",
-      "Desenvolvimento Barra","Elevacao Lateral","Elevacao Frontal","Desenvolvimento Halteres","Face Pull",
-      "Elevacao Lateral Polia","Remada Alta","Encolhimento Ombros","Crucifixo Inverso","Arnold Press",
+      "Desenvolvimento com Halteres","Desenvolvimento na Maquina","Desenvolvimento Smith","Arnold Press","Elevacao Lateral com Halteres",
+      "Elevacao Lateral no Cross","Elevacao Frontal com Halteres","Elevacao Frontal no Cross","Crucifixo Inverso com Halteres","Remada Alta Barra W",
       "Puxada Frontal","Remada Curvada","Remada Sentado","Barra Fixa","Remada Halter",
       "Puxada Triangulo","Remada Baixa","Remada Cavalinho","Pulldown Braco Reto","Remada Invertida",
       "Encolhimento Barra","Encolhimento Halteres","Remada Alta Trapezio","Face Pull Trapezio","Prancha Toque Ombro",
@@ -1387,8 +1387,8 @@
       "Barra","Halteres","Halteres","Banco + halteres","Barra",
       "Colchonete","Colchonete","Colchonete","Colchonete","Colchonete",
       "Colchonete","Colchonete","Barra Fixa","Colchonete","Rolinho",
-      "Barra","Halteres","Halteres","Halteres","Polia",
-      "Polia","Barra","Halteres","Halteres","Halteres",
+      "Halteres","Máquina de ombros","Smith","Halteres","Halteres",
+      "Crossover","Halteres","Crossover","Halteres","Barra W",
       "Pulley","Barra","Maquina Remada","Barra Fixa","Halter",
       "Pulley","Pulley","Maquina","Pulley","Barra Baixa",
       "Barra","Halteres","Barra","Polia","Colchonete",
@@ -1409,8 +1409,8 @@
       "Posterior e Gluteos","Posterior de Coxa","Gluteos","Gluteo Medio","Quadriceps e Gluteos",
       "Reto Abdominal","Abdomen e Core","Abdomen Inferior","Obliquos","Abdomen Total",
       "Abdomen Superior","Obliquos e Core","Abdomen Inferior","Abdomen Inferior","Abdomen e Core",
-      "Deltoide","Deltoide Medio","Deltoide Anterior","Deltoide","Deltoide Posterior",
-      "Deltoide Medio","Trapezio e Deltoide","Trapezio","Deltoide Posterior","Deltoide",
+      "Deltoide anterior e medio","Deltoide anterior e medio","Deltoide anterior e medio","Deltoide anterior e medio","Deltoide medio",
+      "Deltoide medio","Deltoide anterior","Deltoide anterior","Deltoide posterior","Deltoide medio e trapezio",
       "Latissimo","Latissimo e Romboides","Latissimo","Latissimo","Latissimo",
       "Latissimo","Latissimo","Latissimo","Latissimo","Latissimo",
       "Trapezio Superior","Trapezio Superior","Trapezio","Trapezio Medio","Trapezio",
@@ -1494,6 +1494,65 @@
     };
 
     Object.entries(PEITO_INFO).forEach(([id, info]) => {
+      const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
+      if (ex) Object.assign(ex, info, { musculo: info.foco });
+    });
+
+
+    const OMBRO_INFO = {
+      e51: { ordem: 1, familia: "DESENVOLVIMENTO", foco: "Deltoide anterior · deltoide médio",
+        instrucao: "DESENVOLVIMENTO COM HALTERES",
+        execucao: "Sente-se ou fique em pé com o tronco firme. Comece com os halteres ao lado dos ombros e empurre para cima até quase estender os cotovelos. Retorne devagar.",
+        respiracao: "Expire ao empurrar os halteres para cima e inspire ao descer.",
+        errosComuns: "Arquear demais a lombar, bater os halteres no alto ou deixar os cotovelos cair muito para trás." },
+      e52: { ordem: 2, familia: "DESENVOLVIMENTO", foco: "Deltoide anterior · deltoide médio",
+        instrucao: "DESENVOLVIMENTO NA MÁQUINA",
+        execucao: "Ajuste o banco para que as alças fiquem na altura dos ombros. Mantenha costas apoiadas e empurre para cima sem travar os cotovelos.",
+        respiracao: "Expire ao empurrar e inspire no retorno.",
+        errosComuns: "Banco mal ajustado, elevar os ombros em direção às orelhas ou deixar o peso voltar sem controle." },
+      e53: { ordem: 3, familia: "DESENVOLVIMENTO", foco: "Deltoide anterior · deltoide médio",
+        instrucao: "DESENVOLVIMENTO NO SMITH",
+        execucao: "Ajuste o banco sob a barra do Smith. Desça a barra à frente da cabeça até uma amplitude confortável e empurre para cima mantendo o tronco estável.",
+        respiracao: "Inspire na descida e expire ao subir.",
+        errosComuns: "Descer a barra atrás da cabeça, exagerar na amplitude ou arquear a lombar para compensar a carga." },
+      e54: { ordem: 4, familia: "DESENVOLVIMENTO", foco: "Deltoide anterior · deltoide médio",
+        instrucao: "ARNOLD PRESS",
+        execucao: "Comece com os halteres à frente do rosto e as palmas voltadas para você. Ao subir, gire os braços para fora até terminar em posição de desenvolvimento. Inverta o movimento na descida.",
+        respiracao: "Expire durante a subida e inspire no retorno.",
+        errosComuns: "Fazer a rotação rápido demais, usar balanço do tronco ou perder o controle dos cotovelos." },
+      e55: { ordem: 5, familia: "ELEVAÇÃO LATERAL", foco: "Deltoide médio",
+        instrucao: "ELEVAÇÃO LATERAL COM HALTERES",
+        execucao: "Com os braços ao lado do corpo e cotovelos levemente flexionados, eleve os halteres lateralmente até aproximadamente a linha dos ombros. Desça controlando.",
+        respiracao: "Expire ao elevar e inspire ao descer.",
+        errosComuns: "Encolher os ombros, balançar o corpo ou subir muito acima da linha dos ombros." },
+      e56: { ordem: 6, familia: "ELEVAÇÃO LATERAL", foco: "Deltoide médio",
+        instrucao: "ELEVAÇÃO LATERAL NO CROSS",
+        execucao: "Posicione-se ao lado ou entre as polias. Eleve o braço lateralmente mantendo tensão contínua no cabo e retorne lentamente.",
+        respiracao: "Expire na elevação e inspire no retorno.",
+        errosComuns: "Girar o tronco, puxar com impulso ou deixar o cabo arrastar o braço na volta." },
+      e57: { ordem: 7, familia: "ELEVAÇÃO FRONTAL", foco: "Deltoide anterior",
+        instrucao: "ELEVAÇÃO FRONTAL COM HALTERES",
+        execucao: "Segure os halteres à frente das coxas. Eleve um ou os dois braços à frente até a altura dos ombros e retorne com controle.",
+        respiracao: "Expire ao elevar e inspire ao descer.",
+        errosComuns: "Balançar o corpo, elevar acima da cabeça sem necessidade ou dobrar demais os cotovelos." },
+      e58: { ordem: 8, familia: "ELEVAÇÃO FRONTAL", foco: "Deltoide anterior",
+        instrucao: "ELEVAÇÃO FRONTAL NO CROSS",
+        execucao: "Com a polia baixa, segure o cabo e eleve o braço à frente até a altura dos ombros. Volte devagar mantendo tensão.",
+        respiracao: "Expire na elevação e inspire no retorno.",
+        errosComuns: "Usar impulso, projetar o tronco para trás ou deixar a carga cair no retorno." },
+      e59: { ordem: 9, familia: "POSTERIOR", foco: "Deltoide posterior",
+        instrucao: "CRUCIFIXO INVERSO COM HALTERES",
+        execucao: "Incline o tronco mantendo a coluna neutra. Abra os braços para os lados com cotovelos levemente flexionados, apertando a parte posterior dos ombros.",
+        respiracao: "Expire ao abrir os braços e inspire ao retornar.",
+        errosComuns: "Subir o tronco durante a repetição, usar balanço ou transformar o movimento em remada." },
+      e60: { ordem: 10, familia: "REMADA ALTA", foco: "Deltoide médio · trapézio",
+        instrucao: "REMADA ALTA COM BARRA W",
+        execucao: "Segure a barra W à frente do corpo e puxe para cima mantendo-a próxima ao tronco. Suba até uma amplitude confortável e desça controlando.",
+        respiracao: "Expire ao puxar e inspire ao descer.",
+        errosComuns: "Elevar os cotovelos muito acima dos ombros, usar balanço ou deixar os punhos dobrarem excessivamente." }
+    };
+
+    Object.entries(OMBRO_INFO).forEach(([id, info]) => {
       const ex = DATABASE_EXERCICIOS.find(item => item.id === id);
       if (ex) Object.assign(ex, info, { musculo: info.foco });
     });
@@ -2108,7 +2167,7 @@
       if (!container) return;
       container.innerHTML = '';
       let exs = DATABASE_EXERCICIOS.filter(ex => ex.grupo === categoriaAtual);
-      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+      if (categoriaAtual === 'PEITO' || categoriaAtual === 'TRICEPS' || categoriaAtual === 'PERNA' || categoriaAtual === 'OMBRO') exs.sort((a,b)=>(a.ordem||99)-(b.ordem||99));
       if (termoBusca) {
         exs = exs.filter(ex => ex.nome.toLowerCase().includes(termoBusca));
       }
