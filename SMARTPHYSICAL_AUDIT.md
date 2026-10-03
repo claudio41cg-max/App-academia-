@@ -14,7 +14,7 @@ Sempre que for corrigido e testado, a contagem diminui e a correção fica regis
 
 | Categoria | Inicial confirmado | Corrigido | Restante |
 |---|---:|---:|---:|
-| GIF/mídia claramente incompatível com o exercício | 15 | 2 | 13 |
+| GIF/mídia claramente incompatível com o exercício | 15 | 5 | 10 |
 | Exercícios com instrução genérica | 100 | 10 | 90 |
 | Segurança de pagamento/licença | 1 | 0 | 1 |
 | Bug funcional X5 | 1 | 0 | 1 |
@@ -53,14 +53,14 @@ Sempre que for corrigido e testado, a contagem diminui e a correção fica regis
 
 ### Ainda pendentes
 
-- [ ] Prancha Toque Ombro — GIF atual usa apoio com medicine ball.
-- [ ] Prancha Toque Ombro Alt — GIF atual usa apoio com step.
+- [x] Prancha Toque Ombro — removido da categoria TRAPÉZIO e substituído por exercício compatível com GIF local.
+- [x] Prancha Toque Ombro Alt — removido da categoria TRAPÉZIO e substituído por exercício compatível com GIF local.
 - [ ] Abdominal Oblíquo — GIF atual usa crucifixo inverso no cross.
 - [ ] Bicicleta no Ar — GIF atual usa apoio de frente com medicine ball.
 - [ ] Prancha Lateral — GIF atual usa apoio de frente na parede.
 - [ ] Abdominal Tesoura — GIF atual usa apoio com step.
 - [ ] Abdominal Rolinho — GIF atual usa apoio de joelhos.
-- [ ] Cadeira Abdutora — arquivo mapeado indica cadeira adutora.
+- [x] Cadeira Abdutora — slot foi reorganizado na revisão de PERNA e deixou de usar o mapeamento incompatível.
 - [ ] Panturrilha Sentado — GIF atual usa flexão de joelho no cabo.
 - [ ] Panturrilha Unilateral — GIF atual usa flexão de joelho no cabo.
 - [ ] Saltos com Corda — GIF atual usa barra fixa/pull-up.
@@ -251,10 +251,41 @@ Resultado: **10/10 exercícios de ombro organizados com GIFs locais compatíveis
 
 A categoria ABDÔMEN ainda precisa de revisão completa. Entre os GIFs locais já publicados no repositório, apenas `Abdominal Concentrado.gif` e `Abdominal com Carga.gif` têm correspondência nominal clara com exercícios abdominais. Os demais mapeamentos atuais incluem demonstrações incompatíveis (apoios, crucifixo inverso e barra/cross). Para não repetir o erro de colocar GIF errado com nome certo, a categoria fica marcada como pendente até selecionar mídias realmente compatíveis.
 
+
+
+## Auditoria — COSTAS
+
+Em 03/10/2026, a categoria COSTAS foi reorganizada com 10 movimentos conhecidos e GIFs locais compatíveis.
+
+1. Puxada Frontal Pegada Pronada → `pulley pegada aberta pronada.gif`
+2. Puxada Frontal Pegada Supinada → `pulley frente pegada supinada.gif`
+3. Puxada Fechada Triângulo → `pulley frente pegaga fechda pronada.gif`
+4. Remada Curvada Barra → `remada livre com barra.gif`
+5. Remada Serrote → `remada serrote.gif`
+6. Remada Articulada → `remada articulada.gif`
+7. Remada Baixa Triângulo → `remada beixa no pulley triangulo.gif`
+8. Remada Cavalinho Barra → `remada cavalino com barra.gif`
+9. Remada Inclinada Smith → `remada inclinada no smith.gif`
+10. Hiperextensão Tronco → `Hiperextensão do tronco.gif`
+
+Resultado: **10/10 exercícios de costas com GIFs locais compatíveis**, organizados por puxada, remada e lombar.
+
+## Auditoria — TRAPÉZIO
+
+A categoria TRAPÉZIO foi limpa dos dois exercícios de “prancha toque ombro”, que estavam com GIFs incompatíveis, e passou a usar apenas movimentos de trapézio/remada alta com mídia local correspondente.
+
+Resultado: **10/10 exercícios de trapézio reorganizados** em encolhimentos e remadas altas.
+
+## Auditoria — GLÚTEO
+
+A categoria GLÚTEO foi reorganizada em famílias de elevação pélvica, abdução, extensão, unilateral e sumô.
+
+Resultado: **10/10 exercícios de glúteo com GIFs locais compatíveis**, mantendo IDs internos para preservar treinos salvos.
+
 ## Próxima sequência planejada
 
 1. Revisar e corrigir ABDÔMEN sem usar GIFs incompatíveis.
-2. Conferir visualmente OMBRO no celular.
-3. Seguir para COSTAS.
-4. Depois TRAPÉZIO, GLÚTEO e PANTURRILHA.
+2. Revisar PANTURRILHA: a biblioteca local publicada tem apenas um GIF claramente específico de panturrilha.
+3. Conferir no celular PERNA, OMBRO, COSTAS, TRAPÉZIO e GLÚTEO.
+4. Corrigir qualquer mídia visualmente duvidosa encontrada no teste.
 5. Continuar reduzindo o placar oficial de erros.
