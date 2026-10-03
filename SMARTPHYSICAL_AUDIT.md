@@ -247,9 +247,16 @@ Em 03/10/2026, a categoria OMBRO foi reorganizada por famílias de movimento, ma
 
 Resultado: **10/10 exercícios de ombro organizados com GIFs locais compatíveis**, instruções, respiração e erros comuns específicos.
 
-## ABDÔMEN — observação de continuidade
+## Auditoria — ABDÔMEN
 
-A categoria ABDÔMEN ainda precisa de revisão completa. Entre os GIFs locais já publicados no repositório, apenas `Abdominal Concentrado.gif` e `Abdominal com Carga.gif` têm correspondência nominal clara com exercícios abdominais. Os demais mapeamentos atuais incluem demonstrações incompatíveis (apoios, crucifixo inverso e barra/cross). Para não repetir o erro de colocar GIF errado com nome certo, a categoria fica marcada como pendente até selecionar mídias realmente compatíveis.
+Em 03/10/2026, a categoria ABDÔMEN foi limpa para não exibir demonstrações incompatíveis.
+
+1. Abdominal na Polia → `Abdominal com Carga.gif`
+2. Abdominal Concentrado no Solo → `Abdominal Concentrado.gif`
+
+Os outros 8 slots antigos foram mantidos internamente para preservar compatibilidade com IDs já usados, porém marcados como inativos na biblioteca visível porque seus GIFs não correspondiam aos exercícios. A interface agora mostra apenas os movimentos com mídia local confirmada.
+
+Resultado: **2 exercícios de abdômen ativos e corretos**, sem apoio, crucifixo inverso ou barra fixa sendo exibidos como abdominal.
 
 
 
@@ -282,10 +289,21 @@ A categoria GLÚTEO foi reorganizada em famílias de elevação pélvica, abduç
 
 Resultado: **10/10 exercícios de glúteo com GIFs locais compatíveis**, mantendo IDs internos para preservar treinos salvos.
 
+## Auditoria — PANTURRILHA
+
+A varredura visual dos 276 GIFs encontrou um segundo movimento de panturrilha que não aparecia nas buscas por nome: `Flexão Plantar com peso corporal.gif`.
+
+1. Panturrilha em Pé Peso Corporal → `Flexão Plantar com peso corporal.gif`
+2. Panturrilha no Leg Press → `panturrinha no leg press.gif`
+
+Os 8 slots antigos que usavam flexão de joelho, barra fixa ou outras demonstrações incompatíveis foram mantidos apenas internamente e marcados como inativos na biblioteca visível.
+
+Resultado: **2 exercícios de panturrilha ativos e corretos**, ambos 360×360, sem GIFs falsos.
+
 ## Próxima sequência planejada
 
-1. Revisar e corrigir ABDÔMEN sem usar GIFs incompatíveis.
-2. Revisar PANTURRILHA: a biblioteca local publicada tem apenas um GIF claramente específico de panturrilha.
-3. Conferir no celular PERNA, OMBRO, COSTAS, TRAPÉZIO e GLÚTEO.
+1. Conferir no celular ABDÔMEN e PANTURRILHA após a limpeza.
+2. Conferir no celular PERNA, OMBRO, COSTAS, TRAPÉZIO e GLÚTEO.
+3. Adicionar novos exercícios de ABDÔMEN e PANTURRILHA somente quando houver mídia realmente correspondente.
 4. Corrigir qualquer mídia visualmente duvidosa encontrada no teste.
 5. Continuar reduzindo o placar oficial de erros.
