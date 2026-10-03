@@ -1,6 +1,6 @@
 # SmartPhysical — Auditoria e Placar de Correções
 
-Atualizado em: 02/10/2026
+Atualizado em: 03/10/2026
 
 ## Regra deste arquivo
 
@@ -136,23 +136,25 @@ Cada um dos 10 exercícios recebeu:
 - [x] Testada uma segunda demonstração visual.
 - [x] Removida por preferência do usuário.
 - [x] Voltamos para **um único GIF principal por exercício**.
-- [ ] Próximo objetivo: migrar os exercícios para uma biblioteca de GIFs visualmente padronizada e com licença adequada.
+- [x] PEITO migrado para GIFs locais 360×360 do próprio repositório.
 
 
-## Padronização Exercise Library — PEITO
+## Padronização visual local 360×360 — PEITO
 
-- [x] Supino Reto com Barra → Exercise Library
-- [x] Supino Inclinado com Barra → Exercise Library
-- [x] Supino Declinado com Barra → Exercise Library
-- [x] Supino Reto com Halteres → Exercise Library
-- [x] Supino Inclinado com Halteres → Exercise Library
-- [x] Supino Horizontal na Máquina → Exercise Library
-- [x] Crucifixo Reto com Halteres → Exercise Library
-- [x] Crossover Polia Alta → Exercise Library
-- [x] Crossover Polia Baixa → Exercise Library
-- [ ] Crucifixo na Máquina / Pec Deck → não foi encontrado equivalente exato na biblioteca; manter mídia atual até achar correspondência correta.
+Em 03/10/2026, os 10 exercícios de PEITO passaram a usar os GIFs locais 360×360 já existentes no próprio repositório, vindos da pasta de exercícios enviada pelo usuário.
 
-Resultado: **9/10 exercícios de peito usando o mesmo pacote visual**.
+- [x] Supino Reto com Barra → `supino reto pegada aberta.gif`
+- [x] Supino Inclinado com Barra → `supino inclinado banco.gif`
+- [x] Supino Declinado com Barra → `supino declinado barra.gif`
+- [x] Supino Reto com Halteres → `supino reto com halteres.gif`
+- [x] Supino Inclinado com Halteres → `Supino inclinado com halteres.gif`
+- [x] Supino Horizontal na Máquina → `supino horizontal maquina.gif`
+- [x] Crucifixo na Máquina → `Crucifixo Maquina.gif`
+- [x] Crucifixo Reto com Halteres → `supino crucifixo com halteres.gif`
+- [x] Crossover Polia Alta → `crucifixo no cross polia alta.gif`
+- [x] Crossover Polia Baixa → `crucifixo beixo no croos em pe.gif`
+
+Resultado: **10/10 exercícios de peito usando GIFs locais 360×360**, sem depender de URLs externas para esta categoria.
 
 ## Próxima sequência planejada
 
