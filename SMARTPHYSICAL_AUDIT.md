@@ -173,6 +173,30 @@ Em 03/10/2026, os 10 exercícios de BÍCEPS foram conferidos na biblioteca local
 
 Resultado: **10/10 arquivos de Bíceps validados em 360×360** e **3 apontamentos quebrados/incorretos corrigidos**. A Rosca 21 continua com mídia provisória por falta de demonstração específica na biblioteca atual.
 
+## Auditoria — TRÍCEPS
+
+Em 03/10/2026, a categoria TRÍCEPS foi reorganizada por famílias de movimento, sem ficar presa aos nomes antigos do app.
+
+### POLIA
+1. Tríceps Polia Barra Triângulo → `triceps no cross barra triangulo.gif`
+2. Tríceps Polia Unilateral → `triceps pegada pronada uniatres no cross.gif`
+
+### FRANCÊS
+3. Tríceps Francês Polia → `triceps françes bilateral no cross.gif`
+4. Tríceps Francês Unilateral Polia → `triceps françes unilateral no corss.gif`
+5. Tríceps Francês Barra W → `Triceps frances barra W.gif`
+
+### TESTA
+6. Tríceps Testa Barra → `triceps testa com barra.gif`
+7. Tríceps Testa Pegada Neutra → `triceps testa pegada neutra deitado no banco.gif`
+8. Tríceps Testa Halteres → `triceps tresta com halteres.gif`
+
+### BANCO / PARALELAS
+9. Tríceps no Banco → `triceps paralelo no banco.gif`
+10. Tríceps Paralelas Máquina → `triceps na paralela maquiba.gif`
+
+Resultado: **10/10 exercícios de Tríceps usando GIFs locais 360×360**, organizados em sequência lógica. Os nomes antigos que não se encaixavam bem foram substituídos, mantendo os IDs internos para preservar compatibilidade com treinos salvos. Também foram adicionadas instruções, respiração e erros comuns específicos.
+
 ## Próxima sequência planejada
 
 1. Testar PEITO no celular.
