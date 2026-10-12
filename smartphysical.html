@@ -143,8 +143,11 @@
     .metric-row-edit { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
     .metric-edit-item { flex: 1; min-width: 70px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
     .metric-edit-item label { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; }
-    .metric-edit-item input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gold); color: #fff; font-size: 14px; font-weight: 700; text-align: center; padding: 4px 0; outline: none; }
+    .metric-edit-item input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gold); color: #fff; font-size: 16px; font-weight: 800; text-align: center; padding: 4px 0; outline: none; }
     .metric-edit-item input:focus { border-bottom-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
+    .metric-value-wrap { width: 100%; display: flex; align-items: center; justify-content: center; gap: 3px; }
+    .metric-value-wrap input { width: 46px; }
+    .metric-suffix { color: #fff; font-size: 16px; font-weight: 800; }
 
     .dias-vertical { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
     .dia-vertical-item { background: var(--card); border: 1px solid var(--gold); border-radius: var(--radius); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
@@ -287,10 +290,9 @@
       <div class="info-card-box"><div class="info-card-icon" id="d-equip-thumb"></div><div class="info-card-text"><h4>Aparelho</h4><p id="d-equip-name">Maquina</p></div></div>
       <div class="sec-label" style="margin-top:24px;">CONFIGURACAO DO TREINO</div>
       <div class="metric-row-edit">
-        <div class="metric-edit-item"><label>Series</label><input type="number" id="edit-series" value="3" min="1" max="10"></div>
-        <div class="metric-edit-item"><label>Repeticoes</label><input type="number" id="edit-reps" value="12" min="1" max="50"></div>
-        <div class="metric-edit-item"><label>Peso (kg)</label><input type="number" id="edit-peso" value="0" min="0" step="0.5"></div>
-        <div class="metric-edit-item"><label> descanso </label><input type="number" id="edit-descanso" value="60" min="10" max="300"></div>
+        <div class="metric-edit-item"><label>Series</label><div class="metric-value-wrap"><input type="number" id="edit-series" value="3" min="1" max="10"><span class="metric-suffix">x</span></div></div>
+        <div class="metric-edit-item"><label>Repeticoes</label><div class="metric-value-wrap"><input type="number" id="edit-reps" value="12" min="1" max="50"><span class="metric-suffix">x</span></div></div>
+        <div class="metric-edit-item"><label>Peso</label><div class="metric-value-wrap"><input type="number" id="edit-peso" value="0" min="0" step="0.5"><span class="metric-suffix">kg</span></div></div>
       </div>
       <div class="sec-label" style="margin-top:20px;">DIA DA SEMANA</div>
       <div class="day-selector" id="day-selector">
@@ -438,10 +440,9 @@
         gif: `${GITHUB_BASE_URL}${nomeEncoded}.gif`,
         // Fallback em caso de erro simples (minúsculo)
         gifFallback: `${GITHUB_BASE_URL}${encodeURIComponent(nomeEx.toLowerCase())}.gif`,
-        instrucao: "Execute o movimento de " + nomeEx + " mantendo a postura firme, amplitude controlada e respiracao ritmada.",
-        series: (Math.floor(i % 5) + 3) + "-" + (Math.floor(i % 5) + 5) + " series",
-        reps: (Math.floor(i % 3) + 8) + "-" + (Math.floor(i % 3) + 14) + " reps",
-        descanso: (Math.floor(i % 3) * 15 + 45) + "-" + (Math.floor(i % 3) * 15 + 90) + "s"
+        instrucao: "Execute o movimento de " + nomeEx + " mantendo a postura firme e a amplitude controlada.",
+        series: "3x",
+        reps: "12x"
       });
     }
 
@@ -785,12 +786,10 @@
       document.getElementById('d-equip-thumb').innerHTML = `<img src="${ex.gif}" alt="Aparelho" onerror="this.onerror=null; this.src='${ex.gifFallback}';">`;
       
       const seriesVal = parseInt(ex.series.match(/\d+/)?.[0] || 3);
-      const repsVal = parseInt(ex.reps.match(/\d+/)?.[0] || 10);
-      const descansoVal = parseInt(ex.descanso.match(/\d+/)?.[0] || 60);
+      const repsVal = parseInt(ex.reps.match(/\d+/)?.[0] || 12);
       document.getElementById('edit-series').value = seriesVal;
       document.getElementById('edit-reps').value = repsVal;
       document.getElementById('edit-peso').value = 0;
-      document.getElementById('edit-descanso').value = descansoVal;
       let diaAtual = null;
       for (let d = 0; d < 7; d++) {
         if (estado.treinoPorDia[d] && estado.treinoPorDia[d].includes(ex.id)) {
