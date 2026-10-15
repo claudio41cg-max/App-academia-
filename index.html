@@ -828,6 +828,7 @@
       <div class="perfil-edit" id="perfil-edit-container"></div>
       <div style="padding:0 20px 20px 20px;">
         <button class="btn-whatsapp" onclick="exportarFichaWhatsApp()">📲 Enviar Ficha no WhatsApp</button>
+        <button class="btn-whatsapp" id="btn-exportar-backup" type="button" onclick="exportarBackupAcademia()" style="margin-top:10px;background:#19354b;border:1px solid #315873;color:#f0f4f8">💾 Exportar backup dos meus treinos</button>
       </div>
     </div>
 
@@ -2084,6 +2085,37 @@
         return st;
       } catch (e) {
         return estadoPadrao();
+      }
+    }
+    // Exportação portátil somente leitura: não altera o armazenamento existente.
+    function exportarBackupAcademia() {
+      try {
+        const origem = localStorage.getItem(STORAGE_KEY);
+        const dados = origem ? JSON.parse(origem) : estado;
+        if (!dados || typeof dados !== 'object' || Array.isArray(dados)) throw new Error('Dados inválidos.');
+        // Informações de pagamento/autenticação não pertencem ao backup de treinos.
+        const seguro = JSON.parse(JSON.stringify(dados));
+        delete seguro.pagamento;
+        const pacote = {
+          formato: 'smartphysical-backup',
+          versao: 1,
+          dataExportacao: new Date().toISOString(),
+          dados: seguro
+        };
+        const blob = new Blob([JSON.stringify(pacote, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const data = new Date().toISOString().slice(0,10);
+        link.href = url;
+        link.download = 'smart-physical-backup-' + data + '.json';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+        mostrarToast('Backup criado. Guarde o arquivo em local seguro.');
+      } catch (error) {
+        console.warn('Falha ao exportar backup', error);
+        mostrarToast('Não foi possível exportar o backup.');
       }
     }
     function salvarEstado() {
