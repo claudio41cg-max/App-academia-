@@ -106,3 +106,13 @@ test('compact gold weight graph stays within home card and uses real weigh-ins',
  assert.ok(html.includes("const pts=registros.map(p=>({t:Date.parse(p.data+'T12:00:00'),w:Number(p.kg)}))"));
  assert.ok(html.includes("fill:'#daa443'"));
 });
+
+test('weight mini card aligns graph left and title right without growing',()=>{
+ const card=html.slice(html.indexOf('id="btn-evolucao-peso"'),html.indexOf('id="btn-menu-x5"'));
+ assert.ok(card.indexOf('id="peso-mini-svg"')<card.indexOf('Evolução e Meta'));
+ assert.ok(card.includes('Acompanhe seu peso e sua meta'));
+ assert.ok(html.includes('grid-template-columns:minmax(0,57fr) minmax(0,43fr)'));
+ assert.ok(html.includes('height:139px'));
+ assert.ok(html.includes('border-radius:50%;border:1px solid var(--gold)'));
+ assert.ok(html.includes("renderizarPesoMini(todos,meta)"));
+});
