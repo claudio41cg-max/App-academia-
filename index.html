@@ -538,6 +538,7 @@
 .peso-sheet-recentes{font-size:14px;color:#999;margin:24px 0 7px}.peso-sheet-item,.peso-semana-item{display:flex;justify-content:space-between;align-items:center;gap:9px;border-bottom:1px solid #333;padding:13px 3px;color:#e8e8e8;font-size:14px}.peso-sheet-item button,.peso-semana-item button{background:#262629;border:none;color:#ed5b5b;padding:9px 11px;border-radius:9px;font-size:16px}
 .peso-pagina-lista{background:#111113;color:#fff;padding:22px 18px 40px;border-radius:22px;min-height:70vh}.peso-pagina-lista h2{font-size:23px;margin-bottom:5px}.peso-pagina-lista .peso-grafico{width:100%;margin:20px 0 30px}
 .peso-semana-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:700;margin-top:23px}.peso-semana-head small{font-weight:400;color:#96969a}.peso-semana-head .positivo{color:#37d864}.peso-semana-head .negativo{color:#e9a650}
+.peso-card-mini{display:flex;flex-direction:column;align-items:stretch;gap:4px;min-height:0;padding:13px 17px 9px;overflow:hidden}.peso-card-mini .peso-mini-head{display:flex;align-items:center;justify-content:space-between;width:100%}.peso-card-mini strong{font-size:18px}.peso-card-mini small{margin:0;color:var(--muted);font-size:12px}.peso-card-mini #peso-mini-svg{width:100%;height:78px;display:block;margin-top:1px;overflow:visible;pointer-events:none}
 </style>
 </head>
 <body>
@@ -733,7 +734,7 @@
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/><rect x="6" y="40" width="16" height="6" rx="3"/></svg></div>
           <div class="card-body"><div class="label">Exercícios</div><div class="card-sub">Catálogo de exercícios</div></div>
         </div>
-        <button class="peso-card-home" id="btn-evolucao-peso" type="button"><span class="peso-icone">⚖</span><span><strong>Evolução e Meta</strong><small id="peso-resumo-home">Acompanhe seu peso e suas metas</small></span><span class="peso-seta">›</span></button>
+        <button class="peso-card-home peso-card-mini" id="btn-evolucao-peso" type="button"><span class="peso-mini-head"><strong>Evolução e Meta</strong><span class="peso-seta">›</span></span><small id="peso-resumo-home">Acompanhe seu peso e suas metas</small><svg id="peso-mini-svg" viewBox="0 0 340 83" preserveAspectRatio="none" role="img" aria-label="Gráfico resumido da evolução do peso"></svg></button>
         <div class="btn-dash" id="btn-menu-x5">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>
@@ -2830,6 +2831,26 @@
       area.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')mostrar(e);});
       area.addEventListener('click',mostrar);
     }
+    // O minigráfico usa exclusivamente as pesagens reais; nunca inventa pontos entre datas.
+    function renderizarPesoMini(registros,meta){
+      const svg=document.getElementById('peso-mini-svg');if(!svg)return;svg.replaceChildren();
+      const ns='http://www.w3.org/2000/svg';
+      const el=(tag,attrs,txt)=>{const node=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));if(txt!==undefined)node.textContent=txt;svg.append(node);return node;};
+      if(!registros.length){el('text',{x:170,y:45,fill:'#9eaab8','font-size':12,'text-anchor':'middle'},'Registre seu peso para ver a evolução');return;}
+      const pts=registros.map(p=>({t:Date.parse(p.data+'T12:00:00'),w:Number(p.kg)}));
+      const first=pts[0],last=pts[pts.length-1],values=pts.map(p=>p.w);
+      const low=Math.min(...values),high=Math.max(...values),spread=Math.max(high-low,1);
+      const x=p=>first.t===last.t?170:24+(p.t-first.t)/(last.t-first.t)*294;
+      const y=p=>13+(high-p.w)/spread*51;
+      [20,42,64].forEach(yy=>el('line',{x1:24,y1:yy,x2:318,y2:yy,stroke:'#48525b','stroke-width':.7,'stroke-dasharray':'3 5'}));
+      const coords=pts.map(p=>x(p).toFixed(2)+','+y(p).toFixed(2)).join(' ');
+      const fillPath='M '+pts.map(p=>x(p).toFixed(2)+' '+y(p).toFixed(2)).join(' L ')+' L '+x(last)+' 72 L '+x(first)+' 72 Z';
+      el('path',{d:fillPath,fill:'#daa443','fill-opacity':.13});
+      el('polyline',{points:coords,stroke:'#e7b04e','stroke-width':2.7,fill:'none','stroke-linejoin':'round','stroke-linecap':'round'});
+      [first,last].forEach(p=>el('circle',{cx:x(p),cy:y(p),r:3.7,fill:'#e7b04e'}));
+      el('text',{x:x(first),y:Math.max(10,y(first)-6),fill:'#efc46f','font-weight':700,'font-size':11,'text-anchor':first===last?'middle':'start'},pesoFmt(first.w));
+      if(first!==last)el('text',{x:x(last),y:Math.max(10,y(last)-6),fill:'#efc46f','font-weight':700,'font-size':11,'text-anchor':'end'},pesoFmt(last.w));
+    }
     function renderizarPeso(){
       const todos=pesoRegistros(),ultimo=todos[todos.length-1],meta=Number(estado.pesoMeta)||0;
       document.getElementById('peso-atual-valor').textContent=ultimo?pesoFmt(ultimo.kg)+' kg':'— kg';
@@ -2837,6 +2858,7 @@
       document.getElementById('peso-meta-valor').textContent=meta?Number(meta).toLocaleString('pt-BR'):'Definir';
       document.getElementById('peso-falta').textContent=!meta?'◎ Defina sua meta de peso':!ultimo?'◎ Meta '+pesoFmt(meta)+' kg':'◎ Meta '+pesoFmt(meta)+' kg · '+(Number(ultimo.kg)>meta?'faltam '+pesoFmt(ultimo.kg-meta)+' kg':Number(ultimo.kg)<meta?'diferença de '+pesoFmt(meta-ultimo.kg)+' kg':'meta alcançada!');
       document.getElementById('peso-resumo-home').textContent=ultimo?pesoFmt(ultimo.kg)+' kg · '+(meta?'Meta '+pesoFmt(meta)+' kg':'acompanhe suas metas'):'Acompanhe seu peso e suas metas';
+      renderizarPesoMini(todos,meta);
       document.getElementById('peso-meta-input').value=meta||'';
       pesoGrafico(document.getElementById('peso-svg'),todos,meta,document.getElementById('peso-ponto-info'));
       const recentes=document.getElementById('peso-recentes');recentes.replaceChildren();[...todos].reverse().slice(0,3).forEach(p=>recentes.append(pesoLinha(p)));
@@ -2962,6 +2984,7 @@
       renderizarListaReceitas();
       carregarNotas();
       carregarPagamentos();
+      renderizarPesoMini(pesoRegistros(),Number(estado.pesoMeta)||0);
       renderizarIMC();
       renderizarDesempenho();
       atualizarStatusPagamento();

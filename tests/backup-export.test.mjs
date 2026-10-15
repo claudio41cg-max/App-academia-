@@ -96,3 +96,13 @@ test('reference chart and weight sheet are implemented',()=>{
  assert.ok(html.includes('Média semanal'));
  assert.ok(html.includes('id="view-pesagens"'));
 });
+
+test('compact gold weight graph stays within home card and uses real weigh-ins',()=>{
+ assert.ok(html.includes('id="peso-mini-svg"'));
+ assert.ok(html.includes('function renderizarPesoMini(registros,meta)'));
+ assert.ok(html.includes("renderizarPesoMini(todos,meta)"));
+ assert.ok(html.includes('class="peso-card-home peso-card-mini"'));
+ assert.ok(!html.includes('class="peso-icone">⚖'));
+ assert.ok(html.includes("const pts=registros.map(p=>({t:Date.parse(p.data+'T12:00:00'),w:Number(p.kg)}))"));
+ assert.ok(html.includes("fill:'#daa443'"));
+});
