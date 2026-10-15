@@ -2720,7 +2720,7 @@
     // Dados persistem no mesmo estado do app e entram no backup existente.
     let pesoFiltroMeses=3;
     const pesoFormato=valor=>Number(valor).toLocaleString('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1});
-    function pesoRegistros(){return (Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>p&&/^\\d{4}-\\d{2}-\\d{2}$/.test(p.data)&&Number.isFinite(Number(p.kg))).sort((a,b)=>a.data.localeCompare(b.data));}
+    function pesoRegistros(){return (Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>p&&/^\d{4}-\d{2}-\d{2}$/.test(p.data)&&Number.isFinite(Number(p.kg))).sort((a,b)=>a.data.localeCompare(b.data));}
     function pesoEsc(texto){return String(texto).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));}
     function renderizarPeso(){
       const todos=pesoRegistros(),ultimo=todos[todos.length-1],meta=Number(estado.pesoMeta)||0;
@@ -2755,7 +2755,7 @@
     document.getElementById('btn-evolucao-peso')?.addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
     document.getElementById('peso-back')?.addEventListener('click',()=>abrirTela('view-dashboard'));
     document.getElementById('peso-adicionar')?.addEventListener('click',()=>{const form=document.getElementById('peso-form');form.hidden=!form.hidden;document.getElementById('peso-input-data').value=dataISO(new Date());});
-    document.getElementById('peso-form')?.addEventListener('submit',e=>{e.preventDefault();const data=document.getElementById('peso-input-data').value,kg=Number(document.getElementById('peso-input-kg').value);if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(data)||!Number.isFinite(kg)||kg<20||kg>500){mostrarToast('Informe data e peso válidos.');return;}if(!Array.isArray(estado.pesoRegistros))estado.pesoRegistros=[];estado.pesoRegistros=estado.pesoRegistros.filter(p=>p.data!==data);estado.pesoRegistros.push({data,kg});salvarEstado();e.target.hidden=true;renderizarPeso();mostrarToast('Peso registrado.');});
+    document.getElementById('peso-form')?.addEventListener('submit',e=>{e.preventDefault();const data=document.getElementById('peso-input-data').value,kg=Number(document.getElementById('peso-input-kg').value);if(!/^\d{4}-\d{2}-\d{2}$/.test(data)||!Number.isFinite(kg)||kg<20||kg>500){mostrarToast('Informe data e peso válidos.');return;}if(!Array.isArray(estado.pesoRegistros))estado.pesoRegistros=[];estado.pesoRegistros=estado.pesoRegistros.filter(p=>p.data!==data);estado.pesoRegistros.push({data,kg});salvarEstado();e.target.hidden=true;renderizarPeso();mostrarToast('Peso registrado.');});
     document.getElementById('peso-meta-form')?.addEventListener('submit',e=>{e.preventDefault();const meta=Number(document.getElementById('peso-meta-input').value);if(!Number.isFinite(meta)||meta<20||meta>500){mostrarToast('Meta inválida.');return;}estado.pesoMeta=meta;salvarEstado();renderizarPeso();mostrarToast('Meta atualizada.');});
     document.querySelectorAll('#peso-tabs button').forEach(b=>b.addEventListener('click',()=>{pesoFiltroMeses=Number(b.dataset.meses);document.querySelectorAll('#peso-tabs button').forEach(v=>v.classList.toggle('ativo',v===b));renderizarPeso();}));
     // EVENTOS GERAIS

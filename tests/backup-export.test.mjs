@@ -78,3 +78,14 @@ test('weight card is full width and immediately after workouts/exercises',()=>{
  assert.ok(html.includes("salvarEstado();e.target.hidden=true;renderizarPeso()"));
  assert.ok(html.includes('.peso-form[hidden]{display:none!important}'));
 });
+
+test('weight entry accepts valid ISO date and rejects malformed dates',()=>{
+ const source=html.slice(html.indexOf('function pesoRegistros()'),html.indexOf('// EVENTOS GERAIS'));
+ const matches=[...source.matchAll(/\/\^([^\n]+?)\$\/\.test\(/g)];
+ assert.ok(matches.length>=2,'validation and filtering each use date regex');
+ for(const match of matches){
+  const pattern=new RegExp('^'+match[1]+'$');
+  assert.equal(pattern.test('2026-10-15'),true);
+  assert.equal(pattern.test('15/10/2026'),false);
+ }
+});
