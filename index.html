@@ -1502,6 +1502,30 @@
     });
 
 
+    // Exercício novo: mantém intocados os dez exercícios de peito anteriores.
+    // GIF: Wensceslao, Wikimedia Commons, CC BY-SA 4.0.
+    DATABASE_EXERCICIOS.push({
+      id:'e101',
+      nome:'Flexão de Braços no Solo',
+      aparelho:'Solo / colchonete',
+      musculo:'Peitoral maior',
+      grupo:'PEITO',
+      familia:'FLEXÃO',
+      foco:'Peitoral maior, tríceps e deltoide anterior',
+      ordem:0,
+      popular:true,
+      ativo:true,
+      gif:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Pushups.gif',
+      gifFallback:FALLBACK_IMG,
+      fonteMidia:'https://commons.wikimedia.org/wiki/File:Pushups.gif',
+      licencaMidia:'CC BY-SA 4.0',
+      autorMidia:'Wensceslao',
+      instrucao:'FLEXÃO DE BRAÇOS NO SOLO\\n\\nComo fazer:\\n1. Apoie as mãos um pouco além da largura dos ombros.\\n2. Mantenha corpo alinhado e abdômen firme.\\n3. Flexione os cotovelos lentamente, aproximando o peito do solo dentro de uma amplitude confortável.\\n4. Empurre o solo e volte à posição inicial sem perder o alinhamento.\\n\\nErros comuns:\\n• Deixar o quadril cair.\\n• Abrir excessivamente os cotovelos.\\n• Fazer o movimento com impulso.\\n\\nGIF: Wensceslao / Wikimedia Commons — CC BY-SA 4.0. Fonte: https://commons.wikimedia.org/wiki/File:Pushups.gif',
+      execucao:'Desça com controle e volte mantendo tronco e quadril alinhados.',
+      errosComuns:'Evite perder o alinhamento do tronco ou forçar os ombros.',
+      series:3,reps:12,descanso:60,peso:0
+    });
+
     const GLUTEO_INFO = {
       e81:{ordem:1,familia:"ELEVAÇÃO PÉLVICA",foco:"Glúteo máximo",instrucao:"ELEVAÇÃO PÉLVICA",execucao:"Apoie as costas no banco, mantenha os pés firmes e eleve o quadril até alinhar tronco e coxas, contraindo os glúteos no alto.",respiracao:"Expire ao elevar e inspire ao descer.",errosComuns:"Hiperestender a lombar, afastar demais os pés ou subir sem contrair os glúteos."},
       e82:{ordem:2,familia:"ABDUÇÃO",foco:"Glúteo médio",instrucao:"ABDUÇÃO DE QUADRIL EM PÉ",execucao:"Mantenha o tronco estável e afaste a perna lateralmente sem girar o quadril. Retorne devagar.",respiracao:"Expire ao afastar e inspire no retorno.",errosComuns:"Inclinar o tronco, girar o pé excessivamente ou usar impulso."},
