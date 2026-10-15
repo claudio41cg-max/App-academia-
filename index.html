@@ -2510,6 +2510,7 @@
       });
       for(const tipo of ['pointerup','pointercancel','pointerleave'])el.addEventListener(tipo,()=>{clearTimeout(timer);timer=null;});
       el.addEventListener('click',e=>{
+        if(e.target===lixo)return;
         if(ativado){e.preventDefault();e.stopImmediatePropagation();ativado=false;}
       },true);
       el.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(timer);ativado=true;revelar();});
