@@ -2585,6 +2585,18 @@
       const swap=document.createElement('button');
       swap.type='button';swap.textContent='⇄ Trocar dias';swap.className='btn-voltar-abaixo';
       swap.addEventListener('click',()=>trocarProgramacaoEntreDias(iso));actions.appendChild(swap);
+      const clearWeek=document.createElement('button');clearWeek.type='button';
+      clearWeek.className='btn-voltar-abaixo';clearWeek.textContent='Excluir treino semanal';
+      clearWeek.addEventListener('click',()=>{
+        if(!confirm('Excluir TODOS os exercícios da programação de '+NOMES_DIAS_TREINO[dia]+'? O histórico será preservado.'))return;
+        estado.treinoPorDia[dia]=[];salvarEstado();atualizarTreinoHoje();renderizarTreinosVertical();abrirTreinoData(iso);
+      });actions.appendChild(clearWeek);
+      const clearDate=document.createElement('button');clearDate.type='button';
+      clearDate.className='btn-voltar-abaixo';clearDate.textContent='Excluir treino somente desta data';
+      clearDate.addEventListener('click',()=>{
+        if(!confirm('Remover todos os exercícios somente de '+formatarDataBR(iso)+'? A programação semanal continuará igual.'))return;
+        editarTreinoDiaEspecifico(iso,[]);abrirTreinoData(iso);
+      });actions.appendChild(clearDate);
       if(estado.excecoesTreinoDia && Object.prototype.hasOwnProperty.call(estado.excecoesTreinoDia,iso)){
         const restore=document.createElement('button');
         restore.type='button';restore.textContent='↺ Restaurar treino deste dia';restore.className='btn-voltar-abaixo';
