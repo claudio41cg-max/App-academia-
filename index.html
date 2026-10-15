@@ -513,6 +513,7 @@
       .receitas-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
       .x5-video-grid { grid-template-columns: 1fr; }
     }
+    .cal-day-cell.treino-registrado-cal{outline:2px solid #53bd93;outline-offset:-3px;font-weight:800}
   </style>
 </head>
 <body>
@@ -741,6 +742,7 @@
             <h3 id="cal-mes-ano">Mês Ano</h3>
             <button class="cal-nav-btn" onclick="mudarMes(1)">›</button>
           </div>
+        <p id="cal-frequencia-registrada" style="font-size:12px;color:var(--gold);margin:8px 0;text-align:center">Dias com carga registrada: 0</p>
           <p style="font-size:11px;color:var(--muted);margin:0 0 10px;line-height:1.4;text-align:center;">Dias treinados ficam dourados. Toque para ver ou segure para desmarcar.</p>
           <div class="cal-days-grid" id="cal-grid"></div>
         </div>
@@ -2172,6 +2174,12 @@
     let dataCalendario = new Date();
     let dataTreinoAtual = hojeISO();
 
+    function totalDiasTreinadosNoMes(ano, mes) {
+      const prefixo = ano + '-' + String(mes + 1).padStart(2, '0') + '-';
+      return new Set((estado.historicoCarga || [])
+        .filter(item => typeof item.data === 'string' && item.data.startsWith(prefixo) && Number(item.peso) > 0)
+        .map(item => item.data)).size;
+    }
     function renderizarCalendario() {
       const mesAnoEl = document.getElementById('cal-mes-ano');
       const gridEl = document.getElementById('cal-grid');
@@ -2181,6 +2189,8 @@
       const ano = dataCalendario.getFullYear();
       const mes = dataCalendario.getMonth();
       mesAnoEl.textContent = `${meses[mes]} ${ano}`;
+      const frequencia = document.getElementById('cal-frequencia-registrada');
+      if (frequencia) frequencia.textContent = `Dias com carga registrada neste mês: ${totalDiasTreinadosNoMes(ano, mes)}`;
       
       gridEl.innerHTML = `
         <div class="cal-day-label">D</div><div class="cal-day-label">S</div>
@@ -2198,9 +2208,13 @@
       for (let d = 1; d <= totalDias; d++) {
         const iso = dataISO(new Date(ano, mes, d));
         const temTreino = (estado.treinoPorData[iso] || []).length > 0;
+        // Dia com carga registrada representa atividade efetivamente lançada,
+        // diferente de um treino apenas planejado na agenda.
+        const cargaRegistrada = (estado.historicoCarga || []).some(item => item.data === iso && Number(item.peso) > 0);
         const isHoje = iso === hojeStr;
         let classes = "cal-day-cell";
         if (temTreino) classes += " tem-treino-cal";
+        if (cargaRegistrada) classes += " treino-registrado-cal";
         if (isHoje) classes += " hoje";
         gridEl.innerHTML += `<div class="${classes}" data-iso="${iso}">${d}</div>`;
       }
@@ -2394,7 +2408,11 @@
 
         if (series) series.value = custom.series || ex.series || 3;
         if (reps) reps.value = custom.reps || ex.reps || 12;
-        if (peso) peso.value = custom.peso !== undefined ? custom.peso : 0;
+        if (peso) {
+          const ultimoRegistro = registrosCargaDoExercicio(ex.id)[0];
+          const pesoAtual = custom.peso !== undefined ? custom.peso : (ultimoRegistro ? Number(ultimoRegistro.peso) : 0);
+          peso.value = String(pesoAtual);
+        }
         if (descanso) descanso.value = custom.descanso || ex.descanso || 60;
         renderizarHistoricoCargaExercicio(ex.id);
       } catch (error) {
@@ -2403,15 +2421,23 @@
       }
     }
 
+    // Progressão simples, sem alterar exercícios, GIFs ou esquema do localStorage.
+    function registrosCargaDoExercicio(exercicioId) {
+      return (Array.isArray(estado.historicoCarga) ? estado.historicoCarga : [])
+        .filter(item => item.exercicioId === exercicioId && Number(item.peso) > 0)
+        .sort((a,b) => String(b.data || '').localeCompare(String(a.data || '')));
+    }
+    function recordeCargaDoExercicio(exercicioId) {
+      return registrosCargaDoExercicio(exercicioId).reduce((max, item) => Math.max(max, Number(item.peso) || 0), 0);
+    }
+
     function renderizarHistoricoCargaExercicio(exercicioId) {
       const list = document.getElementById('d-load-history-list');
       const lastEl = document.getElementById('d-last-load');
       if (!list || !lastEl) return;
 
-      const registros = (estado.historicoCarga || [])
-        .filter(item => item.exercicioId === exercicioId)
-        .sort((a,b) => String(b.data || '').localeCompare(String(a.data || '')))
-        .slice(0, 4);
+      const todosRegistros = registrosCargaDoExercicio(exercicioId);
+      const registros = todosRegistros.slice(0, 4);
 
       if (!registros.length) {
         lastEl.textContent = 'Nenhuma carga registrada';
@@ -2420,7 +2446,8 @@
       }
 
       const ultimo = registros[0];
-      lastEl.textContent = `Última: ${Number(ultimo.peso || 0).toLocaleString('pt-BR')} kg`;
+      const recorde = recordeCargaDoExercicio(exercicioId);
+      lastEl.textContent = `Última: ${Number(ultimo.peso || 0).toLocaleString('pt-BR')} kg · 🏆 Recorde: ${recorde.toLocaleString('pt-BR')} kg`;
       list.innerHTML = registros.map(item => `
         <div class="load-history-row">
           <span>${formatarDataBR(item.data)}</span>
@@ -2444,8 +2471,10 @@
         reps: Number(config.reps || 12)
       };
 
+      const recordeAnterior = recordeCargaDoExercicio(exercicioId);
       if (existenteHoje) Object.assign(existenteHoje, registro);
       else estado.historicoCarga.push(registro);
+      if (peso > recordeAnterior && recordeAnterior > 0) mostrarToast('🏆 Novo recorde pessoal de carga!');
 
       renderizarHistoricoCargaExercicio(exercicioId);
     }
