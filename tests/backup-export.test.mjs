@@ -67,34 +67,32 @@ test('new chest exercise appears first without replacing existing ten entries',(
  for(const id of ['e3','e6','e10','e4','e7','e2','e1','e5','e8','e9'])assert.ok(section.includes(id+': {'));
 });
 
-test('weight card is full width and immediately after workouts/exercises',()=>{
+
+test('weight card full width in its original home position',()=>{
  const a=html.indexOf('id="btn-menu-exercicios"'),b=html.indexOf('id="btn-evolucao-peso"'),d=html.indexOf('id="btn-menu-x5"');
  assert.ok(a>=0&&b>a&&d>b);
  assert.ok(html.includes('.peso-card-home{grid-column:1/-1'));
+ assert.ok(html.includes('<strong>Evolução e Meta</strong>'));
  assert.ok(html.includes('id="view-evolucao-peso"'));
  assert.ok(html.includes('id="peso-svg"'));
- assert.ok(html.includes("estado.pesoRegistros.push({data,kg})"));
- assert.ok(html.includes('estado.pesoMeta=meta'));
- assert.ok(html.includes("salvarEstado();e.target.hidden=true;renderizarPeso()"));
- assert.ok(html.includes('.peso-form[hidden]{display:none!important}'));
 });
-
-test('weight entry accepts valid ISO date and rejects malformed dates',()=>{
+test('weight records are validated and persisted',()=>{
  const source=html.slice(html.indexOf('function pesoRegistros()'),html.indexOf('// EVENTOS GERAIS'));
  const matches=[...source.matchAll(/\/\^([^\n]+?)\$\/\.test\(/g)];
- assert.ok(matches.length>=2,'validation and filtering each use date regex');
- for(const match of matches){
-  const pattern=new RegExp('^'+match[1]+'$');
-  assert.equal(pattern.test('2026-10-15'),true);
-  assert.equal(pattern.test('15/10/2026'),false);
- }
+ assert.ok(matches.length>=2);
+ for(const m of matches){const re=new RegExp('^'+m[1]+'$');assert.ok(re.test('2026-10-15'));assert.ok(!re.test('15/10/2026'));}
+ assert.ok(html.includes('estado.pesoRegistros.push({data,kg})'));
+ assert.ok(html.includes('estado.pesoMeta=v'));
+ assert.ok(html.includes('salvarEstado();document.getElementById'));
 });
-
-test('weight chart plots actual dates and supports finger scrubbing',()=>{
- assert.ok(html.includes('<strong>Evolução e Meta</strong>'));
- assert.ok(html.includes("instante(visiveis[i].data)-inicioMs"));
+test('reference chart and weight sheet are implemented',()=>{
+ assert.ok(html.includes("const X=t=>t0===t1?180"));
  assert.ok(html.includes("area.addEventListener('pointermove'"));
  assert.ok(html.includes("area.addEventListener('pointerdown'"));
- assert.ok(html.includes("tooltip.textContent="));
- assert.ok(html.includes("'stroke-dasharray':'7 5'"));
+ assert.ok(html.includes("pesoDia(selected.d)+' · '+pesoFmt(selected.y)+' kg'"));
+ assert.ok(html.includes('id="peso-overlay"'));
+ assert.ok(html.includes('id="peso-slider"'));
+ assert.ok(html.includes('data-peso-delta="-0.5"'));
+ assert.ok(html.includes('Média semanal'));
+ assert.ok(html.includes('id="view-pesagens"'));
 });
