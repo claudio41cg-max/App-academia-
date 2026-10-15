@@ -44,12 +44,15 @@ test('exercise cards open approved detail screen without replacing GIFs',()=>{
  assert.ok(html.includes("card.addEventListener('click',()=>abrirDetalheExercicio(ex,'view-treino-dia'))"));
  assert.ok(html.includes('gif.src = ex.gif'));
 });
-test('long press allows separate daily and weekly removals with confirmation',()=>{
+test('long press reveals a single trash icon without numeric prompts',()=>{
  assert.ok(html.includes('function configurarPressaoLonga('));
- assert.ok(html.includes('function exclusaoTreinoMenu('));
- assert.ok(html.includes('function menuRemoverExercicio('));
- assert.ok(html.includes("if(!confirm("));
- assert.ok(html.includes('treinosAvulsos'));
+ assert.ok(html.includes("lixo.textContent='🗑️'"));
+ assert.ok(html.includes("function excluirTreinoSemanal("));
+ assert.ok(html.includes("function excluirExercicioSemanal("));
  assert.ok(html.includes("configurarPressaoLonga(cardHoje,"));
- assert.ok(!html.slice(html.indexOf('function exclusaoTreinoMenu('),html.indexOf('function renderizarTreinosVertical()')).includes('estado.historicoCarga='));
+ assert.ok(!html.includes('function exclusaoTreinoMenu('));
+ assert.ok(!html.includes('function menuRemoverExercicio('));
+ assert.ok(html.includes("if(e.target===lixo)return;"));
+ const a=html.slice(html.indexOf('function excluirTreinoSemanal('),html.indexOf('function renderizarTreinosVertical()'));
+ assert.ok(!a.includes('estado.historicoCarga='));
 });
