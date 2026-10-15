@@ -2280,7 +2280,7 @@
       const card = document.getElementById('treino-hoje-card');
       if (!card) return;
       const wd = new Date().getDay();
-      const ids = (estado.treinoPorDia && estado.treinoPorDia[wd]) ? estado.treinoPorDia[wd] : [];
+      const ids = treinoIdsNaData(hojeISO());
       if (ids.length === 0) {
         card.style.display = 'none';
         return;
@@ -2292,6 +2292,8 @@
     }
 
     function abrirTreinoHoje() { abrirTreinoDia(new Date().getDay()); }
+    const cardHoje=document.getElementById('treino-hoje-card');
+    if(cardHoje)configurarPressaoLonga(cardHoje,()=>exclusaoTreinoMenu(new Date().getDay(),hojeISO()));
 
     function renderizarCategorias() {
       const container = document.getElementById('cat-grid-container');
@@ -2479,6 +2481,58 @@
       renderizarHistoricoCargaExercicio(exercicioId);
     }
 
+    // Menu por pressão longa: toque simples continua abrindo a tela original.
+    function configurarPressaoLonga(el,acaoLonga) {
+      let timer=null,acionou=false,inicioX=0,inicioY=0;
+      el.addEventListener('pointerdown',e=>{
+        if(e.button!==0)return;
+        acionou=false;inicioX=e.clientX;inicioY=e.clientY;
+        clearTimeout(timer);
+        timer=setTimeout(()=>{acionou=true;acaoLonga();},650);
+      });
+      el.addEventListener('pointermove',e=>{
+        if(Math.abs(e.clientX-inicioX)>12||Math.abs(e.clientY-inicioY)>12){clearTimeout(timer);timer=null;}
+      });
+      for(const tipo of ['pointerup','pointercancel','pointerleave'])el.addEventListener(tipo,()=>{clearTimeout(timer);timer=null;});
+      el.addEventListener('click',e=>{if(acionou){e.preventDefault();e.stopImmediatePropagation();acionou=false;}},true);
+      el.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(timer);timer=null;acionou=true;acaoLonga();});
+    }
+    function treinoIdsNaData(iso){
+      const override=estado.treinosAvulsos?.[iso];
+      if(Array.isArray(override))return [...override];
+      const dia=new Date(iso+'T12:00:00').getDay();
+      return [...(estado.treinoPorDia?.[dia]||[])];
+    }
+    function definirTreinoAvulso(iso,ids){
+      if(!estado.treinosAvulsos)estado.treinosAvulsos={};
+      estado.treinosAvulsos[iso]=[...ids];
+      salvarEstado();
+    }
+    function exclusaoTreinoMenu(dia,iso){
+      const resposta=prompt('Excluir treino de '+['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][dia]+'? Digite 1 para retirar SÓ desta data ('+formatarDataBR(iso)+'), 2 para excluir a programação SEMANAL. Histórico preservado.');
+      if(resposta===null)return;
+      const escolha=resposta.trim();
+      if(escolha!=='1'&&escolha!=='2'){mostrarToast('Escolha 1 ou 2.');return;}
+      const apenasHoje=escolha==='1';
+      if(!confirm(apenasHoje?'Retirar os exercícios somente desta data?':'Excluir o treino de TODOS os próximos '+['domingos','segundas','terças','quartas','quintas','sextas','sábados'][dia]+'?'))return;
+      if(apenasHoje)definirTreinoAvulso(iso,[]);
+      else{estado.treinoPorDia[dia]=[];salvarEstado();}
+      atualizarTreinoHoje();renderizarTreinosVertical();
+      if(document.getElementById('view-treino-dia')?.classList.contains('active'))abrirTreinoDia(dia);
+      mostrarToast('Treino retirado. Histórico preservado.');
+    }
+    function menuRemoverExercicio(id,dia){
+      const iso=dataTreinoAtual||dataDoWeekdayNaSemana(dia);
+      const resposta=prompt('Remover este exercício? Digite 1 para SÓ '+formatarDataBR(iso)+', 2 para tirar da programação SEMANAL. Histórico preservado.');
+      if(resposta===null)return;
+      const escolha=resposta.trim();
+      if(!['1','2'].includes(escolha)){mostrarToast('Escolha 1 ou 2.');return;}
+      if(!confirm(escolha==='1'?'Remover somente deste dia?':'Remover da programação semanal?'))return;
+      if(escolha==='1')definirTreinoAvulso(iso,treinoIdsNaData(iso).filter(x=>x!==id));
+      else{estado.treinoPorDia[dia]=(estado.treinoPorDia[dia]||[]).filter(x=>x!==id);salvarEstado();}
+      atualizarTreinoHoje();renderizarTreinosVertical();abrirTreinoDia(dia);
+      mostrarToast('Exercício removido. Histórico preservado.');
+    }
     function renderizarTreinosVertical() {
       renderizarCalendario();
       const container = document.getElementById('container-dias-vertical');
@@ -2499,6 +2553,7 @@
           <span class="dia-qtd">${lista.length} exercício(s)</span>
         `;
         div.addEventListener('click', () => abrirTreinoDia(i));
+        configurarPressaoLonga(div,()=>exclusaoTreinoMenu(i,dataDoWeekdayNaSemana(i)));
         container.appendChild(div);
       }
     }
@@ -2510,7 +2565,7 @@
       document.getElementById('dia-titulo-topo').textContent = `Treino de ${nomes[diaSemana]}`;
       const container = document.getElementById('container-exercicios-dia');
       container.innerHTML = '';
-      const ids = (estado.treinoPorDia && estado.treinoPorDia[diaSemana]) || [];
+      const ids = treinoIdsNaData(iso);
 
       ids.forEach(id => {
         const ex = DATABASE_EXERCICIOS.find(e => e.id === id);
@@ -2527,6 +2582,9 @@
             </div>
           </div>
         `;
+        card.style.cursor='pointer';
+        card.addEventListener('click',()=>abrirDetalheExercicio(ex,'view-treino-dia'));
+        configurarPressaoLonga(card,()=>menuRemoverExercicio(id,diaSemana),()=>{});
         container.appendChild(card);
       });
       abrirTela('view-treino-dia');
