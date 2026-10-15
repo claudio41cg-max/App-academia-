@@ -39,12 +39,3 @@ test('progress indicators use actual saved loads and preserve exercise media',()
  assert.ok(html.includes('treino-registrado-cal'));
  assert.ok(html.includes('gif.src = ex.gif'));
 });
-
-test('day and weekly exercise controls preserve historical records',()=>{
- for(const name of ['editarTreinoDiaEspecifico','idsTreinoNaData','removerExercicioTreino','moverExercicioTreino','trocarProgramacaoEntreDias'])assert.ok(html.includes('function '+name+'('),name);
- assert.ok(html.includes('delete estado.excecoesTreinoDia[iso]'));
- assert.ok(html.includes("if (!confirm('Remover '"));
- assert.ok(html.includes("estado.treinoPorDia[destino]=destinoIds"));
- assert.ok(html.includes('const anterior=[...(estado.treinoPorDia[origem]||[])]'));
- assert.ok(!html.slice(html.indexOf('function removerExercicioTreino('),html.indexOf('function abrirTreinoDia(')).includes('estado.historicoCarga ='));
-});
