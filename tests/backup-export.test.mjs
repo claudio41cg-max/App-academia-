@@ -89,3 +89,12 @@ test('weight entry accepts valid ISO date and rejects malformed dates',()=>{
   assert.equal(pattern.test('15/10/2026'),false);
  }
 });
+
+test('weight chart plots actual dates and supports finger scrubbing',()=>{
+ assert.ok(html.includes('<strong>Evolução e Meta</strong>'));
+ assert.ok(html.includes("instante(visiveis[i].data)-inicioMs"));
+ assert.ok(html.includes("area.addEventListener('pointermove'"));
+ assert.ok(html.includes("area.addEventListener('pointerdown'"));
+ assert.ok(html.includes("tooltip.textContent="));
+ assert.ok(html.includes("'stroke-dasharray':'7 5'"));
+});
