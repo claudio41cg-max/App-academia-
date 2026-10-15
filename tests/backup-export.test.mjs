@@ -39,3 +39,17 @@ test('progress indicators use actual saved loads and preserve exercise media',()
  assert.ok(html.includes('treino-registrado-cal'));
  assert.ok(html.includes('gif.src = ex.gif'));
 });
+
+test('exercise cards open approved detail screen without replacing GIFs',()=>{
+ assert.ok(html.includes("card.addEventListener('click',()=>abrirDetalheExercicio(ex,'view-treino-dia'))"));
+ assert.ok(html.includes('gif.src = ex.gif'));
+});
+test('long press allows separate daily and weekly removals with confirmation',()=>{
+ assert.ok(html.includes('function configurarPressaoLonga('));
+ assert.ok(html.includes('function exclusaoTreinoMenu('));
+ assert.ok(html.includes('function menuRemoverExercicio('));
+ assert.ok(html.includes("if(!confirm("));
+ assert.ok(html.includes('treinosAvulsos'));
+ assert.ok(html.includes("configurarPressaoLonga(cardHoje,"));
+ assert.ok(!html.slice(html.indexOf('function exclusaoTreinoMenu('),html.indexOf('function renderizarTreinosVertical()')).includes('estado.historicoCarga='));
+});
