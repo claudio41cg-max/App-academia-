@@ -514,7 +514,10 @@
       .x5-video-grid { grid-template-columns: 1fr; }
     }
     .cal-day-cell.treino-registrado-cal{outline:2px solid #53bd93;outline-offset:-3px;font-weight:800}
-  </style>
+  
+/* Evolução de peso: card inicial preto/dourado; conteúdo verde e amarelo */
+.peso-card-home{grid-column:1/-1;display:flex;align-items:center;gap:14px;min-height:91px;text-align:left;width:100%;padding:16px 18px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:var(--gold);cursor:pointer}.peso-card-home strong{display:block;font-size:17px;color:var(--gold)}.peso-card-home small{display:block;color:var(--muted);margin-top:5px}.peso-card-home .peso-icone{font-size:30px}.peso-card-home .peso-seta{margin-left:auto;font-size:22px}.peso-area{padding:14px 0 40px}.peso-bloco{background:#1e1e21;border:1px solid #34343b;border-radius:20px;padding:20px;margin:0 0 16px;color:#f5f5f5}.peso-topo{display:flex;align-items:start;justify-content:space-between;gap:12px}.peso-legenda{color:#a1a1aa;font-size:13px}.peso-valor{font-size:30px;font-weight:850;margin-top:9px}.peso-meta{color:#f2cd35;font-size:13px;margin-top:7px}.peso-verde{color:#29d45b}.peso-btn{background:#27d85d;color:#08150b;border:0;border-radius:12px;padding:11px 15px;font-weight:800;cursor:pointer}.peso-form{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}.peso-form input{background:#101013;color:white;border:1px solid #555;border-radius:10px;padding:10px;min-width:0;flex:1 1 115px;font-size:16px}.peso-grafico{width:100%;display:block;touch-action:pan-y}.peso-historico-item{display:flex;justify-content:space-between;gap:9px;padding:12px 0;border-bottom:1px solid #34343a;font-size:13px}.peso-historico-item button{border:0;background:none;color:#ff8a8a;font-size:12px}.peso-tabs{display:flex;justify-content:center;gap:5px;margin:10px 0}.peso-tabs button{border:0;border-radius:20px;background:#33343a;color:#e6e6e6;padding:8px 13px;cursor:pointer}.peso-tabs button.ativo{background:#28d55b;color:#09130c;font-weight:800}
+</style>
 </head>
 <body>
   <div class="toast" id="toast"></div>
@@ -709,6 +712,7 @@
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/><rect x="6" y="40" width="16" height="6" rx="3"/></svg></div>
           <div class="card-body"><div class="label">Exercícios</div><div class="card-sub">Catálogo de exercícios</div></div>
         </div>
+        <button class="peso-card-home" id="btn-evolucao-peso" type="button"><span class="peso-icone">⚖</span><span><strong>Evolução do Peso</strong><small id="peso-resumo-home">Acompanhe seu peso e suas metas</small></span><span class="peso-seta">›</span></button>
         <div class="btn-dash" id="btn-menu-x5">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>
@@ -831,6 +835,20 @@
       <div style="padding:0 20px 20px 20px;">
         <button class="btn-whatsapp" onclick="exportarFichaWhatsApp()">📲 Enviar Ficha no WhatsApp</button>
         <button class="btn-whatsapp" id="btn-exportar-backup" type="button" onclick="exportarBackupAcademia()" style="margin-top:10px;background:#19354b;border:1px solid #315873;color:#f0f4f8">💾 Exportar backup dos meus treinos</button>
+      </div>
+    </div>
+
+    <!-- EVOLUÇÃO DO PESO -->
+    <div class="pane" id="view-evolucao-peso">
+      <div class="internal-header"><button class="back-btn" id="peso-back">← Voltar</button><span class="internal-title">Evolução do Peso</span></div>
+      <div class="peso-area">
+        <div class="peso-bloco"><div class="peso-topo"><div><div class="peso-legenda">Peso atual</div><div class="peso-valor" id="peso-atual-valor">—</div><div class="peso-legenda" id="peso-data-atual"></div></div><div style="text-align:right"><div class="peso-legenda">◎ Meta</div><div style="font-size:23px;font-weight:800;color:#f2cd35" id="peso-meta-valor">—</div><div class="peso-meta" id="peso-falta"></div></div></div>
+          <div style="margin-top:18px"><button class="peso-btn" id="peso-adicionar">＋ Registrar peso</button></div>
+          <form id="peso-form" class="peso-form" hidden><input id="peso-input-data" type="date" aria-label="Data da pesagem" required><input id="peso-input-kg" type="number" min="20" max="500" step="0.1" placeholder="Peso em kg" aria-label="Peso em kg" required><button class="peso-btn" type="submit">Salvar</button></form>
+        </div>
+        <div class="peso-bloco"><div class="peso-legenda">Histórico do peso</div><div class="peso-tabs" id="peso-tabs"><button type="button" data-meses="1">1M</button><button type="button" data-meses="3" class="ativo">3M</button><button type="button" data-meses="6">6M</button><button type="button" data-meses="12">1A</button><button type="button" data-meses="0">Tudo</button></div><svg id="peso-svg" class="peso-grafico" viewBox="0 0 340 205" role="img" aria-label="Gráfico de evolução do peso"></svg><div id="peso-ponto-info" class="peso-legenda" style="text-align:center;min-height:20px;margin-top:7px"></div></div>
+        <div class="peso-bloco"><div class="peso-topo"><strong>Histórico de pesagens</strong><span class="peso-verde" id="peso-total-registros"></span></div><div id="peso-historico-lista"></div></div>
+        <div class="peso-bloco"><label for="peso-meta-input" class="peso-legenda">◎ Editar meta de peso (kg)</label><form id="peso-meta-form" class="peso-form"><input id="peso-meta-input" type="number" min="20" max="500" step="0.1" required placeholder="Ex.: 77"><button class="peso-btn" type="submit">Salvar meta</button></form></div>
       </div>
     </div>
 
@@ -2698,6 +2716,48 @@
       document.getElementById('stat-peso').textContent = estado.aluno.peso || '--';
     }
 
+
+    // Dados persistem no mesmo estado do app e entram no backup existente.
+    let pesoFiltroMeses=3;
+    const pesoFormato=valor=>Number(valor).toLocaleString('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1});
+    function pesoRegistros(){return (Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>p&&/^\\d{4}-\\d{2}-\\d{2}$/.test(p.data)&&Number.isFinite(Number(p.kg))).sort((a,b)=>a.data.localeCompare(b.data));}
+    function pesoEsc(texto){return String(texto).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));}
+    function renderizarPeso(){
+      const todos=pesoRegistros(),ultimo=todos[todos.length-1],meta=Number(estado.pesoMeta)||0;
+      document.getElementById('peso-atual-valor').textContent=ultimo?pesoFormato(ultimo.kg)+' kg':'— kg';
+      document.getElementById('peso-data-atual').textContent=ultimo?new Date(ultimo.data+'T12:00:00').toLocaleDateString('pt-BR'):'Nenhuma pesagem registrada';
+      document.getElementById('peso-meta-valor').textContent=meta?pesoFormato(meta)+' kg':'—';
+      document.getElementById('peso-falta').textContent=meta&&ultimo?'Diferença: '+pesoFormato(Math.abs(ultimo.kg-meta))+' kg':'Defina sua meta';
+      document.getElementById('peso-resumo-home').textContent=ultimo?pesoFormato(ultimo.kg)+' kg'+(meta?' · Meta: '+pesoFormato(meta)+' kg':''):'Acompanhe seu peso e suas metas';
+      document.getElementById('peso-meta-input').value=meta||'';
+      document.getElementById('peso-total-registros').textContent=todos.length+' registros';
+      const lista=document.getElementById('peso-historico-lista');lista.innerHTML='';
+      [...todos].reverse().forEach(item=>{
+        const linha=document.createElement('div');linha.className='peso-historico-item';
+        const label=document.createElement('span');label.textContent=new Date(item.data+'T12:00:00').toLocaleDateString('pt-BR')+'   '+pesoFormato(item.kg)+' kg';
+        const botao=document.createElement('button');botao.type='button';botao.textContent='Excluir';botao.addEventListener('click',()=>{if(!confirm('Excluir a pesagem de '+label.textContent+'?'))return;estado.pesoRegistros=pesoRegistros().filter(p=>p.data!==item.data);salvarEstado();renderizarPeso();});
+        linha.append(label,botao);lista.append(linha);
+      });
+      if(!todos.length)lista.textContent='Registre sua primeira pesagem para acompanhar a evolução.';
+      const inicio=new Date();inicio.setMonth(inicio.getMonth()-pesoFiltroMeses);
+      const visiveis=pesoFiltroMeses?todos.filter(p=>new Date(p.data+'T12:00:00')>=inicio):todos;
+      const svg=document.getElementById('peso-svg');svg.innerHTML='';const ns='http://www.w3.org/2000/svg';
+      const criar=(tag,atts,txt)=>{const n=document.createElementNS(ns,tag);Object.entries(atts).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!==undefined)n.textContent=txt;svg.appendChild(n);return n;};
+      const valores=visiveis.map(p=>Number(p.kg));if(meta)valores.push(meta);
+      const min=valores.length?Math.floor(Math.min(...valores)-1):50,max=valores.length?Math.ceil(Math.max(...valores)+1):100,escala=max===min?1:max-min;
+      const X=i=>visiveis.length<2?170:34+i*288/(visiveis.length-1);
+      const Y=v=>170-(v-min)/escala*135;
+      [0,1,2,3].forEach(i=>{const y=35+i*45;criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#55565a','stroke-dasharray':'3 5'});criar('text',{x:1,y:y+4,fill:'#a8a8a8','font-size':10},pesoFormato(max-i*escala/3));});
+      if(meta){const y=Y(meta);criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#f2cd35','stroke-width':2,'stroke-dasharray':'7 5'});}
+      if(visiveis.length){const pts=visiveis.map((p,i)=>X(i)+','+Y(p.kg)).join(' ');const fill=visiveis.map((p,i)=>X(i)+' '+Y(p.kg)).join(' L ');criar('path',{d:'M '+fill+' L '+X(visiveis.length-1)+' 170 L '+X(0)+' 170 Z',fill:'#26d65b','fill-opacity':'.12'});criar('polyline',{points:pts,fill:'none',stroke:'#28d75c','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});visiveis.forEach((p,i)=>{const dot=criar('circle',{cx:X(i),cy:Y(p.kg),r:5,fill:'#23dc61',stroke:'#141414','stroke-width':2,tabindex:0,role:'button','aria-label':p.data+' '+p.kg+' kg'});const mostrar=()=>document.getElementById('peso-ponto-info').textContent=new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')+' · '+pesoFormato(p.kg)+' kg';dot.addEventListener('click',mostrar);dot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')mostrar();});});criar('text',{x:34,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[0].data+'T12:00:00').toLocaleDateString('pt-BR'));criar('text',{x:257,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[visiveis.length-1].data+'T12:00:00').toLocaleDateString('pt-BR'));}
+      else criar('text',{x:170,y:105,'text-anchor':'middle',fill:'#a8a8a8','font-size':12},'Sem pesagens neste período');
+    }
+    document.getElementById('btn-evolucao-peso')?.addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
+    document.getElementById('peso-back')?.addEventListener('click',()=>abrirTela('view-dashboard'));
+    document.getElementById('peso-adicionar')?.addEventListener('click',()=>{const form=document.getElementById('peso-form');form.hidden=!form.hidden;document.getElementById('peso-input-data').value=dataISO(new Date());});
+    document.getElementById('peso-form')?.addEventListener('submit',e=>{e.preventDefault();const data=document.getElementById('peso-input-data').value,kg=Number(document.getElementById('peso-input-kg').value);if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(data)||!Number.isFinite(kg)||kg<20||kg>500){mostrarToast('Informe data e peso válidos.');return;}if(!Array.isArray(estado.pesoRegistros))estado.pesoRegistros=[];estado.pesoRegistros=estado.pesoRegistros.filter(p=>p.data!==data);estado.pesoRegistros.push({data,kg});salvarEstado();e.target.hidden=true;renderizarPeso();mostrarToast('Peso registrado.');});
+    document.getElementById('peso-meta-form')?.addEventListener('submit',e=>{e.preventDefault();const meta=Number(document.getElementById('peso-meta-input').value);if(!Number.isFinite(meta)||meta<20||meta>500){mostrarToast('Meta inválida.');return;}estado.pesoMeta=meta;salvarEstado();renderizarPeso();mostrarToast('Meta atualizada.');});
+    document.querySelectorAll('#peso-tabs button').forEach(b=>b.addEventListener('click',()=>{pesoFiltroMeses=Number(b.dataset.meses);document.querySelectorAll('#peso-tabs button').forEach(v=>v.classList.toggle('ativo',v===b));renderizarPeso();}));
     // EVENTOS GERAIS
     document.getElementById('btn-menu-treinos')?.addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
     document.getElementById('btn-menu-exercicios')?.addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
