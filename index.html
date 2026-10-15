@@ -2752,87 +2752,138 @@
     }
 
 
-    // Dados persistem no mesmo estado do app e entram no backup existente.
-    let pesoFiltroMeses=3;
-    const pesoFormato=valor=>Number(valor).toLocaleString('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1});
-    function pesoRegistros(){return (Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>p&&/^\d{4}-\d{2}-\d{2}$/.test(p.data)&&Number.isFinite(Number(p.kg))).sort((a,b)=>a.data.localeCompare(b.data));}
-    function pesoEsc(texto){return String(texto).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));}
+    // Pesagens: armazenamento original do Smart Physical, gráfico inspirado em
+    // frontend/src/components/LineChart.jsx e bodyweight.js do openGym (AGPL-3.0).
+    const pesoFmt=n=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+    const pesoDia=iso=>new Date(iso+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
+    function pesoRegistros(){return (Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>p&&/^\d{4}-\d{2}-\d{2}$/.test(p.data)&&Number(p.kg)>0).sort((a,b)=>a.data.localeCompare(b.data));}
+    function pesoUltimo(){const r=pesoRegistros();return r[r.length-1];}
+    function pesoExcluir(iso){
+      if(!confirm('Excluir a pesagem de '+pesoDia(iso)+'?'))return;
+      estado.pesoRegistros=pesoRegistros().filter(p=>p.data!==iso);
+      salvarEstado();renderizarPeso();mostrarToast('Pesagem excluída.');
+    }
+    function pesoLinha(item){
+      const row=document.createElement('div');row.className='peso-sheet-item';
+      const label=document.createElement('span');label.textContent=pesoDia(item.data);
+      const kg=document.createElement('strong');kg.textContent=pesoFmt(item.kg)+' kg';
+      const del=document.createElement('button');del.type='button';del.textContent='♜';del.textContent='🗑';del.setAttribute('aria-label','Excluir pesagem');del.addEventListener('click',()=>pesoExcluir(item.data));
+      row.append(label,kg,del);return row;
+    }
+    // Cálculo da média semanal seguindo weeklyWeights() do openGym.
+    function pesoSemanas(registros){
+      const map=new Map();
+      registros.forEach(p=>{const d=new Date(p.data+'T12:00:00');d.setDate(d.getDate()-(d.getDay()+6)%7);const k=dataISO(d);if(!map.has(k))map.set(k,[]);map.get(k).push(p);});
+      const weeks=[...map].sort((a,b)=>a[0].localeCompare(b[0])).map(([inicio,items])=>({inicio,items,media:items.reduce((s,x)=>s+Number(x.kg),0)/items.length}));
+      weeks.forEach((w,i)=>w.delta=i?w.media-weeks[i-1].media:null);
+      return weeks.reverse();
+    }
+    function pesoGrafico(svg,registros,meta,info){
+      svg.replaceChildren();
+      const ns='http://www.w3.org/2000/svg',W=340,H=205,P={l:34,r:12,t:15,b:29};
+      const add=(tag,attrs,txt)=>{const e=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(txt!==undefined)e.textContent=txt;svg.appendChild(e);return e;};
+      if(!registros.length){add('text',{x:170,y:100,'text-anchor':'middle',fill:'#aaa','font-size':13},'Registre seu primeiro peso');if(info)info.hidden=true;return;}
+      const points=registros.map(p=>({t:new Date(p.data+'T12:00:00').getTime(),y:Number(p.kg),d:p.data}));
+      const range=points.map(p=>p.y);if(meta>0)range.push(meta);
+      let ymin=Math.min(...range),ymax=Math.max(...range);if(ymin===ymax){ymin-=1;ymax+=1;}
+      const pad=(ymax-ymin)*.12;ymin-=pad;ymax+=pad;
+      const t0=points[0].t,t1=points[points.length-1].t;
+      const X=t=>t0===t1?180:P.l+(t-t0)/(t1-t0)*(W-P.l-P.r);
+      const Y=y=>P.t+(1-(y-ymin)/(ymax-ymin))*(H-P.t-P.b);
+      const raw=(ymax-ymin)/3,pow=10**Math.floor(Math.log10(raw));let step=10*pow;
+      for(const m of [1,2,2.5,5,10])if(raw<=m*pow){step=m*pow;break;}
+      for(let val=Math.ceil(ymin/step)*step;val<=ymax+1e-9;val+=step){
+        const y=Y(val);add('line',{x1:P.l,y1:y,x2:W-P.r,y2:y,stroke:'#505054','stroke-width':.8,'stroke-dasharray':'2 4'});
+        add('text',{x:P.l-6,y:y+4,'text-anchor':'end',fill:'#a2a2a7','font-size':10},Number(val.toFixed(2)).toLocaleString('pt-BR'));
+      }
+      const mes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      let tick=new Date(new Date(t0).getFullYear(),new Date(t0).getMonth()+1,1);
+      let ticks=0;
+      while(tick.getTime()<=t1&&ticks<24){
+        const x=X(tick.getTime());
+        add('line',{x1:x,y1:P.t,x2:x,y2:H-P.b,stroke:'#444449','stroke-width':.7,'stroke-dasharray':'3 5'});
+        add('text',{x,y:H-5,'text-anchor':'middle',fill:'#aaa','font-size':11},mes[tick.getMonth()]);
+        tick=new Date(tick.getFullYear(),tick.getMonth()+1,1);ticks++;
+      }
+      const defs=add('defs',{}),grad=document.createElementNS(ns,'linearGradient');grad.setAttribute('id','peso-grad-'+svg.id);grad.setAttribute('x1','0');grad.setAttribute('x2','0');grad.setAttribute('y1','0');grad.setAttribute('y2','1');
+      [[0,.3],[1,0]].forEach(([off,opacity])=>{const st=document.createElementNS(ns,'stop');st.setAttribute('offset',off*100+'%');st.setAttribute('stop-color','#25d65b');st.setAttribute('stop-opacity',opacity);grad.append(st);});defs.append(grad);
+      if(meta>0){const y=Y(meta);add('line',{x1:P.l,y1:y,x2:W-P.r,y2:y,stroke:'#f0cb3d','stroke-width':1.7,'stroke-dasharray':'7 4'});add('text',{x:W-P.r-2,y:y-5,'text-anchor':'end',fill:'#f0cb3d','font-size':11,'font-weight':700},Number(meta).toLocaleString('pt-BR'));}
+      const poly=points.map(p=>X(p.t).toFixed(1)+','+Y(p.y).toFixed(1)).join(' ');
+      const last=points[points.length-1];
+      add('polygon',{points:P.l+','+(H-P.b)+' '+poly+' '+X(last.t)+','+(H-P.b),fill:'url(#peso-grad-'+svg.id+')'});
+      add('polyline',{points:poly,fill:'none',stroke:'#31d35c','stroke-width':2.7,'stroke-linecap':'round','stroke-linejoin':'round'});
+      add('circle',{cx:X(last.t),cy:Y(last.y),r:4,fill:'#31d35c'});
+      const vertical=add('line',{x1:0,x2:0,y1:P.t,y2:H-P.b,stroke:'#8b8b8b','stroke-width':1,'stroke-dasharray':'3 4',visibility:'hidden'});
+      const horizontal=add('line',{x1:P.l,x2:W-P.r,y1:0,y2:0,stroke:'#8b8b8b','stroke-width':1,'stroke-dasharray':'3 4',visibility:'hidden'});
+      const circle=add('circle',{cx:0,cy:0,r:5,fill:'#2bdd60',stroke:'#101010','stroke-width':2.5,visibility:'hidden'});
+      const mostrar=e=>{
+        const box=svg.getBoundingClientRect();const x=(e.clientX-box.left)/box.width*W;
+        let selected=points[0];for(const p of points)if(Math.abs(X(p.t)-x)<Math.abs(X(selected.t)-x))selected=p;
+        const sx=X(selected.t),sy=Y(selected.y);
+        vertical.setAttribute('x1',sx);vertical.setAttribute('x2',sx);vertical.setAttribute('visibility','visible');
+        horizontal.setAttribute('y1',sy);horizontal.setAttribute('y2',sy);horizontal.setAttribute('visibility','visible');
+        circle.setAttribute('cx',sx);circle.setAttribute('cy',sy);circle.setAttribute('visibility','visible');
+        if(info){info.hidden=false;info.textContent=pesoDia(selected.d)+' · '+pesoFmt(selected.y)+' kg';const left=Math.min(85,Math.max(15,sx/W*100));info.style.left=left+'%';}
+      };
+      const area=add('rect',{x:P.l,y:0,width:W-P.l-P.r,height:H-P.b,fill:'transparent'});
+      area.addEventListener('pointerdown',e=>{area.setPointerCapture?.(e.pointerId);mostrar(e);});
+      area.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')mostrar(e);});
+      area.addEventListener('click',mostrar);
+    }
     function renderizarPeso(){
       const todos=pesoRegistros(),ultimo=todos[todos.length-1],meta=Number(estado.pesoMeta)||0;
-      document.getElementById('peso-atual-valor').textContent=ultimo?pesoFormato(ultimo.kg)+' kg':'— kg';
-      document.getElementById('peso-data-atual').textContent=ultimo?new Date(ultimo.data+'T12:00:00').toLocaleDateString('pt-BR'):'Nenhuma pesagem registrada';
-      document.getElementById('peso-meta-valor').textContent=meta?pesoFormato(meta)+' kg':'—';
-      document.getElementById('peso-falta').textContent=meta&&ultimo?'Diferença: '+pesoFormato(Math.abs(ultimo.kg-meta))+' kg':'Defina sua meta';
-      document.getElementById('peso-resumo-home').textContent=ultimo?pesoFormato(ultimo.kg)+' kg'+(meta?' · Meta: '+pesoFormato(meta)+' kg':''):'Acompanhe seu peso e suas metas';
+      document.getElementById('peso-atual-valor').textContent=ultimo?pesoFmt(ultimo.kg)+' kg':'— kg';
+      document.getElementById('peso-data-atual').textContent=ultimo?pesoDia(ultimo.data):'';
+      document.getElementById('peso-meta-valor').textContent=meta?Number(meta).toLocaleString('pt-BR'):'Definir';
+      document.getElementById('peso-falta').textContent=!meta?'◎ Defina sua meta de peso':!ultimo?'◎ Meta '+pesoFmt(meta)+' kg':'◎ Meta '+pesoFmt(meta)+' kg · '+(Number(ultimo.kg)>meta?'faltam '+pesoFmt(ultimo.kg-meta)+' kg':Number(ultimo.kg)<meta?'diferença de '+pesoFmt(meta-ultimo.kg)+' kg':'meta alcançada!');
+      document.getElementById('peso-resumo-home').textContent=ultimo?pesoFmt(ultimo.kg)+' kg · '+(meta?'Meta '+pesoFmt(meta)+' kg':'acompanhe suas metas'):'Acompanhe seu peso e suas metas';
       document.getElementById('peso-meta-input').value=meta||'';
-      document.getElementById('peso-total-registros').textContent=todos.length+' registros';
-      const lista=document.getElementById('peso-historico-lista');lista.innerHTML='';
-      [...todos].reverse().forEach(item=>{
-        const linha=document.createElement('div');linha.className='peso-historico-item';
-        const label=document.createElement('span');label.textContent=new Date(item.data+'T12:00:00').toLocaleDateString('pt-BR')+'   '+pesoFormato(item.kg)+' kg';
-        const botao=document.createElement('button');botao.type='button';botao.textContent='Excluir';botao.addEventListener('click',()=>{if(!confirm('Excluir a pesagem de '+label.textContent+'?'))return;estado.pesoRegistros=pesoRegistros().filter(p=>p.data!==item.data);salvarEstado();renderizarPeso();});
-        linha.append(label,botao);lista.append(linha);
-      });
-      if(!todos.length)lista.textContent='Registre sua primeira pesagem para acompanhar a evolução.';
-      const inicio=new Date();inicio.setMonth(inicio.getMonth()-pesoFiltroMeses);
-      const visiveis=pesoFiltroMeses?todos.filter(p=>new Date(p.data+'T12:00:00')>=inicio):todos;
-      const svg=document.getElementById('peso-svg');svg.innerHTML='';const ns='http://www.w3.org/2000/svg';
-      const criar=(tag,atts,txt)=>{const n=document.createElementNS(ns,tag);Object.entries(atts).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!==undefined)n.textContent=txt;svg.appendChild(n);return n;};
-      const valores=visiveis.map(p=>Number(p.kg));if(meta)valores.push(meta);
-      const min=valores.length?Math.floor(Math.min(...valores)-1):50,max=valores.length?Math.ceil(Math.max(...valores)+1):100,escala=max===min?1:max-min;
-      // O eixo horizontal representa datas reais, não índices na lista.
-      const diaMs=86400000;
-      const instante=iso=>Date.parse(iso+'T12:00:00');
-      const inicioMs=visiveis.length?instante(visiveis[0].data):0;
-      const fimMs=visiveis.length?instante(visiveis[visiveis.length-1].data):0;
-      const X=i=>visiveis.length===1?180:34+(instante(visiveis[i].data)-inicioMs)/Math.max(diaMs,fimMs-inicioMs)*292;
-      const Y=v=>170-(v-min)/escala*135;
-      [0,1,2,3].forEach(i=>{const y=35+i*45;criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#55565a','stroke-dasharray':'3 5'});criar('text',{x:1,y:y+4,fill:'#a8a8a8','font-size':10},pesoFormato(max-i*escala/3));});
-      if(meta){const y=Y(meta);criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#f2cd35','stroke-width':2,'stroke-dasharray':'7 5'});criar('text',{x:325,y:y-5,'text-anchor':'end',fill:'#f2cd35','font-size':11},pesoFormato(meta));}
-      if(visiveis.length){
-        const xpts=visiveis.map((p,i)=>X(i)),ypoints=visiveis.map(p=>Y(p.kg));
-        const pts=visiveis.map((p,i)=>xpts[i]+','+ypoints[i]).join(' ');
-        const caminho=visiveis.map((p,i)=>xpts[i]+' '+ypoints[i]).join(' L ');
-        criar('path',{d:'M '+caminho+' L '+xpts[xpts.length-1]+' 170 L '+xpts[0]+' 170 Z',fill:'#26d65b','fill-opacity':'.15'});
-        criar('polyline',{points:pts,fill:'none',stroke:'#28d75c','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});
-        const guia=criar('line',{x1:0,y1:35,x2:0,y2:170,stroke:'#a3a3a3','stroke-dasharray':'4 5','stroke-width':1,visibility:'hidden'});
-        const marca=criar('circle',{cx:0,cy:0,r:6,fill:'#22d45a',stroke:'#131313','stroke-width':3,visibility:'hidden'});
-        const tooltip=document.getElementById('peso-ponto-info');
-        function selecionar(i){
-          const p=visiveis[i],x=xpts[i],y=ypoints[i];
-          guia.setAttribute('x1',x);guia.setAttribute('x2',x);guia.setAttribute('visibility','visible');
-          marca.setAttribute('cx',x);marca.setAttribute('cy',y);marca.setAttribute('visibility','visible');
-          tooltip.textContent=new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})+' · '+pesoFormato(p.kg)+' kg';
-        }
-        visiveis.forEach((p,i)=>{
-          const dot=criar('circle',{cx:xpts[i],cy:ypoints[i],r:3,fill:'#23dc61'});
-          dot.addEventListener('click',()=>selecionar(i));
-        });
-        // Área transparente captura toque, arrastar e mouse em toda a altura do gráfico.
-        const area=criar('rect',{x:34,y:20,width:292,height:165,fill:'transparent',role:'slider',tabindex:0,'aria-label':'Explore as pesagens por data','aria-valuemin':0,'aria-valuemax':visiveis.length-1,'aria-valuenow':visiveis.length-1});
-        const mover=e=>{
-          const r=svg.getBoundingClientRect();
-          const pos=(e.clientX-r.left)/Math.max(1,r.width)*340;
-          let indice=0,distancia=Infinity;
-          xpts.forEach((v,i)=>{const d=Math.abs(v-pos);if(d<distancia){distancia=d;indice=i;}});
-          selecionar(indice);area.setAttribute('aria-valuenow',indice);
-        };
-        area.addEventListener('pointerdown',e=>{area.setPointerCapture?.(e.pointerId);mover(e);});
-        area.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')mover(e);});
-        area.addEventListener('click',mover);
-        area.addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();let i=Number(area.getAttribute('aria-valuenow'))+(e.key==='ArrowLeft'?-1:1);i=Math.max(0,Math.min(visiveis.length-1,i));selecionar(i);area.setAttribute('aria-valuenow',i);});
-        criar('text',{x:34,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[0].data+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}));
-        criar('text',{x:326,y:197,fill:'#a8a8a8','text-anchor':'end','font-size':11},new Date(visiveis[visiveis.length-1].data+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}));
-        selecionar(visiveis.length-1);
+      pesoGrafico(document.getElementById('peso-svg'),todos,meta,document.getElementById('peso-ponto-info'));
+      const recentes=document.getElementById('peso-recentes');recentes.replaceChildren();[...todos].reverse().slice(0,3).forEach(p=>recentes.append(pesoLinha(p)));
+      if(!todos.length)recentes.textContent='Nenhuma pesagem registrada.';
+      const lista=document.getElementById('peso-historico-lista');lista.replaceChildren();
+      document.getElementById('peso-total-registros').textContent=todos.length+' pesagens';
+      for(const w of pesoSemanas(todos)){
+        const header=document.createElement('div');header.className='peso-semana-head';
+        const label=document.createElement('strong');label.textContent='Semana de '+new Date(w.inicio+'T12:00:00').toLocaleDateString('pt-BR',{day:'numeric',month:'short'});
+        const avg=document.createElement('small');avg.textContent=(w.delta===null?'':(w.delta<0?'↓ ':'↑ ')+pesoFmt(Math.abs(w.delta))+' · ')+'Média '+pesoFmt(w.media)+' kg';if(w.delta<0)avg.className='positivo';
+        header.append(label,avg);lista.append(header);[...w.items].reverse().forEach(p=>lista.append(pesoLinha(p)));
       }
-      else criar('text',{x:170,y:105,'text-anchor':'middle',fill:'#a8a8a8','font-size':12},'Sem pesagens neste período');
+      const completo=document.getElementById('peso-grafico-completo');completo.replaceChildren();
+      const sg=document.createElementNS('http://www.w3.org/2000/svg','svg');sg.setAttribute('id','peso-svg-completo');sg.setAttribute('class','peso-grafico');sg.setAttribute('viewBox','0 0 340 205');completo.append(sg);pesoGrafico(sg,todos,meta);
     }
-    document.getElementById('btn-evolucao-peso')?.addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
-    document.getElementById('peso-back')?.addEventListener('click',()=>abrirTela('view-dashboard'));
-    document.getElementById('peso-adicionar')?.addEventListener('click',()=>{const form=document.getElementById('peso-form');form.hidden=!form.hidden;document.getElementById('peso-input-data').value=dataISO(new Date());});
-    document.getElementById('peso-form')?.addEventListener('submit',e=>{e.preventDefault();const data=document.getElementById('peso-input-data').value,kg=Number(document.getElementById('peso-input-kg').value);if(!/^\d{4}-\d{2}-\d{2}$/.test(data)||!Number.isFinite(kg)||kg<20||kg>500){mostrarToast('Informe data e peso válidos.');return;}if(!Array.isArray(estado.pesoRegistros))estado.pesoRegistros=[];estado.pesoRegistros=estado.pesoRegistros.filter(p=>p.data!==data);estado.pesoRegistros.push({data,kg});salvarEstado();e.target.hidden=true;renderizarPeso();mostrarToast('Peso registrado.');});
-    document.getElementById('peso-meta-form')?.addEventListener('submit',e=>{e.preventDefault();const meta=Number(document.getElementById('peso-meta-input').value);if(!Number.isFinite(meta)||meta<20||meta>500){mostrarToast('Meta inválida.');return;}estado.pesoMeta=meta;salvarEstado();renderizarPeso();mostrarToast('Meta atualizada.');});
-    document.querySelectorAll('#peso-tabs button').forEach(b=>b.addEventListener('click',()=>{pesoFiltroMeses=Number(b.dataset.meses);document.querySelectorAll('#peso-tabs button').forEach(v=>v.classList.toggle('ativo',v===b));renderizarPeso();}));
+    function abrirPesoSheet(){
+      renderizarPeso();const ultimo=pesoUltimo();
+      const v=ultimo?Number(ultimo.kg):Number(estado.aluno.peso)||78.4;
+      document.getElementById('peso-input-data').value=dataISO(new Date());
+      document.getElementById('peso-sheet-data').textContent='Hoje, '+pesoDia(dataISO(new Date()));
+      document.getElementById('peso-input-kg').value=v.toFixed(1);document.getElementById('peso-slider').value=v;
+      document.getElementById('peso-overlay').hidden=false;
+    }
+    function pesoSetValor(v){v=Math.min(200,Math.max(20,Math.round(Number(v)*10)/10));document.getElementById('peso-input-kg').value=v.toFixed(1);document.getElementById('peso-slider').value=v;}
+    document.getElementById('btn-evolucao-peso').addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
+    document.getElementById('peso-back').addEventListener('click',()=>abrirTela('view-dashboard'));
+    document.getElementById('peso-adicionar').addEventListener('click',abrirPesoSheet);
+    document.getElementById('peso-meta-atalho').addEventListener('click',()=>{document.getElementById('peso-meta-editor').hidden=!document.getElementById('peso-meta-editor').hidden;});
+    document.getElementById('peso-fechar-sheet').addEventListener('click',()=>document.getElementById('peso-overlay').hidden=true);
+    document.getElementById('peso-overlay').addEventListener('click',e=>{if(e.target.id==='peso-overlay')e.target.hidden=true;});
+    document.getElementById('peso-menos').addEventListener('click',()=>pesoSetValor(Number(document.getElementById('peso-input-kg').value)-.1));
+    document.getElementById('peso-mais').addEventListener('click',()=>pesoSetValor(Number(document.getElementById('peso-input-kg').value)+.1));
+    document.querySelectorAll('[data-peso-delta]').forEach(b=>b.addEventListener('click',()=>pesoSetValor(Number(document.getElementById('peso-input-kg').value)+Number(b.dataset.pesoDelta))));
+    document.getElementById('peso-slider').addEventListener('input',e=>pesoSetValor(Number(e.target.value)));
+    document.getElementById('peso-input-kg').addEventListener('input',e=>{const v=Number(e.target.value);if(Number.isFinite(v))document.getElementById('peso-slider').value=v;});
+    document.getElementById('peso-input-data').addEventListener('change',e=>{document.getElementById('peso-sheet-data').textContent=pesoDia(e.target.value);});
+    document.getElementById('peso-form').addEventListener('submit',e=>{
+      e.preventDefault();const data=document.getElementById('peso-input-data').value,kg=Number(document.getElementById('peso-input-kg').value);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(data)||!Number.isFinite(kg)||kg<20||kg>500){mostrarToast('Preencha uma data e peso válidos.');return;}
+      estado.pesoRegistros=pesoRegistros().filter(p=>p.data!==data);estado.pesoRegistros.push({data,kg});
+      salvarEstado();document.getElementById('peso-overlay').hidden=true;renderizarPeso();mostrarToast('Pesagem salva.');
+    });
+    document.getElementById('peso-meta-form').addEventListener('submit',e=>{e.preventDefault();const v=Number(document.getElementById('peso-meta-input').value);if(v<20||v>500||!Number.isFinite(v)){mostrarToast('Meta inválida.');return;}estado.pesoMeta=v;salvarEstado();document.getElementById('peso-meta-editor').hidden=true;renderizarPeso();});
+    function abrirPesagens(){document.getElementById('peso-overlay').hidden=true;renderizarPeso();abrirTela('view-pesagens');}
+    document.getElementById('peso-ver-todas').addEventListener('click',abrirPesagens);
+    document.getElementById('peso-sheet-todas').addEventListener('click',abrirPesagens);
+    document.getElementById('pesagens-back').addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
     // EVENTOS GERAIS
     document.getElementById('btn-menu-treinos')?.addEventListener('click', () => { renderizarTreinosVertical(); abrirTela('view-treinos'); });
     document.getElementById('btn-menu-exercicios')?.addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
