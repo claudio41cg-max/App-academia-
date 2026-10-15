@@ -30,3 +30,12 @@ test('exports workout backup without payment credentials',()=>{
  assert.deepEqual(items,['download']);
  assert.ok(source.includes('delete seguro.pagamento'));
 });
+
+test('progress indicators use actual saved loads and preserve exercise media',()=>{
+ assert.ok(html.includes('function recordeCargaDoExercicio(exercicioId)'));
+ assert.ok(html.includes("mostrarToast('🏆 Novo recorde pessoal de carga!')"));
+ assert.ok(html.includes('const ultimoRegistro = registrosCargaDoExercicio(ex.id)[0]'));
+ assert.ok(html.includes('totalDiasTreinadosNoMes(ano, mes)'));
+ assert.ok(html.includes('treino-registrado-cal'));
+ assert.ok(html.includes('gif.src = ex.gif'));
+});
