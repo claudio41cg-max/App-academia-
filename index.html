@@ -548,6 +548,14 @@
 .peso-card-mini .peso-mini-head strong{font-size:clamp(14px,3.5vw,18px);line-height:1.15;text-align:left;color:var(--gold)}
 .peso-card-mini .peso-mini-right small{font-size:12px;line-height:1.35;white-space:normal;max-width:100%;color:var(--muted)}
 .peso-card-mini .peso-seta{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid var(--gold);font-size:22px;line-height:1;color:var(--gold);margin:0}
+
+/* Cabeçalho no alto à direita, gráfico em largura total abaixo — sem duas colunas. */
+.peso-card-mini{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;height:164px!important;min-height:164px!important;padding:10px 14px 9px!important}
+.peso-card-mini .peso-mini-right{display:flex!important;flex-direction:column!important;align-items:flex-end!important;justify-content:flex-start!important;gap:2px!important;width:100%!important;margin:0!important}
+.peso-card-mini .peso-mini-head{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:10px!important;width:100%!important}
+.peso-card-mini .peso-mini-head strong{font-size:17px!important;line-height:1.1!important;text-align:right!important;white-space:nowrap!important}
+.peso-card-mini .peso-mini-right small{text-align:right!important;font-size:11px!important;line-height:1.25!important;white-space:nowrap!important}
+.peso-card-mini #peso-mini-svg{display:block!important;width:100%!important;height:99px!important;min-height:0!important;max-height:99px!important;margin:0!important;align-self:stretch!important}
 </style>
 </head>
 <body>
@@ -743,7 +751,7 @@
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/><rect x="6" y="40" width="16" height="6" rx="3"/></svg></div>
           <div class="card-body"><div class="label">Exercícios</div><div class="card-sub">Catálogo de exercícios</div></div>
         </div>
-        <button class="peso-card-home peso-card-mini" id="btn-evolucao-peso" type="button"><svg id="peso-mini-svg" viewBox="0 0 340 83" preserveAspectRatio="none" role="img" aria-label="Gráfico resumido da evolução do peso"></svg><span class="peso-mini-right"><span class="peso-mini-head"><strong>Evolução e Meta</strong><span class="peso-seta" aria-hidden="true">›</span></span><small id="peso-resumo-home">Acompanhe seu peso e sua meta</small></span></button>
+        <button class="peso-card-home peso-card-mini" id="btn-evolucao-peso" type="button"><span class="peso-mini-right"><span class="peso-mini-head"><strong>Evolução e Meta</strong><span class="peso-seta" aria-hidden="true">›</span></span><small id="peso-resumo-home">Acompanhe seu peso e sua meta</small></span><svg id="peso-mini-svg" viewBox="0 0 340 83" preserveAspectRatio="none" role="img" aria-label="Gráfico resumido da evolução do peso"></svg></button>
         <div class="btn-dash" id="btn-menu-x5">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>

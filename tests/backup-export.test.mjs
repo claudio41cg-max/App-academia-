@@ -107,12 +107,11 @@ test('compact gold weight graph stays within home card and uses real weigh-ins',
  assert.ok(html.includes("fill:'#daa443'"));
 });
 
-test('weight mini card aligns graph left and title right without growing',()=>{
+test('weight card heading on upper right and full width graph underneath',()=>{
  const card=html.slice(html.indexOf('id="btn-evolucao-peso"'),html.indexOf('id="btn-menu-x5"'));
- assert.ok(card.indexOf('id="peso-mini-svg"')<card.indexOf('Evolução e Meta'));
- assert.ok(card.includes('Acompanhe seu peso e sua meta'));
- assert.ok(html.includes('grid-template-columns:minmax(0,57fr) minmax(0,43fr)'));
- assert.ok(html.includes('height:139px'));
- assert.ok(html.includes('border-radius:50%;border:1px solid var(--gold)'));
- assert.ok(html.includes("renderizarPesoMini(todos,meta)"));
+ assert.ok(card.indexOf('Evolução e Meta')<card.indexOf('id="peso-mini-svg"'));
+ assert.ok(html.includes('flex-direction:column!important'));
+ assert.ok(html.includes('text-align:right!important'));
+ assert.ok(html.includes('width:100%!important;height:99px!important'));
+ assert.ok(html.includes('function renderizarPesoMini(registros,meta)'));
 });
