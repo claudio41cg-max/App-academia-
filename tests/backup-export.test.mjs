@@ -56,3 +56,13 @@ test('long press reveals a single trash icon without numeric prompts',()=>{
  const a=html.slice(html.indexOf('function excluirTreinoSemanal('),html.indexOf('function renderizarTreinosVertical()'));
  assert.ok(!a.includes('estado.historicoCarga='));
 });
+
+test('new chest exercise appears first without replacing existing ten entries',()=>{
+ const section=html.slice(html.indexOf('const DATABASE_EXERCICIOS = [];'),html.indexOf('const GLUTEO_INFO = {'));
+ assert.ok(section.includes("id:'e101'"));
+ assert.ok(section.includes("ordem:0.5"));
+ assert.ok(section.includes("nome:'Flexão de Braços no Solo'"));
+ assert.ok(section.includes("fonteMidia:'https://commons.wikimedia.org/wiki/File:Pushups.gif'"));
+ assert.ok(section.includes("licencaMidia:'CC BY-SA 4.0'"));
+ for(const id of ['e3','e6','e10','e4','e7','e2','e1','e5','e8','e9'])assert.ok(section.includes(id+': {'));
+});
