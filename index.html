@@ -2503,38 +2503,126 @@
       }
     }
 
-    function abrirTreinoDia(diaSemana) {
-      const iso = dataDoWeekdayNaSemana(diaSemana);
-      dataTreinoAtual = iso;
-      const nomes = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      document.getElementById('dia-titulo-topo').textContent = `Treino de ${nomes[diaSemana]}`;
-      const container = document.getElementById('container-exercicios-dia');
-      container.innerHTML = '';
-      const ids = (estado.treinoPorDia && estado.treinoPorDia[diaSemana]) || [];
-
-      ids.forEach(id => {
-        const ex = DATABASE_EXERCICIOS.find(e => e.id === id);
-        if (!ex) return;
-        const custom = (estado.customExercicios && estado.customExercicios[ex.id]) || {};
-        const card = document.createElement('div');
-        card.className = 'ex-item-card';
-        card.innerHTML = `
-          <div class="ex-card-top">
-            <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}"></div>
-            <div class="ex-item-info">
-              <p class="title">${ex.nome}</p>
-              <p class="muscle">${custom.series || 3} séries · ${custom.reps || 12} reps</p>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-      abrirTela('view-treino-dia');
+    const NOMES_DIAS_TREINO = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+    // Substituições pontuais por data: não alteram a rotina semanal nem os registros históricos.
+    function editarTreinoDiaEspecifico(iso, ids) {
+      if (!estado.excecoesTreinoDia) estado.excecoesTreinoDia = {};
+      estado.excecoesTreinoDia[iso] = [...ids];
+      salvarEstado();
     }
-
+    function idsTreinoNaData(iso) {
+      const guardado = estado.excecoesTreinoDia && estado.excecoesTreinoDia[iso];
+      if (Array.isArray(guardado)) return [...guardado];
+      const partes = String(iso).split('-').map(Number);
+      const dia = new Date(partes[0],partes[1]-1,partes[2]).getDay();
+      return [...(estado.treinoPorDia?.[dia] || [])];
+    }
+    function removerExercicioTreino(id,iso,somenteData) {
+      const atual = somenteData ? idsTreinoNaData(iso) : [...(estado.treinoPorDia?.[new Date(iso+'T12:00:00').getDay()] || [])];
+      if (!atual.includes(id)) return;
+      const nome = DATABASE_EXERCICIOS.find(e=>e.id===id)?.nome || 'este exercício';
+      const escopo = somenteData ? 'somente deste dia' : 'da programação semanal';
+      if (!confirm('Remover '+nome+' '+escopo+'? O histórico de treinos e cargas será preservado.')) return;
+      const nova = atual.filter(x=>x!==id);
+      if (somenteData) editarTreinoDiaEspecifico(iso,nova);
+      else {
+        const dia = new Date(iso+'T12:00:00').getDay();
+        estado.treinoPorDia[dia] = nova;
+        salvarEstado();
+      }
+      mostrarToast('Exercício removido. Histórico preservado.');
+      atualizarTreinoHoje();
+      renderizarTreinosVertical();
+      abrirTreinoData(iso);
+    }
+    function moverExercicioTreino(id,iso) {
+      const origem = new Date(iso+'T12:00:00').getDay();
+      const resposta = prompt('Mover exercício da programação semanal para qual dia? 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sáb');
+      if (resposta===null)return;
+      if (!/^[0-6]$/.test(resposta.trim()))return mostrarToast('Informe um dia de 0 a 6.');
+      const destino = Number(resposta.trim());
+      if(destino===origem)return;
+      const origemIds = [...(estado.treinoPorDia[origem] || [])];
+      if(!origemIds.includes(id))return mostrarToast('Exercício não está na programação semanal.');
+      if (!confirm('Mover este exercício de '+NOMES_DIAS_TREINO[origem]+' para '+NOMES_DIAS_TREINO[destino]+'?'))return;
+      estado.treinoPorDia[origem]=origemIds.filter(x=>x!==id);
+      const destinoIds=[...(estado.treinoPorDia[destino]||[])];
+      if(!destinoIds.includes(id))destinoIds.push(id);
+      estado.treinoPorDia[destino]=destinoIds;
+      salvarEstado(); atualizarTreinoHoje(); renderizarTreinosVertical();
+      abrirTreinoData(iso);
+      mostrarToast('Exercício transferido. Histórico preservado.');
+    }
+    function trocarProgramacaoEntreDias(iso) {
+      const origem=new Date(iso+'T12:00:00').getDay();
+      const resposta=prompt('Trocar todo o treino de '+NOMES_DIAS_TREINO[origem]+' com qual dia? 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sáb');
+      if(resposta===null)return;
+      if(!/^[0-6]$/.test(resposta.trim()))return mostrarToast('Informe um dia de 0 a 6.');
+      const destino=Number(resposta.trim());
+      if(destino===origem)return;
+      if(!confirm('Trocar a programação de '+NOMES_DIAS_TREINO[origem]+' e '+NOMES_DIAS_TREINO[destino]+'? Os registros antigos não serão alterados.'))return;
+      const anterior=[...(estado.treinoPorDia[origem]||[])];
+      estado.treinoPorDia[origem]=[...(estado.treinoPorDia[destino]||[])];
+      estado.treinoPorDia[destino]=anterior;
+      salvarEstado(); atualizarTreinoHoje(); renderizarTreinosVertical();
+      abrirTreinoData(iso);
+      mostrarToast('Dias trocados com sucesso.');
+    }
+    function abrirTreinoDia(diaSemana) {
+      abrirTreinoData(dataDoWeekdayNaSemana(diaSemana));
+    }
     function abrirTreinoData(iso) {
-      dataTreinoAtual = iso;
-      document.getElementById('dia-titulo-topo').textContent = formatarDataBR(iso);
+      dataTreinoAtual=iso;
+      const dia=new Date(iso+'T12:00:00').getDay();
+      const ehHoje=iso===hojeISO();
+      const title=document.getElementById('dia-titulo-topo');
+      if(title)title.textContent='Treino de '+NOMES_DIAS_TREINO[dia]+' · '+formatarDataBR(iso);
+      const container=document.getElementById('container-exercicios-dia');
+      if(!container)return;
+      container.innerHTML='';
+      const actions=document.createElement('div');
+      actions.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px';
+      const swap=document.createElement('button');
+      swap.type='button';swap.textContent='⇄ Trocar dias';swap.className='btn-voltar-abaixo';
+      swap.addEventListener('click',()=>trocarProgramacaoEntreDias(iso));actions.appendChild(swap);
+      if(estado.excecoesTreinoDia && Object.prototype.hasOwnProperty.call(estado.excecoesTreinoDia,iso)){
+        const restore=document.createElement('button');
+        restore.type='button';restore.textContent='↺ Restaurar treino deste dia';restore.className='btn-voltar-abaixo';
+        restore.addEventListener('click',()=>{
+          if(!confirm('Restaurar este dia conforme a programação semanal?'))return;
+          delete estado.excecoesTreinoDia[iso];
+          salvarEstado(); abrirTreinoData(iso);mostrarToast('Dia restaurado.');
+        });actions.appendChild(restore);
+      }
+      container.appendChild(actions);
+      const ids=idsTreinoNaData(iso);
+      if(!ids.length){const empty=document.createElement('p');empty.textContent='Nenhum exercício programado para este dia.';empty.style.cssText='color:var(--muted);padding:15px';container.appendChild(empty);}
+      ids.forEach(id=>{
+        const ex=DATABASE_EXERCICIOS.find(e=>e.id===id);if(!ex)return;
+        const custom=(estado.customExercicios||{})[ex.id]||{};
+        const card=document.createElement('div');card.className='ex-item-card';
+        const main=document.createElement('div');main.className='ex-card-top';
+        const thumb=document.createElement('div');thumb.className='ex-item-thumb';
+        const img=document.createElement('img');img.src=ex.gif;img.alt=ex.nome;img.loading='lazy';thumb.appendChild(img);
+        const info=document.createElement('div');info.className='ex-item-info';
+        const title=document.createElement('p');title.className='title';title.textContent=ex.nome;
+        const summary=document.createElement('p');summary.className='muscle';summary.textContent=(custom.series||3)+'x / '+(custom.reps||12)+'x';
+        info.append(title,summary);main.append(thumb,info);card.appendChild(main);
+        const bar=document.createElement('div');bar.style.cssText='display:flex;flex-wrap:wrap;gap:7px;margin-top:10px';
+        const button=(label,run)=>{
+          const b=document.createElement('button');b.type='button';b.className='btn-voltar-abaixo';
+          b.style.cssText='font-size:12px;padding:9px;border:1px solid var(--border);border-radius:10px;color:var(--gold);background:var(--card)';
+          b.textContent=label;b.addEventListener('click',run);bar.appendChild(b);
+        };
+        button('⇄ Mover para outro dia',()=>moverExercicioTreino(id,iso));
+        button('Excluir da semana',()=>removerExercicioTreino(id,iso,false));
+        if(ehHoje || (estado.excecoesTreinoDia && Object.prototype.hasOwnProperty.call(estado.excecoesTreinoDia,iso))){
+          button('Excluir só deste dia',()=>removerExercicioTreino(id,iso,true));
+        }else{
+          button('Excluir só desta data',()=>removerExercicioTreino(id,iso,true));
+        }
+        card.appendChild(bar);container.appendChild(card);
+      });
       abrirTela('view-treino-dia');
     }
 
