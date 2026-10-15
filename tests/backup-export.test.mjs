@@ -66,3 +66,15 @@ test('new chest exercise appears first without replacing existing ten entries',(
  assert.ok(section.includes("licencaMidia:'CC BY-SA 4.0'"));
  for(const id of ['e3','e6','e10','e4','e7','e2','e1','e5','e8','e9'])assert.ok(section.includes(id+': {'));
 });
+
+test('weight card is full width and immediately after workouts/exercises',()=>{
+ const a=html.indexOf('id="btn-menu-exercicios"'),b=html.indexOf('id="btn-evolucao-peso"'),d=html.indexOf('id="btn-menu-x5"');
+ assert.ok(a>=0&&b>a&&d>b);
+ assert.ok(html.includes('.peso-card-home{grid-column:1/-1'));
+ assert.ok(html.includes('id="view-evolucao-peso"'));
+ assert.ok(html.includes('id="peso-svg"'));
+ assert.ok(html.includes("estado.pesoRegistros.push({data,kg})"));
+ assert.ok(html.includes('estado.pesoMeta=meta'));
+ assert.ok(html.includes("salvarEstado();e.target.hidden=true;renderizarPeso()"));
+ assert.ok(html.includes('.peso-form[hidden]{display:none!important}'));
+});
