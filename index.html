@@ -712,7 +712,7 @@
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><circle cx="46" cy="12" r="6"/><path d="M42 22 24 30l-4 12 6 2 3-9 6-2 3 14 8 8 5-4-6-7-2-11z"/><rect x="6" y="40" width="16" height="6" rx="3"/></svg></div>
           <div class="card-body"><div class="label">Exercícios</div><div class="card-sub">Catálogo de exercícios</div></div>
         </div>
-        <button class="peso-card-home" id="btn-evolucao-peso" type="button"><span class="peso-icone">⚖</span><span><strong>Evolução do Peso</strong><small id="peso-resumo-home">Acompanhe seu peso e suas metas</small></span><span class="peso-seta">›</span></button>
+        <button class="peso-card-home" id="btn-evolucao-peso" type="button"><span class="peso-icone">⚖</span><span><strong>Evolução e Meta</strong><small id="peso-resumo-home">Acompanhe seu peso e suas metas</small></span><span class="peso-seta">›</span></button>
         <div class="btn-dash" id="btn-menu-x5">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>
@@ -2745,11 +2745,51 @@
       const criar=(tag,atts,txt)=>{const n=document.createElementNS(ns,tag);Object.entries(atts).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!==undefined)n.textContent=txt;svg.appendChild(n);return n;};
       const valores=visiveis.map(p=>Number(p.kg));if(meta)valores.push(meta);
       const min=valores.length?Math.floor(Math.min(...valores)-1):50,max=valores.length?Math.ceil(Math.max(...valores)+1):100,escala=max===min?1:max-min;
-      const X=i=>visiveis.length<2?170:34+i*288/(visiveis.length-1);
+      // O eixo horizontal representa datas reais, não índices na lista.
+      const diaMs=86400000;
+      const instante=iso=>Date.parse(iso+'T12:00:00');
+      const inicioMs=visiveis.length?instante(visiveis[0].data):0;
+      const fimMs=visiveis.length?instante(visiveis[visiveis.length-1].data):0;
+      const X=i=>visiveis.length===1?180:34+(instante(visiveis[i].data)-inicioMs)/Math.max(diaMs,fimMs-inicioMs)*292;
       const Y=v=>170-(v-min)/escala*135;
       [0,1,2,3].forEach(i=>{const y=35+i*45;criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#55565a','stroke-dasharray':'3 5'});criar('text',{x:1,y:y+4,fill:'#a8a8a8','font-size':10},pesoFormato(max-i*escala/3));});
-      if(meta){const y=Y(meta);criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#f2cd35','stroke-width':2,'stroke-dasharray':'7 5'});}
-      if(visiveis.length){const pts=visiveis.map((p,i)=>X(i)+','+Y(p.kg)).join(' ');const fill=visiveis.map((p,i)=>X(i)+' '+Y(p.kg)).join(' L ');criar('path',{d:'M '+fill+' L '+X(visiveis.length-1)+' 170 L '+X(0)+' 170 Z',fill:'#26d65b','fill-opacity':'.12'});criar('polyline',{points:pts,fill:'none',stroke:'#28d75c','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});visiveis.forEach((p,i)=>{const dot=criar('circle',{cx:X(i),cy:Y(p.kg),r:5,fill:'#23dc61',stroke:'#141414','stroke-width':2,tabindex:0,role:'button','aria-label':p.data+' '+p.kg+' kg'});const mostrar=()=>document.getElementById('peso-ponto-info').textContent=new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')+' · '+pesoFormato(p.kg)+' kg';dot.addEventListener('click',mostrar);dot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')mostrar();});});criar('text',{x:34,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[0].data+'T12:00:00').toLocaleDateString('pt-BR'));criar('text',{x:257,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[visiveis.length-1].data+'T12:00:00').toLocaleDateString('pt-BR'));}
+      if(meta){const y=Y(meta);criar('line',{x1:34,y1:y,x2:326,y2:y,stroke:'#f2cd35','stroke-width':2,'stroke-dasharray':'7 5'});criar('text',{x:325,y:y-5,'text-anchor':'end',fill:'#f2cd35','font-size':11},pesoFormato(meta));}
+      if(visiveis.length){
+        const xpts=visiveis.map((p,i)=>X(i)),ypoints=visiveis.map(p=>Y(p.kg));
+        const pts=visiveis.map((p,i)=>xpts[i]+','+ypoints[i]).join(' ');
+        const caminho=visiveis.map((p,i)=>xpts[i]+' '+ypoints[i]).join(' L ');
+        criar('path',{d:'M '+caminho+' L '+xpts[xpts.length-1]+' 170 L '+xpts[0]+' 170 Z',fill:'#26d65b','fill-opacity':'.15'});
+        criar('polyline',{points:pts,fill:'none',stroke:'#28d75c','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});
+        const guia=criar('line',{x1:0,y1:35,x2:0,y2:170,stroke:'#a3a3a3','stroke-dasharray':'4 5','stroke-width':1,visibility:'hidden'});
+        const marca=criar('circle',{cx:0,cy:0,r:6,fill:'#22d45a',stroke:'#131313','stroke-width':3,visibility:'hidden'});
+        const tooltip=document.getElementById('peso-ponto-info');
+        function selecionar(i){
+          const p=visiveis[i],x=xpts[i],y=ypoints[i];
+          guia.setAttribute('x1',x);guia.setAttribute('x2',x);guia.setAttribute('visibility','visible');
+          marca.setAttribute('cx',x);marca.setAttribute('cy',y);marca.setAttribute('visibility','visible');
+          tooltip.textContent=new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})+' · '+pesoFormato(p.kg)+' kg';
+        }
+        visiveis.forEach((p,i)=>{
+          const dot=criar('circle',{cx:xpts[i],cy:ypoints[i],r:3,fill:'#23dc61'});
+          dot.addEventListener('click',()=>selecionar(i));
+        });
+        // Área transparente captura toque, arrastar e mouse em toda a altura do gráfico.
+        const area=criar('rect',{x:34,y:20,width:292,height:165,fill:'transparent',role:'slider',tabindex:0,'aria-label':'Explore as pesagens por data','aria-valuemin':0,'aria-valuemax':visiveis.length-1,'aria-valuenow':visiveis.length-1});
+        const mover=e=>{
+          const r=svg.getBoundingClientRect();
+          const pos=(e.clientX-r.left)/Math.max(1,r.width)*340;
+          let indice=0,distancia=Infinity;
+          xpts.forEach((v,i)=>{const d=Math.abs(v-pos);if(d<distancia){distancia=d;indice=i;}});
+          selecionar(indice);area.setAttribute('aria-valuenow',indice);
+        };
+        area.addEventListener('pointerdown',e=>{area.setPointerCapture?.(e.pointerId);mover(e);});
+        area.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')mover(e);});
+        area.addEventListener('click',mover);
+        area.addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();let i=Number(area.getAttribute('aria-valuenow'))+(e.key==='ArrowLeft'?-1:1);i=Math.max(0,Math.min(visiveis.length-1,i));selecionar(i);area.setAttribute('aria-valuenow',i);});
+        criar('text',{x:34,y:197,fill:'#a8a8a8','font-size':11},new Date(visiveis[0].data+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}));
+        criar('text',{x:326,y:197,fill:'#a8a8a8','text-anchor':'end','font-size':11},new Date(visiveis[visiveis.length-1].data+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}));
+        selecionar(visiveis.length-1);
+      }
       else criar('text',{x:170,y:105,'text-anchor':'middle',fill:'#a8a8a8','font-size':12},'Sem pesagens neste período');
     }
     document.getElementById('btn-evolucao-peso')?.addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
