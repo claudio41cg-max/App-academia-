@@ -109,3 +109,14 @@ test('simple horizontal weight card and dark green palette retain full tracking'
  assert.ok(html.includes('id="peso-overlay"'));
  assert.ok(html.includes('id="view-pesagens"'));
 });
+
+test('visual contrast pass retains layout and weight tracking',()=>{
+ assert.ok(html.includes('id="treino-hoje-card"'));
+ assert.ok(html.includes('id="btn-menu-treinos"'));
+ assert.ok(html.includes('id="btn-menu-exercicios"'));
+ assert.ok(html.includes('id="btn-evolucao-peso"'));
+ assert.ok(html.includes('id="peso-svg"'));
+ assert.ok(html.includes('#treino-hoje-card{background:#1c1c20!important'));
+ assert.ok(html.includes('.btn-dash .icon-stage{background:#29292c!important'));
+ assert.ok(html.includes('.bottom-item.active{color:#2cdb61!important'));
+});
