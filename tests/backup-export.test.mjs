@@ -120,3 +120,17 @@ test('visual contrast pass retains layout and weight tracking',()=>{
  assert.ok(html.includes('.btn-dash .icon-stage{background:#29292c!important'));
  assert.ok(html.includes('.bottom-item.active{color:#2cdb61!important'));
 });
+
+test('profile and weekly calendar share one card, with original app features untouched',()=>{
+ const card=html.slice(html.indexOf('class="vip-banner" id="dash-banner-btn"'),html.indexOf('<!-- TREINO DE HOJE -->'));
+ assert.ok(card.includes('id="dash-nome"'));
+ assert.ok(card.includes('id="perfil-semana-dias"'));
+ assert.ok(card.includes('id="perfil-semana-anterior"'));
+ assert.ok(!card.includes('Plano Black'));
+ assert.ok(html.includes('brand-green">PHYSICAL'));
+ assert.ok(html.includes('function renderizarSemanaPerfil()'));
+ assert.ok(html.includes('estado.historicoCarga||[]'));
+ assert.ok(html.includes('treinoIdsNaData(iso)'));
+ assert.ok(html.includes('renderizarSemanaPerfil();'));
+ assert.ok(html.includes('id="btn-evolucao-peso"'));
+});
