@@ -615,6 +615,28 @@ body{background:#030304}
 .bottom-item{color:#a3a3a9}
 .bottom-item.active{color:#2cdb61!important}
 .bottom-item.active svg{stroke:#2cdb61!important}
+
+/* Perfil e semana: um único card compacto */
+.topbar-title{font-size:17px!important;letter-spacing:1.1px!important;font-weight:900!important;color:#fff!important}
+.topbar-title .brand-green{color:#2bd65f!important}
+.vip-banner{display:grid!important;grid-template-columns:62px minmax(0,1fr)!important;column-gap:12px!important;row-gap:7px!important;padding:13px 15px!important;align-items:center!important}
+.vip-banner .vip-icon-ring{width:60px!important;height:60px!important;background:#34343a!important;border:2px solid #cca35a!important;box-shadow:0 0 0 3px #d1a64c17!important}
+.vip-banner .vip-icon-ring svg{width:40px!important;height:40px!important;filter:drop-shadow(0 1px 3px #0009)!important}
+.vip-banner .vip-info{align-self:center!important}
+.vip-banner .vip-label{color:#e4b85b!important;font-size:11px!important;letter-spacing:1px!important;margin-bottom:5px!important}
+.vip-banner .vip-nome{font-size:19px!important;margin:0!important;line-height:1.2!important}
+.perfil-semana{grid-column:1/-1;border-top:1px solid #44444a;padding-top:7px;position:relative;z-index:1}
+.perfil-semana-topo{display:flex;align-items:center;justify-content:space-between;max-width:100%;height:27px}
+.perfil-semana-topo strong{font-size:12px;color:#f3f3f4;font-weight:700}
+.perfil-semana-topo button{border:0;background:none;color:#dcad61;font-size:23px;min-width:36px;height:27px;cursor:pointer}
+.perfil-semana-dias{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;margin-top:4px}
+.perfil-semana-dia{display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;min-width:0;color:#eee;padding:2px 0;font-family:inherit}
+.perfil-semana-dia .semana-nome{font-size:9px;font-weight:700;color:#a8a8ac}
+.perfil-semana-dia .semana-num{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;font-size:13px;font-weight:600}
+.perfil-semana-dia.hoje .semana-num{background:#2bd65f;color:#0a170d;font-weight:900}
+.perfil-semana-dia .semana-ponto{width:5px;height:5px;border-radius:50%;background:transparent}
+.perfil-semana-dia.treinado .semana-ponto{background:#2bd65f}
+.perfil-semana-dia.programado:not(.treinado) .semana-ponto{background:#d9af64}
 </style>
 </head>
 <body>
@@ -773,17 +795,18 @@ body{background:#030304}
     <div class="pane active" id="view-dashboard">
       <div class="topbar">
         <button class="topbar-icon-btn" id="btn-menu-hamburger" onclick="abrirDrawer()"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-        <div class="topbar-title">Smart Physical</div>
+        <div class="topbar-title">SMART <span class="brand-green">PHYSICAL</span></div>
         <button class="topbar-icon-btn bell" id="btn-menu-bell" onclick="abrirNotificacoes()"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot"></span></button>
       </div>
       <div class="vip-banner" id="dash-banner-btn">
         <div class="vip-icon-ring"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="4" y="27" width="8" height="10" rx="2"/><rect x="52" y="27" width="8" height="10" rx="2"/><rect x="14" y="20" width="6" height="24" rx="2"/><rect x="44" y="20" width="6" height="24" rx="2"/><rect x="20" y="29" width="24" height="6" rx="3"/></svg></div>
         <div class="vip-info">
-          <div class="vip-label">VIP</div>
-          <div class="vip-sub">Membro Premium</div>
-          <div class="vip-aluno-label">Aluno</div>
+          <div class="vip-label">VIP <span style="color:#aeb0b6;font-weight:600">· ALUNO</span></div>
           <div class="vip-nome" id="dash-nome">Nome do Aluno</div>
-          <div class="vip-plano-badge">Plano Black ★</div>
+        </div>
+        <div class="perfil-semana" id="perfil-semana">
+          <div class="perfil-semana-topo"><button type="button" id="perfil-semana-anterior" aria-label="Semana anterior">‹</button><strong id="perfil-semana-titulo">Esta semana</strong><button type="button" id="perfil-semana-proxima" aria-label="Próxima semana">›</button></div>
+          <div class="perfil-semana-dias" id="perfil-semana-dias"></div>
         </div>
       </div>
 
@@ -2192,6 +2215,7 @@ body{background:#030304}
       renderizarListaExercicios();
       atualizarTreinoHoje();
       renderizarDesempenho();
+      renderizarSemanaPerfil();
       abrirTela('view-treinos');
     }
 
@@ -3043,6 +3067,33 @@ body{background:#030304}
       });
     });
 
+
+    // Calendário no mesmo card do aluno; marcadores baseados em registros reais.
+    let deslocamentoSemanaPerfil=0;
+    function renderizarSemanaPerfil(){
+      const alvo=document.getElementById('perfil-semana-dias');if(!alvo)return;
+      const hoje=new Date(),base=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate(),12);
+      const segunda=new Date(base);segunda.setDate(base.getDate()-(base.getDay()+6)%7+deslocamentoSemanaPerfil*7);
+      const final=new Date(segunda);final.setDate(segunda.getDate()+6);
+      const titulo=document.getElementById('perfil-semana-titulo');
+      titulo.textContent=deslocamentoSemanaPerfil===0?'Esta semana':segunda.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' – '+final.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+      alvo.replaceChildren();
+      const nomes=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
+      for(let i=0;i<7;i++){
+        const dia=new Date(segunda);dia.setDate(segunda.getDate()+i);
+        const iso=dataISO(dia);
+        const atual=iso===hojeISO();
+        const treinado=(estado.historicoCarga||[]).some(item=>item.data===iso&&Number(item.peso)>0);
+        const programado=treinoIdsNaData(iso).length>0;
+        const cel=document.createElement('div');
+        cel.className='perfil-semana-dia'+(atual?' hoje':'')+(treinado?' treinado':'')+(programado?' programado':'');
+        cel.innerHTML='<span class="semana-nome">'+nomes[i]+'</span><span class="semana-num">'+dia.getDate()+'</span><span class="semana-ponto"></span>';
+        cel.setAttribute('aria-label',dia.toLocaleDateString('pt-BR')+(treinado?' treino registrado':programado?' treino planejado':''));
+        alvo.appendChild(cel);
+      }
+    }
+    document.getElementById('perfil-semana-anterior')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil--;renderizarSemanaPerfil();});
+    document.getElementById('perfil-semana-proxima')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil++;renderizarSemanaPerfil();});
     function init() {
       popularSeletoresConfiguracao();
       if (!estado.pagamento.liberado) {
@@ -3053,6 +3104,7 @@ body{background:#030304}
         document.getElementById('app-content').style.display = 'block';
       }
       atualizarNomeTopo();
+      renderizarSemanaPerfil();
       atualizarAguaUI();
       renderizarCategorias();
       renderizarListaExercicios();
