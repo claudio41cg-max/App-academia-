@@ -97,21 +97,15 @@ test('reference chart and weight sheet are implemented',()=>{
  assert.ok(html.includes('id="view-pesagens"'));
 });
 
-test('compact gold weight graph stays within home card and uses real weigh-ins',()=>{
- assert.ok(html.includes('id="peso-mini-svg"'));
- assert.ok(html.includes('function renderizarPesoMini(registros,meta)'));
- assert.ok(html.includes("renderizarPesoMini(todos,meta)"));
- assert.ok(html.includes('class="peso-card-home peso-card-mini"'));
- assert.ok(!html.includes('class="peso-icone">⚖'));
- assert.ok(html.includes("const pts=registros.map(p=>({t:Date.parse(p.data+'T12:00:00'),w:Number(p.kg)}))"));
- assert.ok(html.includes("fill:'#daa443'"));
-});
-
-test('weight card heading on upper right and full width graph underneath',()=>{
+test('simple horizontal weight card and dark green palette retain full tracking',()=>{
  const card=html.slice(html.indexOf('id="btn-evolucao-peso"'),html.indexOf('id="btn-menu-x5"'));
- assert.ok(card.indexOf('Evolução e Meta')<card.indexOf('id="peso-mini-svg"'));
- assert.ok(html.includes('flex-direction:column!important'));
- assert.ok(html.includes('text-align:right!important'));
- assert.ok(html.includes('width:100%!important;height:99px!important'));
- assert.ok(html.includes('function renderizarPesoMini(registros,meta)'));
+ assert.ok(card.includes('class="peso-card-copy"'));
+ assert.ok(card.includes('Evolução e Meta'));
+ assert.ok(!card.includes('peso-mini-svg'));
+ assert.ok(html.includes('.peso-card-simples{display:flex!important;flex-direction:row!important'));
+ assert.ok(html.includes('min-height:86px!important'));
+ assert.ok(html.includes('--gold:#2bd45c'));
+ assert.ok(html.includes('id="peso-svg"'));
+ assert.ok(html.includes('id="peso-overlay"'));
+ assert.ok(html.includes('id="view-pesagens"'));
 });
