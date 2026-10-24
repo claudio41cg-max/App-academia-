@@ -678,6 +678,35 @@ body{background:#030304}
 .sp-muscle-row:last-child{border-bottom:0}.sp-muscle-track{background:#353539;height:8px;border-radius:9px;overflow:hidden}.sp-muscle-fill{height:100%;background:#2dcc65;border-radius:9px}
 .sp-muscle-count{font-size:12px;color:#a9a9ae;text-align:right}.sp-exercise-select{background:#29292d;color:#fff;border:1px solid #ae8551;border-radius:10px;padding:13px;width:100%;margin:8px 0}
 .sp-chart-svg{display:block;width:100%;height:185px}.sp-recent-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #303034;font-size:13px}.sp-recent-row span:last-child{color:#cba669}
+
+/* IMC compacto no módulo de peso, independente dos estilos antigos */
+#peso-imc-incorporado.imc-new-card{display:block;overflow:visible;margin:18px 0 22px;padding:19px 15px 21px;background:#202024;border:1px solid #444046;border-radius:23px;box-sizing:border-box}
+.imc-new-head{padding:2px 2px 15px}.imc-new-kicker{color:#caa15f;font-size:10px;font-weight:800;letter-spacing:1.8px}
+.imc-new-head h3{font-size:21px;line-height:1.25;color:#f4f1ec;margin:7px 0!important;font-weight:800}
+.imc-new-head p{font-size:12px;color:#aaaab0;line-height:1.5;margin:0}
+#peso-imc-incorporado .imc-area{padding:0!important}
+#peso-imc-incorporado .imc-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#peso-imc-incorporado .imc-fields .campo{margin:0}
+#peso-imc-incorporado .campo label{color:#bfbfc5;font-size:11px;letter-spacing:.06em;margin-bottom:8px}
+#peso-imc-incorporado .campo input{width:100%;min-width:0;box-sizing:border-box;background:#29292e;border:1px solid #46464c;border-radius:12px;padding:12px 8px;color:#fff;font-size:20px;text-align:center}
+#peso-imc-incorporado .campo input:focus{border-color:#d7ad68}
+.imc-new-calc{display:block;width:100%;border:1px solid #bd9355;color:#15110b;background:linear-gradient(135deg,#f4ca77,#b98742);font-size:15px;font-weight:850;padding:13px;border-radius:12px;margin:14px 0}
+#peso-imc-incorporado .imc-resultado-card{display:block!important;background:#27272b;border:1px solid #45454b;border-radius:17px;margin:0;padding:18px 13px 16px;text-align:center}
+#peso-imc-incorporado .imc-result-title{font-size:11px;letter-spacing:2px;color:#a8a8ae;font-weight:750}
+#peso-imc-incorporado .imc-valor{font-size:49px;line-height:1.1;color:#f5f4f1;margin:6px 0 12px}
+#peso-imc-incorporado .imc-classificacao{font-size:13px;border-radius:50px;padding:6px 14px}
+#peso-imc-incorporado .imc-detalhe{margin:9px 0 0;min-height:16px;line-height:1.5;color:#b6b6bb;font-size:12px}
+.imc-scale-wrap{padding:23px 2px 1px}.imc-scale{height:14px;border-radius:30px;position:relative;background:linear-gradient(to right,#60a5fa 0%,#60a5fa 14%,#37c985 14%,#37c985 40%,#ecc456 40%,#ecc456 60%,#ec8f4a 60%,#ec8f4a 80%,#d6545e 80%,#d6545e 100%);box-shadow:inset 0 0 0 1px #0004}
+.imc-pointer{position:absolute;left:0;top:-8px;width:3px;height:30px;border:1px solid #131315;border-radius:4px;background:white;box-shadow:0 0 5px #0008;transform:translateX(-50%);display:none}
+.imc-scale-labels{display:flex;justify-content:space-between;color:#a8a8b0;font-size:9px;margin-top:7px}
+.imc-scale-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:7px 12px;margin-top:17px;color:#bfc0c4;font-size:10px}
+.imc-scale-legend span{display:flex;align-items:center;gap:4px}.imc-scale-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+#peso-imc-incorporado .imc-historico{margin-top:20px;border-top:1px solid #44444a;padding-top:18px}
+#peso-imc-incorporado .imc-historico h4{font-size:16px;color:#eee5da;text-transform:none;letter-spacing:0;margin-bottom:4px}
+.imc-chart-info{color:#9c9ca4;font-size:11px;line-height:1.5;margin:0 0 10px}
+.imc-chart{min-height:145px;background:#242428;border:1px solid #37373e;border-radius:13px;overflow:hidden;padding:7px}
+.imc-chart svg{display:block;width:100%;height:150px}
+.imc-chart-foot{font-size:11px;color:#a8a8af;margin-top:9px;text-align:center}
 </style>
 </head>
 <body>
@@ -882,8 +911,8 @@ body{background:#030304}
         </div>
         <div class="btn-dash" id="btn-menu-muscular">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="10" y="6" width="44" height="52" rx="6"/><g fill="#0a0e17"><rect x="17" y="16" width="30" height="6" rx="2"/><circle cx="21" cy="32" r="3.2"/><circle cx="32" cy="32" r="3.2"/><circle cx="43" cy="32" r="3.2"/><circle cx="21" cy="43" r="3.2"/><circle cx="32" cy="43" r="3.2"/></g></svg></div>
-          <div class="card-body"><div class="label">Desempenho Muscular</div><div class="card-sub">Mapa dos músculos e volume</div></div>
+          <div class="icon-stage"><svg viewBox="0 0 64 64" fill="none" aria-label="Silhueta muscular dourada" role="img"><defs><linearGradient id="muscleGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe29b"/><stop offset=".55" stop-color="#d4a14b"/><stop offset="1" stop-color="#97702f"/></linearGradient></defs><circle cx="32" cy="10" r="7" fill="url(#muscleGold)"/><path d="M19 19 25 17 32 24 39 17 45 19 54 28 49 36 43 30 42 43 36 44 35 57 29 57 28 44 22 43 21 30 15 36 10 28Z" fill="url(#muscleGold)" stroke="#e7bd70" stroke-width="1.1"/><path d="M23 23 32 28 41 23 M32 28V42 M24 35H40 M28 44H36" stroke="#332619" stroke-width="2" stroke-linecap="round"/><path d="M51 49V42 M56 49V37 M61 49V32" stroke="#38d16a" stroke-width="3.3" stroke-linecap="round"/></svg></div>
+          <div class="card-body"><div class="label">Desempenho Muscular</div><div class="card-sub">Mapa muscular e evolução</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-dietas">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
@@ -1008,19 +1037,32 @@ body{background:#030304}
           <div class="peso-chart-wrap"><svg id="peso-svg" class="peso-grafico" viewBox="0 0 340 205" role="img" aria-label="Gráfico interativo de peso por data"></svg><div id="peso-ponto-info" class="peso-tooltip" hidden></div></div>
           <button class="peso-todas" type="button" id="peso-ver-todas">Todas as pesagens <span>›</span></button>
         </section>
-        <section class="peso-bloco" id="peso-imc-incorporado" style="margin-top:14px;background:#202023;border:1px solid #383234;border-radius:20px;padding:16px"><h3 style="color:#d8ae68;margin-bottom:12px;font-size:18px">Cálculo de IMC</h3>      <div class="imc-area">
-        <div class="campo"><label>⚖️ Peso (kg)</label><input type="number" id="imc-peso" placeholder="Ex: 78" step="0.1"></div>
-        <div class="campo"><label>📏 Altura (cm)</label><input type="number" id="imc-altura" placeholder="Ex: 175"></div>
-        <button class="btn-salvar-perfil" id="btn-calcular-imc">Calcular IMC</button>
-        <div class="imc-resultado-card" id="imc-resultado">
-          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Seu IMC</div>
-          <div class="imc-valor" id="imc-valor">--</div>
-          <div class="imc-classificacao" id="imc-classificacao">--</div>
-          <div class="imc-detalhe" id="imc-detalhe"></div>
-        </div>
-        <div class="imc-historico" id="imc-historico"><h4>📊 Histórico de IMC</h4><div id="imc-lista"></div></div>
-      </div>
-</section>
+        <section class="peso-bloco imc-new-card" id="peso-imc-incorporado">
+          <div class="imc-new-head"><span class="imc-new-kicker">SAÚDE E MEDIDAS</span><h3>Índice de Massa Corporal</h3><p>Acompanhe sua classificação e a evolução calculada com suas pesagens.</p></div>
+          <div class="imc-area">
+            <div class="imc-fields">
+              <div class="campo"><label for="imc-peso">Peso (kg)</label><input type="number" id="imc-peso" placeholder="Ex: 78" min="1" max="500" step="0.1" inputmode="decimal"></div>
+              <div class="campo"><label for="imc-altura">Altura (cm)</label><input type="number" id="imc-altura" placeholder="Ex: 175" min="50" max="250" step="0.1" inputmode="decimal"></div>
+            </div>
+            <button class="imc-new-calc" id="btn-calcular-imc" type="button">Calcular meu IMC</button>
+            <div class="imc-resultado-card" id="imc-resultado">
+              <div class="imc-result-title">SEU IMC</div>
+              <div class="imc-valor" id="imc-valor">--</div>
+              <div class="imc-classificacao" id="imc-classificacao">Informe peso e altura</div>
+              <div class="imc-detalhe" id="imc-detalhe"></div>
+              <div class="imc-scale-wrap">
+                <div class="imc-scale" aria-label="Faixas do índice de massa corporal"><div class="imc-pointer" id="imc-pointer"></div></div>
+                <div class="imc-scale-labels"><span>15</span><span>18,5</span><span>25</span><span>30</span><span>35</span><span>40+</span></div>
+                <div class="imc-scale-legend"><span><i style="background:#60a5fa"></i>Baixo</span><span><i style="background:#37c985"></i>Adequado</span><span><i style="background:#ecc456"></i>Sobrepeso</span><span><i style="background:#ec8f4a"></i>Obesidade</span></div>
+              </div>
+            </div>
+            <div class="imc-historico" id="imc-historico">
+              <h4>Evolução do IMC</h4><p class="imc-chart-info">Calculado a partir das pesagens salvas e da altura informada.</p>
+              <div id="imc-chart" class="imc-chart"></div>
+              <div id="imc-lista" class="imc-chart-foot"></div>
+            </div>
+          </div>
+        </section>
         <section class="peso-bloco peso-meta-editor" id="peso-meta-editor" hidden><label for="peso-meta-input" class="peso-legenda">Meta de peso (kg)</label><form id="peso-meta-form" class="peso-form"><input id="peso-meta-input" type="number" min="20" max="500" step="0.1" required placeholder="Ex.: 77"><button class="peso-btn" type="submit">Salvar meta</button></form></section>
       </div>
     </div>
@@ -2921,22 +2963,62 @@ body{background:#030304}
       }
     }
 
-    function renderizarIMC() {
-      if (estado.aluno.peso) document.getElementById('imc-peso').value = estado.aluno.peso;
-      if (estado.aluno.altura) document.getElementById('imc-altura').value = estado.aluno.altura;
+    function imcClassificacao(n){
+      if(n<18.5)return ['Abaixo do peso','magreza','#60a5fa','Abaixo da faixa de referência para adultos.'];
+      if(n<25)return ['Faixa adequada','normal','#37c985','Dentro da faixa de referência para adultos.'];
+      if(n<30)return ['Sobrepeso','sobrepeso','#ecc456','Acima da faixa de referência para adultos.'];
+      if(n<35)return ['Obesidade grau I','obesidade','#ec8f4a','IMC elevado; considere avaliação profissional.'];
+      if(n<40)return ['Obesidade grau II','obesidade','#e6685e','IMC elevado; considere avaliação profissional.'];
+      return ['Obesidade grau III','obesidade','#d6545e','IMC elevado; considere avaliação profissional.'];
     }
-
-    function calcularIMC() {
-      const peso = parseFloat(document.getElementById('imc-peso').value);
-      const altura = parseFloat(document.getElementById('imc-altura').value) / 100;
-      if (peso && altura) {
-        const imc = (peso / (altura * altura)).toFixed(1);
-        document.getElementById('imc-resultado').style.display = 'block';
-        document.getElementById('imc-valor').textContent = imc;
+    function imcDesenharGrafico(alturaCm){
+      const target=document.getElementById('imc-chart'),foot=document.getElementById('imc-lista');if(!target||!foot)return;
+      target.replaceChildren();foot.textContent='';
+      const pontos=(Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[])
+        .filter(p=>p&&/^\d{4}-\d{2}-\d{2}$/.test(p.data)&&Number(p.kg)>0)
+        .sort((a,b)=>a.data.localeCompare(b.data))
+        .map(p=>({data:p.data,imc:Number(p.kg)/(alturaCm/100)**2}));
+      if(!pontos.length||!Number.isFinite(alturaCm)||alturaCm<=0){
+        const info=document.createElement('p');info.style.cssText='font-size:12px;text-align:center;color:#a9a9af;padding:48px 12px';
+        info.textContent='Registre pesagens e informe a altura para visualizar seu histórico.';target.appendChild(info);return;
       }
+      const svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
+      svg.setAttribute('viewBox','0 0 340 150');svg.setAttribute('role','img');svg.setAttribute('aria-label','Gráfico da evolução do IMC pelas pesagens registradas');
+      const el=(name,attributes,parent=svg)=>{const e=document.createElementNS(svgNS,name);for(const [k,v] of Object.entries(attributes))e.setAttribute(k,String(v));parent.appendChild(e);return e;};
+      const vals=pontos.map(p=>p.imc),lo=Math.min(...vals,18.5)-1,hi=Math.max(...vals,30)+1,span=Math.max(1,hi-lo),w=340,h=150,x1=25,x2=316,y1=16,y2=122;
+      const xs=p=>pontos.length===1?(x1+x2)/2:x1+(Date.parse(p.data+'T12:00:00')-Date.parse(pontos[0].data+'T12:00:00'))/Math.max(1,Date.parse(pontos.at(-1).data+'T12:00:00')-Date.parse(pontos[0].data+'T12:00:00'))*(x2-x1);
+      const ys=v=>y2-(v-lo)/span*(y2-y1);
+      for(const value of [18.5,25,30]){if(value<lo||value>hi)continue;el('line',{x1,y1:ys(value),x2,y2:ys(value),stroke:value===25?'#ecc456':'#4d4d52','stroke-dasharray':'4 4','stroke-width':1});const t=el('text',{x:2,y:ys(value)+3,fill:'#9c9ca3','font-size':9});t.textContent=String(value).replace('.',',');}
+      const points=pontos.map(p=>[xs(p),ys(p.imc)]);
+      el('polyline',{points:points.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#d9ac68','stroke-width':2.8,'stroke-linecap':'round','stroke-linejoin':'round'});
+      for(const [i,p] of points.entries()){const c=el('circle',{cx:p[0],cy:p[1],r:i===points.length-1?4.5:2.8,fill:i===points.length-1?'#ecc456':'#d9ac68'});const title=el('title',{},c);title.textContent=pontos[i].data+' · IMC '+pontos[i].imc.toFixed(1).replace('.',',');}
+      target.appendChild(svg);foot.textContent=pontos.length+' pesagem(ns) • '+pontos[0].data.split('-').reverse().join('/')+' até '+pontos.at(-1).data.split('-').reverse().join('/');
     }
-
-    document.getElementById('btn-calcular-imc')?.addEventListener('click', calcularIMC);
+    function calcularIMC(){
+      const peso=Number(document.getElementById('imc-peso')?.value),alturaCm=Number(document.getElementById('imc-altura')?.value);
+      const valor=document.getElementById('imc-valor'),classificacao=document.getElementById('imc-classificacao'),detalhe=document.getElementById('imc-detalhe'),pointer=document.getElementById('imc-pointer');
+      if(!Number.isFinite(peso)||!Number.isFinite(alturaCm)||peso<=0||alturaCm<=0){
+        valor.textContent='--';classificacao.textContent='Informe peso e altura';classificacao.className='imc-classificacao';detalhe.textContent='';pointer.style.display='none';imcDesenharGrafico(alturaCm);return;
+      }
+      const n=peso/Math.pow(alturaCm/100,2),[nome,classe,cor,observacao]=imcClassificacao(n);
+      valor.textContent=n.toFixed(1).replace('.',',');valor.style.color=cor;
+      classificacao.className='imc-classificacao '+classe;classificacao.textContent=nome;
+      detalhe.textContent=observacao+' O IMC é apenas um indicador e não avalia a composição corporal.';
+      const stops=[[15,0],[18.5,14],[25,40],[30,60],[35,80],[40,100]],bounded=Math.max(15,Math.min(40,n));let pct=100;
+      for(let i=1;i<stops.length;i++){if(bounded<=stops[i][0]){const [low,loPct]=stops[i-1],[high,hiPct]=stops[i];pct=loPct+(bounded-low)/(high-low)*(hiPct-loPct);break;}}
+      pointer.style.left=pct+'%';pointer.style.display='block';imcDesenharGrafico(alturaCm);
+    }
+    function renderizarIMC(){
+      const peso=document.getElementById('imc-peso'),altura=document.getElementById('imc-altura');
+      const ultimo=(Array.isArray(estado.pesoRegistros)?estado.pesoRegistros:[]).filter(p=>Number(p.kg)>0).sort((a,b)=>a.data.localeCompare(b.data)).at(-1);
+      if(ultimo)peso.value=Number(ultimo.kg).toFixed(1);
+      else if(estado.aluno.peso)peso.value=estado.aluno.peso;
+      if(estado.aluno.altura)altura.value=estado.aluno.altura;
+      calcularIMC();
+    }
+    document.getElementById('btn-calcular-imc')?.addEventListener('click',calcularIMC);
+    document.getElementById('imc-peso')?.addEventListener('change',calcularIMC);
+    document.getElementById('imc-altura')?.addEventListener('change',calcularIMC);
 
     function renderizarDesempenho() {
       document.getElementById('stat-peso').textContent = estado.aluno.peso || '--';
@@ -3073,7 +3155,7 @@ body{background:#030304}
       document.getElementById('peso-overlay').hidden=false;
     }
     function pesoSetValor(v){v=Math.min(200,Math.max(20,Math.round(Number(v)*10)/10));document.getElementById('peso-input-kg').value=v.toFixed(1);document.getElementById('peso-slider').value=v;}
-    document.getElementById('btn-evolucao-peso').addEventListener('click',()=>{renderizarPeso();abrirTela('view-evolucao-peso');});
+    document.getElementById('btn-evolucao-peso').addEventListener('click',()=>{renderizarPeso();renderizarIMC();abrirTela('view-evolucao-peso');});
     document.getElementById('peso-back').addEventListener('click',()=>abrirTela('view-dashboard'));
     document.getElementById('peso-adicionar').addEventListener('click',abrirPesoSheet);
     document.getElementById('peso-meta-atalho').addEventListener('click',()=>{document.getElementById('peso-meta-editor').hidden=!document.getElementById('peso-meta-editor').hidden;});
