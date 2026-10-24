@@ -712,9 +712,23 @@ body{background:#030304}
 .sp-body-pane svg{max-width:176px!important;width:100%;aspect-ratio:180 / 380;overflow:hidden;border-radius:12px;background:#151518}
 .sp-body-pane path[data-group]{cursor:pointer;outline:none;transition:fill-opacity .2s,stroke-opacity .2s}
 .sp-body-pane path[data-group]:focus-visible{stroke:#f6cb7b!important;stroke-width:2.5}
+
+    /* Tela de abertura Smart Physical */
+    #sp-opening{position:fixed;inset:0;z-index:999999;background:#121113;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;gap:16px;opacity:1;transition:opacity .55s ease;pointer-events:auto}
+    #sp-opening.sp-opening-hide{opacity:0;pointer-events:none}
+    #sp-opening .sp-opening-logo{width:min(68vw,260px);height:auto;display:block;object-fit:contain;filter:drop-shadow(0 8px 22px rgba(194,142,65,.20));animation:sp-open-appear .7s ease-out both}
+    #sp-opening .sp-opening-title{font-size:clamp(23px,7vw,34px);font-weight:900;letter-spacing:.12em;text-align:center;color:#e6b869;text-shadow:0 2px 13px rgba(207,163,87,.22);animation:sp-open-appear 1s .12s both}
+    #sp-opening .sp-opening-sub{height:2px;width:74px;background:linear-gradient(90deg,transparent,#b88a4a,transparent);border-radius:9px;animation:sp-open-appear .9s .22s both}
+    @keyframes sp-open-appear{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    @media(prefers-reduced-motion:reduce){#sp-opening .sp-opening-logo,#sp-opening .sp-opening-title,#sp-opening .sp-opening-sub{animation:none}#sp-opening{transition:none}}
 </style>
 </head>
 <body>
+  <div id="sp-opening" role="status" aria-label="Abrindo Smart Physical">
+    <img class="sp-opening-logo" src="assets/smartphysical-opening-logo.webp" alt="Símbolo dourado do Smart Physical">
+    <div class="sp-opening-title">SMART PHYSICAL</div>
+    <div class="sp-opening-sub" aria-hidden="true"></div>
+  </div>
   <div class="toast" id="toast"></div>
 
   <!-- BARRA DE TEMPORIZADOR DE DESCANSO -->
@@ -3521,6 +3535,13 @@ body{background:#030304}
     }
 
     init();
+    // Retira a abertura sem interromper navegação, carregamento ou acesso.
+    window.setTimeout(()=>{
+      const intro=document.getElementById('sp-opening');
+      if(!intro)return;
+      intro.classList.add('sp-opening-hide');
+      window.setTimeout(()=>intro.remove(),650);
+    },2300);
   </script>
 </body>
 </html>
