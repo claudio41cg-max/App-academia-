@@ -3206,13 +3206,13 @@ body{background:#030304}
       ['triceps','Tríceps'],['abdomen','Abdômen'],['quadriceps','Quadríceps'],
       ['posterior','Posterior de coxa'],['gluteos','Glúteos'],['panturrilhas','Panturrilhas']
     ];
-    const SP_DISTRIB=[
+    const SP_DISTRIB={
       peito:{peito:1,triceps:.35,ombros:.3},ombros:{ombros:1,triceps:.2},
       costas:{costas:1,biceps:.35},biceps:{biceps:1},triceps:{triceps:1},
       abdomen:{abdomen:1},quadriceps:{quadriceps:1,gluteos:.3},
       posterior:{posterior:1,gluteos:.3},gluteos:{gluteos:1},
       panturrilhas:{panturrilhas:1}
-    ];
+    };
     let spMode='balance',spPeriod='week',spActivityMode='registros',spProgressMode='peso',spExercise='';
     function spGroup(ex) {
       const t=[ex?.grupo,ex?.musculo,ex?.foco,ex?.familia].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
