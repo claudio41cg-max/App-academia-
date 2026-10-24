@@ -386,10 +386,14 @@
     .btn-voltar-abaixo { width: 100%; padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--muted); font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; margin-top: 10px; text-align: center; }
     .btn-voltar-abaixo:active { transform: scale(0.98); background: var(--card); }
 
-    .day-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 16px; }
-    .day-btn { flex: 1 0 calc(100% / 7 - 10px); min-width: 44px; text-align: center; padding: 12px 0; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .day-selector { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; margin: 12px 0 16px; }
+    .day-btn { min-width: 0; width: 100%; text-align: center; padding: 12px 0; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
     .day-btn.active { border-color: var(--gold); background: #2a1f14; color: var(--gold); }
     .day-btn:active { transform: scale(0.95); }
+    #view-detalhe-exercicio .sec-label { color: var(--gold); }
+    #view-detalhe-exercicio .metric-select-wheel { border-color: #9b783f; }
+    #view-detalhe-exercicio .day-btn.active { background: #503c21; border-color: #d4a14b; color: #f6d18c; }
+    #view-detalhe-exercicio #btn-toggle-treino { background: #20cf57; color: #08100a; }
     .btn-confirmar { width: 100%; padding: 13px; border: none; border-radius: 10px; background: var(--gold); color: #080c14; font-weight: 800; font-size: 14px; margin-top: 4px; cursor: pointer; transition: all 0.2s; }
     .btn-confirmar:active { transform: scale(0.98); }
     .btn-confirmar.no-treino { background: transparent; border: 1px solid #ff5252; color: #ff5252; }
@@ -913,7 +917,7 @@ body{background:#030304}
         <div class="sec-label">EXECUÇÃO</div>
         <div class="technique-grid">
           <div class="technique-card"><h4>▶ Como executar</h4><p id="d-execution-text">--</p></div>
-          <div class="technique-card"><h4>💨 Respiração</h4><p id="d-breathing-text">--</p></div>
+          
           <div class="technique-card warning"><h4>⚠️ Erros comuns</h4><p id="d-errors-text">--</p></div>
         </div>
         <div class="sec-label">EQUIPAMENTO</div>
@@ -928,10 +932,7 @@ body{background:#030304}
         </div>
 
         <button class="btn-confirmar" style="background:#1f3144;color:var(--gold);margin-top:12px;" onclick="iniciarTimerManual()">⏱️ Iniciar Descanso Agora (Opcional)</button>
-        <div class="load-history-card" id="d-load-history">
-          <div class="load-history-head"><b>📈 Evolução de carga</b><span id="d-last-load">Nenhuma carga registrada</span></div>
-          <div id="d-load-history-list"><div class="meta" style="font-size:12px;color:var(--muted)">Quando você salvar este exercício com peso, o histórico aparecerá aqui.</div></div>
-        </div>
+
 
         <div class="sec-label" style="margin-top:20px;">DIA DA SEMANA</div>
         <div class="day-selector" id="day-selector">
@@ -2335,6 +2336,23 @@ body{background:#030304}
       return dataISO(d);
     }
     let diaSelecionado = new Date().getDay();
+    let diasSelecionadosDetalhe = new Set();
+    function atualizarDiasDoDetalhe() {
+      document.querySelectorAll('#day-selector .day-btn').forEach(btn => {
+        const ativo = diasSelecionadosDetalhe.has(Number(btn.dataset.day));
+        btn.classList.toggle('active', ativo);
+        btn.setAttribute('aria-pressed', String(ativo));
+      });
+      const hint = document.getElementById('data-semana-hint');
+      if (hint) hint.textContent = diasSelecionadosDetalhe.size ? 'Selecionados: ' + [...diasSelecionadosDetalhe].sort((a,b)=>a-b).map(d=>['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d]).join(', ') : 'Escolha pelo menos um dia.';
+    }
+    function selecionarDiasDoExercicio(exercicioId) {
+      diasSelecionadosDetalhe = new Set();
+      for(let dia=0;dia<7;dia++){
+        if ((estado.treinoPorDia?.[dia] || []).includes(exercicioId)) diasSelecionadosDetalhe.add(dia);
+      }
+      atualizarDiasDoDetalhe();
+    }
 
     function abrirTela(id) {
       document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
@@ -2563,7 +2581,6 @@ body{background:#030304}
         setText('d-tag-grupo', ex.grupo);
         setText('d-primary-muscle', ex.foco || ex.musculo);
         setText('d-execution-text', ex.execucao || ex.instrucao);
-        setText('d-breathing-text', ex.respiracao || 'Inspire na fase de retorno e expire na fase de esforço.');
         setText('d-errors-text', ex.errosComuns || 'Mantenha o movimento controlado e evite compensações.');
         setText('d-equip-name', `Aparelho: ${ex.aparelho}`);
 
@@ -2594,7 +2611,7 @@ body{background:#030304}
           peso.value = String(pesoAtual);
         }
         if (descanso) descanso.value = custom.descanso || ex.descanso || 60;
-        renderizarHistoricoCargaExercicio(ex.id);
+        selecionarDiasDoExercicio(ex.id);
       } catch (error) {
         console.error('Falha ao preencher detalhe do exercício:', error);
         mostrarToast('O exercício abriu, mas alguns detalhes não carregaram.');
@@ -3031,7 +3048,16 @@ body{background:#030304}
     document.getElementById('imc-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('desempenho-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
 
+    document.querySelectorAll('#day-selector .day-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dia = Number(btn.dataset.day);
+        if (diasSelecionadosDetalhe.has(dia)) diasSelecionadosDetalhe.delete(dia);
+        else diasSelecionadosDetalhe.add(dia);
+        atualizarDiasDoDetalhe();
+      });
+    });
     document.getElementById('btn-toggle-treino')?.addEventListener('click', function() {
+      if (!diasSelecionadosDetalhe.size) { mostrarToast('Selecione pelo menos um dia da semana.'); return; }
       if (!exercicioAtualId) return;
       if (!estado.customExercicios) estado.customExercicios = {};
       if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
@@ -3045,13 +3071,18 @@ body{background:#030304}
       estado.customExercicios[exercicioAtualId] = configAtual;
       registrarCargaExercicio(exercicioAtualId, configAtual);
 
-      if (!estado.treinoPorDia[diaSelecionado]) estado.treinoPorDia[diaSelecionado] = [];
-      if (!estado.treinoPorDia[diaSelecionado].includes(exercicioAtualId)) {
-        estado.treinoPorDia[diaSelecionado].push(exercicioAtualId);
-        mostrarToast('Adicionado ao treino!');
+      let adicionados = 0;
+      for (const dia of diasSelecionadosDetalhe) {
+        if (!estado.treinoPorDia[dia]) estado.treinoPorDia[dia] = [];
+        if (!estado.treinoPorDia[dia].includes(exercicioAtualId)) {
+          estado.treinoPorDia[dia].push(exercicioAtualId);
+          adicionados++;
+        }
       }
       salvarEstado();
       renderizarTreinosVertical();
+      mostrarToast(adicionados ? 'Exercício adicionado aos dias escolhidos!' : 'Treino atualizado nos dias selecionados.');
+      abrirTela('view-treinos');
     });
 
     document.querySelectorAll('.bottom-item').forEach(item => {
