@@ -721,6 +721,10 @@ body{background:#030304}
     #sp-opening .sp-opening-sub{height:2px;width:74px;background:linear-gradient(90deg,transparent,#b88a4a,transparent);border-radius:9px;animation:sp-open-appear .9s .22s both}
     @keyframes sp-open-appear{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
     @media(prefers-reduced-motion:reduce){#sp-opening .sp-opening-logo,#sp-opening .sp-opening-title,#sp-opening .sp-opening-sub{animation:none}#sp-opening{transition:none}}
+
+    /* Integra o fundo preto da arte ao grafite do card, sem mudar os outros cards. */
+    #btn-menu-muscular .icon-stage { background: #29292c; isolation: isolate; }
+    #btn-menu-muscular .icon-stage img { mix-blend-mode: screen; }
 </style>
 </head>
 <body>
