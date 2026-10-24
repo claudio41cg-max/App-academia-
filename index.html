@@ -809,6 +809,10 @@ body{background:#030304}
 
 /* Card de aquecimento: mesma grade, paleta ouro e descrição preservada */
 #view-categorias .cat-card:last-child b { color:#dcb16d!important; }
+
+/* Crédito obrigatório da fonte de imagens de cardio; não interfere nos cards. */
+#view-categorias .cardio-image-credit{font-size:11px;text-align:center;color:#9e9ea5;padding:4px 16px 20px;line-height:1.5}
+#view-categorias .cardio-image-credit a{color:#d6ad69;text-decoration:underline;text-underline-offset:2px}
 </style>
 </head>
 <body>
@@ -1064,6 +1068,7 @@ body{background:#030304}
         <div class="er-badge">Escolher ›</div>
       </div>
       <div class="cat-grid" id="cat-grid-container"></div>
+      <p class="cardio-image-credit" aria-label="Crédito das imagens de cardio">Ilustrações de cardio: <a href="https://repdb.co/" target="_blank" rel="noopener noreferrer">Exercise data by RepDB (repdb.co)</a></p>
     </div>
 
     <div class="pane" id="view-lista-exercicios">
@@ -1844,7 +1849,7 @@ body{background:#030304}
         id:'cardio-esteira',nome:'Caminhada na Esteira',grupo:'CARDIO',
         aparelho:'Esteira ergométrica',musculo:'Aquecimento cardiovascular',
         familia:'AQUECIMENTO',foco:'Preparação para a musculação',popular:false,
-        gif:imagemCardio('esteira'),gifFallback:FALLBACK_IMG,
+        gif:'https://raw.githubusercontent.com/RepDB/exercise-dataset/main/images/flat/incline-treadmill-walk-main.webp',gifFallback:imagemCardio('esteira'),
         instrucao:'Comece com uma caminhada confortável por 5 a 10 minutos. Aumente a velocidade gradualmente, mantendo uma intensidade em que ainda consiga conversar. Use o corrimão apenas quando necessário e reduza a velocidade antes de sair.',
         errosComuns:'Começar muito rápido; segurar constantemente nos apoios; tentar acompanhar velocidade acima do confortável.',
         series:1,reps:8,descanso:60,peso:0,cardio:true
@@ -1853,7 +1858,7 @@ body{background:#030304}
         id:'cardio-bicicleta',nome:'Bicicleta Ergométrica',grupo:'CARDIO',
         aparelho:'Bicicleta ergométrica',musculo:'Aquecimento cardiovascular',
         familia:'AQUECIMENTO',foco:'Preparação para a musculação',popular:false,
-        gif:imagemCardio('bicicleta'),gifFallback:FALLBACK_IMG,
+        gif:'https://raw.githubusercontent.com/RepDB/exercise-dataset/main/images/flat/stationary-bike-main.webp',gifFallback:imagemCardio('bicicleta'),
         instrucao:'Ajuste a altura do banco para pedalar sem esticar totalmente o joelho. Pedale por 5 a 10 minutos em ritmo leve a moderado, aumentando a cadência gradualmente, sem forçar a resistência.',
         errosComuns:'Banco desregulado; resistência excessiva no início; começar com intensidade alta.',
         series:1,reps:8,descanso:60,peso:0,cardio:true
@@ -2798,7 +2803,7 @@ body{background:#030304}
         card.style.cursor = 'pointer';
         card.innerHTML = `
           <div class="ex-card-top">
-            <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"></div>
+            <div class="ex-item-thumb"><img src="${ex.gif}" alt="${ex.nome}" loading="lazy" onerror="this.onerror=null; this.src='${ex.gifFallback || FALLBACK_IMG}';"></div>
             <div class="ex-item-info">
               <p class="title">${ex.nome}</p>
               <p class="app-name">${ex.familia ? ex.familia + ' · ' : ''}${ex.aparelho}</p>
@@ -2855,6 +2860,11 @@ body{background:#030304}
         if (gif) {
           gif.style.display = 'block';
           gif.onerror = function() {
+            if (ex.cardio && ex.gifFallback && this.src !== ex.gifFallback) {
+              this.onerror = function(){ this.style.display='none'; if (fallback) fallback.style.display='block'; };
+              this.src = ex.gifFallback;
+              return;
+            }
             this.style.display = 'none';
             if (fallback) fallback.style.display = 'block';
           };
