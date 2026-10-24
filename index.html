@@ -644,6 +644,17 @@ body{background:#030304}
 .perfil-semana-dia .semana-ponto{width:5px;height:5px;border-radius:50%;background:transparent}
 .perfil-semana-dia.treinado .semana-ponto{background:#2bd65f}
 .perfil-semana-dia.programado:not(.treinado) .semana-ponto{background:#d9af64}
+
+/* Mapa muscular: dados reais do planejamento, sem simulação de execução. */
+.muscle-board{margin:14px 16px 20px;background:#202023;border:1px solid #38383c;border-radius:20px;padding:18px;color:#f5f5f5}
+.muscle-heading{font-size:19px;font-weight:800;color:#d8af6b}.muscle-sub{display:block;font-size:12px;color:#a9a9af;font-weight:500;margin-top:5px}
+.muscle-bodies{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px 0 4px;text-align:center}
+.muscle-body svg{width:100%;max-width:160px;height:auto;display:block;margin:auto}
+.muscle-body small{color:#c1c1c6;font-size:12px}.muscle-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;color:#9f9fa4;font-size:11px;margin:12px 0 20px}
+.muscle-legend i{width:15px;height:10px;border-radius:3px;background:#303036}.muscle-legend i:nth-of-type(2){background:#37643e}.muscle-legend i:nth-of-type(3){background:#32a955}.muscle-legend i:nth-of-type(4){background:#2ddb66}
+.muscle-line{display:grid;grid-template-columns:minmax(80px,1fr) minmax(70px,1fr) auto;gap:8px;align-items:center;margin:15px 0;font-size:13px}
+.muscle-line .track{height:7px;background:#36363a;border-radius:10px;overflow:hidden}.muscle-line .fill{height:100%;background:#28c85e;border-radius:10px}
+.muscle-line .count{color:#b5b5ba;font-size:12px;min-width:44px;text-align:right}.muscle-note{margin-top:15px;line-height:1.5;color:#a0a0a8;font-size:12px}
 </style>
 </head>
 <body>
@@ -846,10 +857,10 @@ body{background:#030304}
           <div class="icon-stage"><div style="font-size:38px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(212,161,75,0.5);letter-spacing:-1px;">X5</div></div>
           <div class="card-body"><div class="label">X5</div><div class="card-sub">Execução de Séries</div></div>
         </div>
-        <div class="btn-dash" id="btn-menu-imc">
+        <div class="btn-dash" id="btn-menu-muscular">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
           <div class="icon-stage"><svg viewBox="0 0 64 64" fill="url(#goldMetal)"><rect x="10" y="6" width="44" height="52" rx="6"/><g fill="#0a0e17"><rect x="17" y="16" width="30" height="6" rx="2"/><circle cx="21" cy="32" r="3.2"/><circle cx="32" cy="32" r="3.2"/><circle cx="43" cy="32" r="3.2"/><circle cx="21" cy="43" r="3.2"/><circle cx="32" cy="43" r="3.2"/></g></svg></div>
-          <div class="card-body"><div class="label">Cálculo de IMC</div><div class="card-sub">Índice de Massa Corporal</div></div>
+          <div class="card-body"><div class="label">Desempenho Muscular</div><div class="card-sub">Mapa dos músculos e volume</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-dietas">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
@@ -974,6 +985,19 @@ body{background:#030304}
           <div class="peso-chart-wrap"><svg id="peso-svg" class="peso-grafico" viewBox="0 0 340 205" role="img" aria-label="Gráfico interativo de peso por data"></svg><div id="peso-ponto-info" class="peso-tooltip" hidden></div></div>
           <button class="peso-todas" type="button" id="peso-ver-todas">Todas as pesagens <span>›</span></button>
         </section>
+        <section class="peso-bloco" id="peso-imc-incorporado" style="margin-top:14px;background:#202023;border:1px solid #383234;border-radius:20px;padding:16px"><h3 style="color:#d8ae68;margin-bottom:12px;font-size:18px">Cálculo de IMC</h3>      <div class="imc-area">
+        <div class="campo"><label>⚖️ Peso (kg)</label><input type="number" id="imc-peso" placeholder="Ex: 78" step="0.1"></div>
+        <div class="campo"><label>📏 Altura (cm)</label><input type="number" id="imc-altura" placeholder="Ex: 175"></div>
+        <button class="btn-salvar-perfil" id="btn-calcular-imc">Calcular IMC</button>
+        <div class="imc-resultado-card" id="imc-resultado">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Seu IMC</div>
+          <div class="imc-valor" id="imc-valor">--</div>
+          <div class="imc-classificacao" id="imc-classificacao">--</div>
+          <div class="imc-detalhe" id="imc-detalhe"></div>
+        </div>
+        <div class="imc-historico" id="imc-historico"><h4>📊 Histórico de IMC</h4><div id="imc-lista"></div></div>
+      </div>
+</section>
         <section class="peso-bloco peso-meta-editor" id="peso-meta-editor" hidden><label for="peso-meta-input" class="peso-legenda">Meta de peso (kg)</label><form id="peso-meta-form" class="peso-form"><input id="peso-meta-input" type="number" min="20" max="500" step="0.1" required placeholder="Ex.: 77"><button class="peso-btn" type="submit">Salvar meta</button></form></section>
       </div>
     </div>
@@ -991,23 +1015,22 @@ body{background:#030304}
       <button class="peso-todas" type="button" id="peso-sheet-todas">Todas as pesagens ›</button>
     </div></div>
     <div class="pane" id="view-pesagens"><div class="internal-header"><button class="back-btn" id="pesagens-back">← Voltar</button><span class="internal-title">Todas as pesagens</span></div><section class="peso-pagina-lista"><h2>Pesagens</h2><div id="peso-total-registros" class="peso-dim">0 pesagens</div><div id="peso-grafico-completo"></div><p class="peso-dim">Média semanal</p><div id="peso-historico-lista"></div></section></div>
-    <!-- CÁLCULO DE IMC -->
-    <div class="pane" id="view-imc">
-      <div class="internal-header"><button class="back-btn" id="imc-back">← Voltar</button><span class="internal-title">Cálculo de IMC</span></div>
-      <div class="imc-area">
-        <div class="campo"><label>⚖️ Peso (kg)</label><input type="number" id="imc-peso" placeholder="Ex: 78" step="0.1"></div>
-        <div class="campo"><label>📏 Altura (cm)</label><input type="number" id="imc-altura" placeholder="Ex: 175"></div>
-        <button class="btn-salvar-perfil" id="btn-calcular-imc">Calcular IMC</button>
-        <div class="imc-resultado-card" id="imc-resultado">
-          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Seu IMC</div>
-          <div class="imc-valor" id="imc-valor">--</div>
-          <div class="imc-classificacao" id="imc-classificacao">--</div>
-          <div class="imc-detalhe" id="imc-detalhe"></div>
-        </div>
-        <div class="imc-historico" id="imc-historico"><h4>📊 Histórico de IMC</h4><div id="imc-lista"></div></div>
-      </div>
+    <!-- Volume muscular calculado a partir do plano existente; sem simular fadiga/força. -->
+    <div class="pane" id="view-mapa-muscular">
+      <div class="internal-header"><button class="back-btn" id="mapa-voltar">← Voltar</button><span class="internal-title">Desempenho Muscular</span></div>
+      <section class="muscle-board">
+        <div class="muscle-heading">Equilíbrio muscular <span class="muscle-sub">Séries programadas por semana</span></div>
+        <div class="muscle-bodies" id="muscle-bodies"></div>
+        <div class="muscle-legend"><span>Menos</span><i></i><i></i><i></i><i></i><span>Mais</span></div>
+        <div id="muscle-rows"></div>
+        <p class="muscle-note" id="muscle-note">O mapa mostra o treino planejado. Séries programadas não são necessariamente séries realizadas.</p>
+      </section>
+      <section class="muscle-board">
+        <div class="muscle-heading">Registros de carga <span class="muscle-sub">Histórico salvo neste aparelho</span></div>
+        <div id="muscle-registros"></div>
+        <p class="muscle-note">Os registros de carga indicam configurações salvas. Ainda não são prova de execução do treino. Fadiga e força exigem dados de séries concluídas.</p>
+      </section>
     </div>
-
     <!-- X5 - EXECUÇÃO DE SÉRIES (11 VÍDEOS COMPLETOS EM QUADRINHOS) -->
     <div class="pane" id="view-x5">
       <div class="internal-header">
@@ -3031,7 +3054,7 @@ body{background:#030304}
     document.getElementById('btn-menu-exercicios')?.addEventListener('click', () => { renderizarCategorias(); abrirTela('view-categorias'); });
     document.getElementById('btn-menu-x5')?.addEventListener('click', () => abrirTela('view-x5'));
     document.getElementById('x5-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
-    document.getElementById('btn-menu-imc')?.addEventListener('click', () => { renderizarIMC(); abrirTela('view-imc'); });
+    document.getElementById('btn-menu-muscular')?.addEventListener('click', () => { renderizarMapaMuscular(); abrirTela('view-mapa-muscular'); });
     document.getElementById('btn-menu-dietas')?.addEventListener('click', () => { renderizarListaReceitas(); abrirTela('view-dietas'); });
     document.getElementById('btn-menu-bonus')?.addEventListener('click', () => abrirTela('view-bonus'));
     document.getElementById('dash-banner-btn')?.addEventListener('click', () => { renderizarPerfilEdit(); abrirTela('view-perfil'); });
@@ -3048,7 +3071,7 @@ body{background:#030304}
     document.getElementById('pagamentos-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('bonus-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
     document.getElementById('btn-voltar-abaixo-detalhe')?.addEventListener('click', () => abrirTela(telaOrigemDetalhe));
-    document.getElementById('imc-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
+    
     document.getElementById('desempenho-back')?.addEventListener('click', () => abrirTela('view-dashboard'));
 
     document.querySelectorAll('#day-selector .day-btn').forEach(btn => {
@@ -3128,6 +3151,97 @@ body{background:#030304}
     }
     document.getElementById('perfil-semana-anterior')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil--;renderizarSemanaPerfil();});
     document.getElementById('perfil-semana-proxima')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil++;renderizarSemanaPerfil();});
+
+    const MAPA_GRUPOS=[
+      {nome:'Peito',chave:'peito',pos:'frente',cx:60,cy:83,rx:23,ry:15},
+      {nome:'Ombros',chave:'ombros',pos:'ambos',cx:36,cy:78,rx:12,ry:16},
+      {nome:'Bíceps',chave:'biceps',pos:'frente',cx:28,cy:113,rx:9,ry:24},
+      {nome:'Tríceps',chave:'triceps',pos:'costas',cx:29,cy:113,rx:9,ry:24},
+      {nome:'Costas',chave:'costas',pos:'costas',cx:60,cy:103,rx:24,ry:31},
+      {nome:'Abdômen',chave:'abdomen',pos:'frente',cx:60,cy:116,rx:19,ry:22},
+      {nome:'Glúteos',chave:'gluteos',pos:'costas',cx:60,cy:158,rx:23,ry:15},
+      {nome:'Quadríceps',chave:'quadriceps',pos:'frente',cx:49,cy:195,rx:13,ry:34},
+      {nome:'Posterior de coxa',chave:'posterior',pos:'costas',cx:49,cy:195,rx:13,ry:34},
+      {nome:'Panturrilhas',chave:'panturrilhas',pos:'ambos',cx:49,cy:256,rx:9,ry:29}
+    ];
+    function grupoMapa(ex) {
+      const texto = [ex?.grupo,ex?.musculo,ex?.foco,ex?.familia].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+      if(/PEITO|PEITORAL|SUPINO|CRUCIFIXO/.test(texto))return 'peito';
+      if(/TRICEPS/.test(texto))return 'triceps';
+      if(/BICEPS/.test(texto))return 'biceps';
+      if(/OMBRO|DELTOIDE/.test(texto))return 'ombros';
+      if(/COSTAS|DORSAL|TRAPEZIO|REMADA/.test(texto))return 'costas';
+      if(/ABDOM|OBLIQUO/.test(texto))return 'abdomen';
+      if(/GLUTEO/.test(texto))return 'gluteos';
+      if(/PANTURRILHA|GEMEOS/.test(texto))return 'panturrilhas';
+      if(/POSTERIOR|FEMORAL|ISQUIO/.test(texto))return 'posterior';
+      if(/PERNA|QUADRICEPS|LEG PRESS|AGACHAMENTO/.test(texto))return 'quadriceps';
+      return null;
+    }
+    function mapaSemanalPlanejado() {
+      const resumo=Object.fromEntries(MAPA_GRUPOS.map(g=>[g.chave,0]));
+      const exercicios = new Map(DATABASE_EXERCICIOS.map(ex=>[String(ex.id),ex]));
+      let semMapa=0,quantidade=0;
+      for(let dia=0;dia<7;dia++)for(const id of (estado.treinoPorDia?.[dia]||[])){
+        const ex=exercicios.get(String(id)); if(!ex){semMapa++;continue;}
+        const chave=grupoMapa(ex);if(!chave){semMapa++;continue;}
+        const series=Number(estado.customExercicios?.[id]?.series ?? ex.series ?? 3);
+        if(Number.isFinite(series)&&series>0){resumo[chave]+=series;quantidade++;}
+      }
+      return {resumo,semMapa,quantidade};
+    }
+    function svgCorpoMuscular(lado,resumo,maximo) {
+      const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+      svg.setAttribute('viewBox','0 0 120 315');svg.setAttribute('role','img');svg.setAttribute('aria-label','Mapa muscular '+lado);
+      const add=(tag,attrs)=>{const node=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));svg.appendChild(node);return node;};
+      const cinza='#35353a',borda='#111115';
+      add('ellipse',{cx:60,cy:35,rx:18,ry:23,fill:cinza,stroke:borda,'stroke-width':2});
+      add('rect',{x:51,y:56,width:18,height:14,rx:5,fill:cinza});
+      add('path',{d:'M39 67 Q60 60 81 67 L89 149 Q83 169 60 172 Q37 169 31 149Z',fill:cinza,stroke:borda,'stroke-width':2});
+      for(const ladoDoCorpo of [-1,1]){
+        const centro=60+ladoDoCorpo*31;
+        add('ellipse',{cx:centro,cy:94,rx:11,ry:27,transform:'rotate('+(-ladoDoCorpo*12)+' '+centro+' 94)',fill:cinza});
+        add('ellipse',{cx:60+ladoDoCorpo*39,cy:142,rx:8,ry:25,transform:'rotate('+(-ladoDoCorpo*7)+' '+(60+ladoDoCorpo*39)+' 142)',fill:cinza});
+        add('ellipse',{cx:60+ladoDoCorpo*14,cy:201,rx:16,ry:38,fill:cinza});
+        add('ellipse',{cx:60+ladoDoCorpo*13,cy:270,rx:10,ry:37,fill:cinza});
+      }
+      for(const g of MAPA_GRUPOS){
+        if(g.pos!==lado&&g.pos!=='ambos')continue;
+        const value=resumo[g.chave]||0,level=maximo&&value?value/maximo:0;
+        const cor=level===0?cinza:level<0.35?'#356f43':level<0.7?'#2cac54':'#31d765';
+        const coords=g.cx===60?[[60]]:[[g.cx],[120-g.cx]];
+        for(const [x] of coords)add('ellipse',{cx:x,cy:g.cy,rx:g.rx,ry:g.ry,fill:cor,stroke:borda,'stroke-width':2,'data-muscle':g.nome});
+      }
+      return svg;
+    }
+    function renderizarMapaMuscular(){
+      const {resumo,semMapa,quantidade}=mapaSemanalPlanejado();
+      const maximo=Math.max(0,...Object.values(resumo));
+      const bodies=document.getElementById('muscle-bodies');if(!bodies)return;
+      bodies.replaceChildren();
+      for(const lado of ['frente','costas']){
+        const box=document.createElement('div');box.className='muscle-body';
+        const label=document.createElement('small');label.textContent=lado==='frente'?'Frente':'Costas';
+        box.append(svgCorpoMuscular(lado,resumo,maximo),label);bodies.appendChild(box);
+      }
+      const rows=document.getElementById('muscle-rows');rows.replaceChildren();
+      for(const g of [...MAPA_GRUPOS].sort((a,b)=>resumo[b.chave]-resumo[a.chave])){
+        const linha=document.createElement('div');linha.className='muscle-line';
+        const nome=document.createElement('span');nome.textContent=g.nome;
+        const faixa=document.createElement('div');faixa.className='track';
+        const preenchimento=document.createElement('div');preenchimento.className='fill';
+        preenchimento.style.width=(maximo?resumo[g.chave]/maximo*100:0)+'%';faixa.appendChild(preenchimento);
+        const qtd=document.createElement('span');qtd.className='count';qtd.textContent=resumo[g.chave]+' séries';
+        linha.append(nome,faixa,qtd);rows.appendChild(linha);
+      }
+      document.getElementById('muscle-note').textContent=quantidade
+      ? 'Volume programado nos 7 dias da ficha, não equivale a treino concluído.'+(semMapa?' '+semMapa+' exercício(s) ainda sem classificação muscular.':'')
+      : 'Nenhum exercício classificado na programação. Adicione exercícios aos dias da semana para preencher o mapa.';
+      const registros=(estado.historicoCarga||[]).filter(x=>x&&Number(x.peso)>0);
+      const dias=new Set(registros.map(r=>r.data).filter(Boolean));
+      document.getElementById('muscle-registros').textContent=registros.length+' registros de carga em '+dias.size+' data(s).';
+    }
+    document.getElementById('mapa-voltar')?.addEventListener('click',()=>abrirTela('view-dashboard'));
     function init() {
       popularSeletoresConfiguracao();
       if (!estado.pagamento.liberado) {
