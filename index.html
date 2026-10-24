@@ -655,6 +655,29 @@ body{background:#030304}
 .muscle-line{display:grid;grid-template-columns:minmax(80px,1fr) minmax(70px,1fr) auto;gap:8px;align-items:center;margin:15px 0;font-size:13px}
 .muscle-line .track{height:7px;background:#36363a;border-radius:10px;overflow:hidden}.muscle-line .fill{height:100%;background:#28c85e;border-radius:10px}
 .muscle-line .count{color:#b5b5ba;font-size:12px;min-width:44px;text-align:right}.muscle-note{margin-top:15px;line-height:1.5;color:#a0a0a8;font-size:12px}
+
+/* Painel de estatísticas musculares com visual de referência OpenGym e cores próprias */
+.sp-stats-card{background:#202023;border:1px solid #353539;border-radius:22px;padding:18px 16px;margin:15px 16px 22px;color:#f3f3f5}
+.sp-stats-card h3{font-size:19px;font-weight:750;margin:4px 0 15px;color:#f5f5f5}
+.sp-stats-card h3 small{display:block;color:#a9a9ae;font-size:13px;font-weight:400;margin-top:4px}
+.sp-help{font-size:13px;color:#aaaab0;line-height:1.55;margin:10px 0 16px}
+.sp-segment{display:flex;width:100%;background:#39393d;border-radius:14px;padding:4px;gap:3px;margin:14px 0}
+.sp-segment button{min-width:0;flex:1;color:#b5b5bc;background:none;border:0;border-radius:11px;min-height:41px;font-size:13px;font-weight:650;cursor:pointer}
+.sp-segment button.selected{background:#1d1d20;color:white;box-shadow:0 0 0 1px #515157}
+.sp-period-title{text-align:center;margin:20px 0 14px;font-size:14px;font-weight:700;color:#e0e0e0}
+.sp-body-pair{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:4px 0 8px}
+.sp-body-pane svg{width:100%;max-width:186px;display:block;margin:0 auto;aspect-ratio:180 / 380}
+.sp-body-pane small{display:block;font-size:12px;color:#9999a0;text-align:center;margin-top:3px}
+.sp-body-pane path[data-group]{cursor:pointer;stroke:#1c1c1e;stroke-width:2;stroke-linejoin:round}
+.sp-legend{display:flex;align-items:center;justify-content:end;gap:5px;color:#9999a0;font-size:11px;margin:17px 0}
+.sp-legend i{display:block;width:16px;height:11px;border-radius:3px;background:#343438}
+.sp-legend i:nth-of-type(2){background:#315f40}.sp-legend i:nth-of-type(3){background:#279e52}.sp-legend i:nth-of-type(4){background:#27d860}
+.sp-heatmap-scroll{overflow-x:auto;max-width:100%}.sp-heatmap{display:grid;grid-template-rows:repeat(7,13px);grid-auto-flow:column;grid-auto-columns:13px;gap:4px;min-width:max-content;padding:7px 2px}
+.sp-heat-cell{width:13px;height:13px;border-radius:3px;background:#343438}.sp-heat-cell[data-level="1"]{background:#315c3e}.sp-heat-cell[data-level="2"]{background:#278d47}.sp-heat-cell[data-level="3"]{background:#22b453}.sp-heat-cell[data-level="4"]{background:#26d862}
+.sp-muscle-row{display:grid;grid-template-columns:minmax(83px,1fr) minmax(55px,1fr) minmax(62px,auto);gap:8px;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #303034}
+.sp-muscle-row:last-child{border-bottom:0}.sp-muscle-track{background:#353539;height:8px;border-radius:9px;overflow:hidden}.sp-muscle-fill{height:100%;background:#2dcc65;border-radius:9px}
+.sp-muscle-count{font-size:12px;color:#a9a9ae;text-align:right}.sp-exercise-select{background:#29292d;color:#fff;border:1px solid #ae8551;border-radius:10px;padding:13px;width:100%;margin:8px 0}
+.sp-chart-svg{display:block;width:100%;height:185px}.sp-recent-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #303034;font-size:13px}.sp-recent-row span:last-child{color:#cba669}
 </style>
 </head>
 <body>
@@ -1015,20 +1038,44 @@ body{background:#030304}
       <button class="peso-todas" type="button" id="peso-sheet-todas">Todas as pesagens ›</button>
     </div></div>
     <div class="pane" id="view-pesagens"><div class="internal-header"><button class="back-btn" id="pesagens-back">← Voltar</button><span class="internal-title">Todas as pesagens</span></div><section class="peso-pagina-lista"><h2>Pesagens</h2><div id="peso-total-registros" class="peso-dim">0 pesagens</div><div id="peso-grafico-completo"></div><p class="peso-dim">Média semanal</p><div id="peso-historico-lista"></div></section></div>
-    <!-- Volume muscular calculado a partir do plano existente; sem simular fadiga/força. -->
+    <!-- Painel de estatísticas inspirado na organização pública do OpenGym. Dados locais reais. -->
     <div class="pane" id="view-mapa-muscular">
-      <div class="internal-header"><button class="back-btn" id="mapa-voltar">← Voltar</button><span class="internal-title">Desempenho Muscular</span></div>
-      <section class="muscle-board">
-        <div class="muscle-heading">Equilíbrio muscular <span class="muscle-sub">Séries programadas por semana</span></div>
-        <div class="muscle-bodies" id="muscle-bodies"></div>
-        <div class="muscle-legend"><span>Menos</span><i></i><i></i><i></i><i></i><span>Mais</span></div>
-        <div id="muscle-rows"></div>
-        <p class="muscle-note" id="muscle-note">O mapa mostra o treino planejado. Séries programadas não são necessariamente séries realizadas.</p>
+      <div class="internal-header"><button class="back-btn" id="mapa-voltar">← Voltar</button><span class="internal-title">Estatísticas Musculares</span></div>
+      <section class="sp-stats-card">
+        <h3>Atividade <small>Últimos 12 meses</small></h3>
+        <div class="sp-segment" id="sp-activity-tabs"><button data-mode="registros" class="selected">Registros</button><button data-mode="volume">Volume de carga</button></div>
+        <div class="sp-heatmap-scroll"><div id="sp-heatmap" class="sp-heatmap"></div></div>
+        <p class="sp-help">Dias em que foram salvos registros de carga. Não representa necessariamente sessões concluídas.</p>
       </section>
-      <section class="muscle-board">
-        <div class="muscle-heading">Registros de carga <span class="muscle-sub">Histórico salvo neste aparelho</span></div>
-        <div id="muscle-registros"></div>
-        <p class="muscle-note">Os registros de carga indicam configurações salvas. Ainda não são prova de execução do treino. Fadiga e força exigem dados de séries concluídas.</p>
+      <section class="sp-stats-card">
+        <div class="sp-segment sp-modes" id="sp-map-modes"><button data-mode="balance" class="selected">Equilíbrio</button><button data-mode="fatigue">Fadiga</button><button data-mode="strength">Força</button></div>
+        <p class="sp-help" id="sp-map-description">Séries distribuídas por grupo muscular.</p>
+        <div class="sp-segment" id="sp-periods"><button data-period="week" class="selected">Semana</button><button data-period="30">30 dias</button><button data-period="90">90 dias</button><button data-period="all">Tudo</button></div>
+        <div class="sp-period-title" id="sp-period-title"></div>
+        <div class="sp-body-pair" id="sp-body-pair"></div>
+        <div class="sp-legend"><span>Menos</span><i></i><i></i><i></i><i></i><span>Mais</span></div>
+        <div id="sp-muscle-rows"></div>
+        <div id="sp-no-muscles" class="sp-help"></div>
+      </section>
+      <section class="sp-stats-card">
+        <h3>Volume muscular semanal</h3>
+        <p class="sp-help">Séries planejadas por semana, calculadas com base nos exercícios da ficha.</p>
+        <div id="sp-planned-rows"></div>
+      </section>
+      <section class="sp-stats-card">
+        <h3>Evolução dos exercícios</h3>
+        <p class="sp-help">Histórico de cargas salvas, sem presumir que todas as séries foram realizadas.</p>
+        <select id="sp-exercise-select" class="sp-exercise-select" aria-label="Selecionar exercício"></select>
+        <div class="sp-segment" id="sp-progress-tabs"><button data-mode="peso" class="selected">Carga máxima</button><button data-mode="volume">Carga × reps</button></div>
+        <div id="sp-progress-chart"></div>
+      </section>
+      <section class="sp-stats-card">
+        <h3>Registros recentes</h3>
+        <div id="sp-recent-records"></div>
+      </section>
+      <section class="sp-stats-card">
+        <h3>Recuperação e força</h3>
+        <p class="sp-help">O OpenGym calcula fadiga e força a partir de sessões executadas, séries, esforço e histórico. O Smart Physical ainda registra configurações e cargas, não a confirmação completa dessas séries. Estes indicadores permanecem sem estimativa até termos dados compatíveis.</p>
       </section>
     </div>
     <!-- X5 - EXECUÇÃO DE SÉRIES (11 VÍDEOS COMPLETOS EM QUADRINHOS) -->
@@ -3152,96 +3199,206 @@ body{background:#030304}
     document.getElementById('perfil-semana-anterior')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil--;renderizarSemanaPerfil();});
     document.getElementById('perfil-semana-proxima')?.addEventListener('click',e=>{e.stopPropagation();deslocamentoSemanaPerfil++;renderizarSemanaPerfil();});
 
-    const MAPA_GRUPOS=[
-      {nome:'Peito',chave:'peito',pos:'frente',cx:60,cy:83,rx:23,ry:15},
-      {nome:'Ombros',chave:'ombros',pos:'ambos',cx:36,cy:78,rx:12,ry:16},
-      {nome:'Bíceps',chave:'biceps',pos:'frente',cx:28,cy:113,rx:9,ry:24},
-      {nome:'Tríceps',chave:'triceps',pos:'costas',cx:29,cy:113,rx:9,ry:24},
-      {nome:'Costas',chave:'costas',pos:'costas',cx:60,cy:103,rx:24,ry:31},
-      {nome:'Abdômen',chave:'abdomen',pos:'frente',cx:60,cy:116,rx:19,ry:22},
-      {nome:'Glúteos',chave:'gluteos',pos:'costas',cx:60,cy:158,rx:23,ry:15},
-      {nome:'Quadríceps',chave:'quadriceps',pos:'frente',cx:49,cy:195,rx:13,ry:34},
-      {nome:'Posterior de coxa',chave:'posterior',pos:'costas',cx:49,cy:195,rx:13,ry:34},
-      {nome:'Panturrilhas',chave:'panturrilhas',pos:'ambos',cx:49,cy:256,rx:9,ry:29}
+
+    // Estatísticas derivadas dos registros locais: jamais atribuir séries concluídas sem confirmação.
+    const SP_MUSCLES=[
+      ['peito','Peito'],['ombros','Ombros'],['costas','Costas'],['biceps','Bíceps'],
+      ['triceps','Tríceps'],['abdomen','Abdômen'],['quadriceps','Quadríceps'],
+      ['posterior','Posterior de coxa'],['gluteos','Glúteos'],['panturrilhas','Panturrilhas']
     ];
-    function grupoMapa(ex) {
-      const texto = [ex?.grupo,ex?.musculo,ex?.foco,ex?.familia].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
-      if(/PEITO|PEITORAL|SUPINO|CRUCIFIXO/.test(texto))return 'peito';
-      if(/TRICEPS/.test(texto))return 'triceps';
-      if(/BICEPS/.test(texto))return 'biceps';
-      if(/OMBRO|DELTOIDE/.test(texto))return 'ombros';
-      if(/COSTAS|DORSAL|TRAPEZIO|REMADA/.test(texto))return 'costas';
-      if(/ABDOM|OBLIQUO/.test(texto))return 'abdomen';
-      if(/GLUTEO/.test(texto))return 'gluteos';
-      if(/PANTURRILHA|GEMEOS/.test(texto))return 'panturrilhas';
-      if(/POSTERIOR|FEMORAL|ISQUIO/.test(texto))return 'posterior';
-      if(/PERNA|QUADRICEPS|LEG PRESS|AGACHAMENTO/.test(texto))return 'quadriceps';
-      return null;
+    const SP_DISTRIB=[
+      peito:{peito:1,triceps:.35,ombros:.3},ombros:{ombros:1,triceps:.2},
+      costas:{costas:1,biceps:.35},biceps:{biceps:1},triceps:{triceps:1},
+      abdomen:{abdomen:1},quadriceps:{quadriceps:1,gluteos:.3},
+      posterior:{posterior:1,gluteos:.3},gluteos:{gluteos:1},
+      panturrilhas:{panturrilhas:1}
+    ];
+    let spMode='balance',spPeriod='week',spActivityMode='registros',spProgressMode='peso',spExercise='';
+    function spGroup(ex) {
+      const t=[ex?.grupo,ex?.musculo,ex?.foco,ex?.familia].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+      if(/PANTURRILHA|GEMEOS/.test(t))return 'panturrilhas';
+      if(/POSTERIOR|FEMORAL|ISQUIO/.test(t))return 'posterior';
+      if(/GLUTEO/.test(t))return 'gluteos';
+      if(/TRICEPS/.test(t))return 'triceps';
+      if(/BICEPS/.test(t))return 'biceps';
+      if(/PEITO|PEITORAL|SUPINO|CRUCIFIXO/.test(t))return 'peito';
+      if(/COSTAS|DORSAL|TRAPEZIO|REMADA/.test(t))return 'costas';
+      if(/OMBRO|DELTOIDE/.test(t))return 'ombros';
+      if(/ABDOM|OBLIQUO/.test(t))return 'abdomen';
+      if(/PERNA|QUADRICEPS|LEG PRESS|AGACHAMENTO/.test(t))return 'quadriceps';
+      return '';
     }
-    function mapaSemanalPlanejado() {
-      const resumo=Object.fromEntries(MAPA_GRUPOS.map(g=>[g.chave,0]));
-      const exercicios = new Map(DATABASE_EXERCICIOS.map(ex=>[String(ex.id),ex]));
-      let semMapa=0,quantidade=0;
-      for(let dia=0;dia<7;dia++)for(const id of (estado.treinoPorDia?.[dia]||[])){
-        const ex=exercicios.get(String(id)); if(!ex){semMapa++;continue;}
-        const chave=grupoMapa(ex);if(!chave){semMapa++;continue;}
-        const series=Number(estado.customExercicios?.[id]?.series ?? ex.series ?? 3);
-        if(Number.isFinite(series)&&series>0){resumo[chave]+=series;quantidade++;}
+    const spEmpty=()=>Object.fromEntries(SP_MUSCLES.map(([k])=>[k,0]));
+    function spPlan(){
+      const val=spEmpty(),byId=new Map(DATABASE_EXERCICIOS.map(ex=>[String(ex.id),ex]));
+      let unmatched=0;
+      for(let day=0;day<7;day++)for(const id of (estado.treinoPorDia?.[day]||[])){
+        const ex=byId.get(String(id)),g=spGroup(ex);if(!g){unmatched++;continue;}
+        const num=Number(estado.customExercicios?.[id]?.series??ex?.series??3);
+        if(!Number.isFinite(num)||num<=0)continue;
+        for(const [muscle,weight] of Object.entries(SP_DISTRIB[g]||{}))val[muscle]+=num*weight;
       }
-      return {resumo,semMapa,quantidade};
+      return {val,unmatched};
     }
-    function svgCorpoMuscular(lado,resumo,maximo) {
+    const spHistory=()=>Array.isArray(estado.historicoCarga)?estado.historicoCarga.filter(r=>r&&/^\d{4}-\d{2}-\d{2}$/.test(r.data)&&Number(r.peso)>0):[];
+    function spRange(){
+      if(spPeriod==='all')return '';
+      const now=new Date(),days=spPeriod==='week'?7:Number(spPeriod);
+      const begin=new Date(now.getFullYear(),now.getMonth(),now.getDate()-days+1);
+      return dataISO(begin);
+    }
+    function spLoadByMuscle(){
+      const val=spEmpty(),ids=new Map(DATABASE_EXERCICIOS.map(ex=>[String(ex.id),ex]));
+      for(const r of spHistory()){
+        if(spRange()&&r.data<spRange())continue;
+        const group=spGroup(ids.get(String(r.exercicioId)));if(!group)continue;
+        const reps=Number(r.reps)||0,sets=Number(r.series)||0;
+        if(reps<=0||sets<=0)continue;
+        // Histórico de configuração, não executado: não somar como série realizada.
+      }
+      return val;
+    }
+    function spBodySVG(side,values,allowColor){
       const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
-      svg.setAttribute('viewBox','0 0 120 315');svg.setAttribute('role','img');svg.setAttribute('aria-label','Mapa muscular '+lado);
-      const add=(tag,attrs)=>{const node=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));svg.appendChild(node);return node;};
-      const cinza='#35353a',borda='#111115';
-      add('ellipse',{cx:60,cy:35,rx:18,ry:23,fill:cinza,stroke:borda,'stroke-width':2});
-      add('rect',{x:51,y:56,width:18,height:14,rx:5,fill:cinza});
-      add('path',{d:'M39 67 Q60 60 81 67 L89 149 Q83 169 60 172 Q37 169 31 149Z',fill:cinza,stroke:borda,'stroke-width':2});
-      for(const ladoDoCorpo of [-1,1]){
-        const centro=60+ladoDoCorpo*31;
-        add('ellipse',{cx:centro,cy:94,rx:11,ry:27,transform:'rotate('+(-ladoDoCorpo*12)+' '+centro+' 94)',fill:cinza});
-        add('ellipse',{cx:60+ladoDoCorpo*39,cy:142,rx:8,ry:25,transform:'rotate('+(-ladoDoCorpo*7)+' '+(60+ladoDoCorpo*39)+' 142)',fill:cinza});
-        add('ellipse',{cx:60+ladoDoCorpo*14,cy:201,rx:16,ry:38,fill:cinza});
-        add('ellipse',{cx:60+ladoDoCorpo*13,cy:270,rx:10,ry:37,fill:cinza});
+      svg.setAttribute('viewBox','0 0 180 380');svg.setAttribute('role','img');
+      svg.setAttribute('aria-label',side==='front'?'Músculos vistos de frente':'Músculos vistos de costas');
+      const defs=document.createElementNS(ns,'defs');svg.appendChild(defs);
+      const gradient=document.createElementNS(ns,'linearGradient');gradient.id='sp-anatomy-'+side;gradient.setAttribute('x1','0');gradient.setAttribute('x2','1');
+      for(const [offset,color] of [['0%','#343439'],['48%','#55555a'],['100%','#303036']]){
+        const stop=document.createElementNS(ns,'stop');stop.setAttribute('offset',offset);stop.setAttribute('stop-color',color);gradient.appendChild(stop);
+      }defs.appendChild(gradient);
+      const all=Math.max(0,...Object.values(values));
+      function piece(path,group,label){
+        const el=document.createElementNS(ns,'path');el.setAttribute('d',path);
+        let color='url(#sp-anatomy-'+side+')';
+        const n=values[group]||0,percent=all>0?n/all:0;
+        if(allowColor&&n>0)color=percent<.28?'#356d47':percent<.55?'#238e4d':percent<.83?'#24bb58':'#25dc67';
+        el.setAttribute('fill',color);el.setAttribute('stroke','#161619');el.setAttribute('stroke-width','1.8');
+        if(group){el.dataset.group=group;el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',label||group);
+          const details=()=>{document.getElementById('sp-no-muscles').textContent=(label||group)+' · '+(allowColor?(n.toFixed(1).replace('.',',')+' séries equivalentes programadas'):'sem dados de sessões realizadas')};
+          el.addEventListener('click',details);el.addEventListener('keydown',e=>{if(e.key==='Enter')details()});
+        }
+        svg.appendChild(el);return el;
       }
-      for(const g of MAPA_GRUPOS){
-        if(g.pos!==lado&&g.pos!=='ambos')continue;
-        const value=resumo[g.chave]||0,level=maximo&&value?value/maximo:0;
-        const cor=level===0?cinza:level<0.35?'#356f43':level<0.7?'#2cac54':'#31d765';
-        const coords=g.cx===60?[[60]]:[[g.cx],[120-g.cx]];
-        for(const [x] of coords)add('ellipse',{cx:x,cy:g.cy,rx:g.rx,ry:g.ry,fill:cor,stroke:borda,'stroke-width':2,'data-muscle':g.nome});
+      const stroke=(path)=>piece(path,null);
+      piece('M75 17 Q90 2 106 17 L110 40 Q106 60 90 63 Q74 58 70 39 Z',null);
+      piece('M82 57 L98 57 L101 73 L79 73Z',null);
+      stroke('M65 69 Q90 59 115 69 L123 97 L115 161 Q90 175 65 161 L57 97Z');
+      for(const m of [-1,1]){
+        const transformX=x=>m===1?x:180-x;
+        const pp=(points,g,label)=>piece(points.replace(/~(\d+)/g,(_,x)=>String(transformX(+x))),g,label);
+        pp('M~64 69 Q~54 67 ~45 76 Q~36 90 ~48 108 L~68 101Z','ombros','Ombros');
+        pp('M~47 109 Q~35 113 ~33 141 L~28 158 Q~25 164 ~19 161 L~25 115 Q~31 98 ~42 96Z',side==='front'?'biceps':'triceps',side==='front'?'Bíceps':'Tríceps');
+        pp('M~27 158 Q~33 166 ~26 189 L~19 218 Q~14 223 ~11 217 L~15 184 L~17 157Z',null);
+        if(side==='front'){
+          pp('M~87 73 Q~70 71 ~65 78 L~64 97 Q~75 108 ~89 100 Z','peito','Peito');
+          pp('M~87 108 Q~74 105 ~71 118 L~73 157 L~88 164Z','abdomen','Abdômen');
+        }else{
+          pp('M~88 72 Q~69 75 ~65 95 L~72 132 L~87 149Z','costas','Costas');
+          pp('M~87 150 Q~72 147 ~69 156 L~67 180 Q~80 191 ~89 184Z','gluteos','Glúteos');
+        }
+        pp('M~67 181 Q~55 177 ~48 197 L~47 245 Q~49 269 ~62 274 L~78 253 L~86 196Z',side==='front'?'quadriceps':'posterior',side==='front'?'Quadríceps':'Posterior de coxa');
+        pp('M~50 278 Q~48 294 ~49 319 L~56 351 Q~65 359 ~67 344 L~73 291Z','panturrilhas','Panturrilhas');
+        pp('M~55 351 L~67 346 L~73 367 Q~63 373 ~45 370Z',null);
       }
+      if(side==='front')piece('M79 106 L101 106 L107 153 L90 168 L73 153Z','abdomen','Abdômen');
+      else piece('M80 73 L100 73 L109 143 L90 155 L71 143Z','costas','Costas');
       return svg;
     }
-    function renderizarMapaMuscular(){
-      const {resumo,semMapa,quantidade}=mapaSemanalPlanejado();
-      const maximo=Math.max(0,...Object.values(resumo));
-      const bodies=document.getElementById('muscle-bodies');if(!bodies)return;
-      bodies.replaceChildren();
-      for(const lado of ['frente','costas']){
-        const box=document.createElement('div');box.className='muscle-body';
-        const label=document.createElement('small');label.textContent=lado==='frente'?'Frente':'Costas';
-        box.append(svgCorpoMuscular(lado,resumo,maximo),label);bodies.appendChild(box);
+    function spRows(container,values,unit='séries'){
+      container.replaceChildren();const max=Math.max(0,...Object.values(values));
+      for(const [key,name] of [...SP_MUSCLES].sort((a,b)=>values[b[0]]-values[a[0]])){
+        const row=document.createElement('div');row.className='sp-muscle-row';
+        const label=document.createElement('span');label.textContent=name;
+        const track=document.createElement('div');track.className='sp-muscle-track';
+        const fill=document.createElement('div');fill.className='sp-muscle-fill';fill.style.width=(max?100*values[key]/max:0)+'%';track.appendChild(fill);
+        const count=document.createElement('span');count.className='sp-muscle-count';count.textContent=Number(values[key].toFixed(1)).toLocaleString('pt-BR')+' '+unit;
+        row.append(label,track,count);container.appendChild(row);
       }
-      const rows=document.getElementById('muscle-rows');rows.replaceChildren();
-      for(const g of [...MAPA_GRUPOS].sort((a,b)=>resumo[b.chave]-resumo[a.chave])){
-        const linha=document.createElement('div');linha.className='muscle-line';
-        const nome=document.createElement('span');nome.textContent=g.nome;
-        const faixa=document.createElement('div');faixa.className='track';
-        const preenchimento=document.createElement('div');preenchimento.className='fill';
-        preenchimento.style.width=(maximo?resumo[g.chave]/maximo*100:0)+'%';faixa.appendChild(preenchimento);
-        const qtd=document.createElement('span');qtd.className='count';qtd.textContent=resumo[g.chave]+' séries';
-        linha.append(nome,faixa,qtd);rows.appendChild(linha);
+    }
+    function spHeatmap(){
+      const counts=new Map(),today=new Date(),first=new Date(today.getFullYear(),today.getMonth(),today.getDate()-364);
+      for(const r of spHistory()){if(r.data<dataISO(first))continue;
+        const current=counts.get(r.data)||{n:0,volume:0};current.n++;
+        current.volume+=Number(r.peso)*(Number(r.series)||0)*(Number(r.reps)||0);
+        counts.set(r.data,current);}
+      const div=document.getElementById('sp-heatmap');div.replaceChildren();
+      const begin=new Date(first);begin.setDate(begin.getDate()-begin.getDay());
+      for(let d=new Date(begin);d<=today;d.setDate(d.getDate()+1)){
+        const iso=dataISO(d),v=counts.get(iso),n=v?(spActivityMode==='volume'?v.volume:v.n):0;
+        const cell=document.createElement('div');cell.className='sp-heat-cell';
+        cell.dataset.level=n===0?0:spActivityMode==='volume'?(n<1000?1:n<4000?2:n<10000?3:4):Math.min(4,n);
+        cell.title=iso+': '+(spActivityMode==='volume'?Math.round(n)+' kg × repetições (estimados) ':n+' registros');
+        div.appendChild(cell);
       }
-      document.getElementById('muscle-note').textContent=quantidade
-      ? 'Volume programado nos 7 dias da ficha, não equivale a treino concluído.'+(semMapa?' '+semMapa+' exercício(s) ainda sem classificação muscular.':'')
-      : 'Nenhum exercício classificado na programação. Adicione exercícios aos dias da semana para preencher o mapa.';
-      const registros=(estado.historicoCarga||[]).filter(x=>x&&Number(x.peso)>0);
-      const dias=new Set(registros.map(r=>r.data).filter(Boolean));
-      document.getElementById('muscle-registros').textContent=registros.length+' registros de carga em '+dias.size+' data(s).';
+    }
+    function spRenderStats(){
+      const plan=spPlan(),hasCompleted=false;
+      const desc=document.getElementById('sp-map-description'),rows=document.getElementById('sp-muscle-rows'),pair=document.getElementById('sp-body-pair');
+      const active=spMode==='balance'&&spPeriod==='week',values=active?plan.val:spEmpty();
+      pair.replaceChildren();
+      for(const [side,label] of [['front','Frente'],['back','Costas']]){
+        const box=document.createElement('div');box.className='sp-body-pane';
+        const txt=document.createElement('small');txt.textContent=label;
+        box.append(spBodySVG(side,values,active),txt);pair.appendChild(box);
+      }
+      const title=document.getElementById('sp-period-title');
+      title.textContent=spPeriod==='week'?'Esta semana (programação)':spPeriod==='30'?'Últimos 30 dias':spPeriod==='90'?'Últimos 90 dias':'Todo o histórico';
+      desc.textContent=spMode==='balance'?'Volume muscular por séries efetivas: cada músculo principal recebe peso 1; músculos auxiliares recebem uma fração.':
+        spMode==='fatigue'?'Fadiga: exige sessões executadas, data e intensidade para estimar recuperação.':
+        'Força: exige sessões reais com repetições, carga e série concluída para estimar 1RM e retenção.';
+      if(spMode!=='balance'||!active){
+        rows.replaceChildren();
+        document.getElementById('sp-no-muscles').textContent='Ainda não há registros suficientes de séries efetivamente concluídas para este indicador e período.';
+      }else{
+        spRows(rows,values,'séries');
+        document.getElementById('sp-no-muscles').textContent=plan.unmatched?plan.unmatched+' exercício(s) sem grupo muscular identificado.':'Dados da ficha planejada, não das sessões realizadas.';
+      }
+      spRows(document.getElementById('sp-planned-rows'),plan.val,'séries');
+      spHeatmap();spProgress();
+      document.querySelectorAll('#sp-map-modes button').forEach(b=>b.classList.toggle('selected',b.dataset.mode===spMode));
+      document.querySelectorAll('#sp-periods button').forEach(b=>b.classList.toggle('selected',b.dataset.period===spPeriod));
+      document.querySelectorAll('#sp-activity-tabs button').forEach(b=>b.classList.toggle('selected',b.dataset.mode===spActivityMode));
+    }
+    function spProgress(){
+      const history=spHistory(),byId=new Map(DATABASE_EXERCICIOS.map(e=>[String(e.id),e]));
+      const exercises=[...new Set(history.map(r=>String(r.exercicioId)))];
+      const select=document.getElementById('sp-exercise-select');
+      const previous=spExercise||select.value;select.replaceChildren();
+      for(const id of exercises){const opt=document.createElement('option');opt.value=id;opt.textContent=byId.get(id)?.nome||'Exercício '+id;select.appendChild(opt);}
+      spExercise=exercises.includes(previous)?previous:(exercises[0]||'');
+      select.value=spExercise;
+      const chart=document.getElementById('sp-progress-chart');chart.replaceChildren();
+      const records=history.filter(r=>String(r.exercicioId)===spExercise).sort((a,b)=>a.data.localeCompare(b.data));
+      if(!records.length){chart.textContent='Nenhuma carga registrada para exibir o gráfico.';}
+      else{
+        const width=340,height=185,pad=27,ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+        svg.setAttribute('viewBox','0 0 340 185');svg.classList.add('sp-chart-svg');svg.setAttribute('role','img');svg.setAttribute('aria-label','Evolução das cargas registradas');
+        const val=r=>spProgressMode==='peso'?Number(r.peso):Number(r.peso)*(Number(r.reps)||0);
+        const values=records.map(val),high=Math.max(...values,1),low=Math.min(0,...values),span=Math.max(1,high-low);
+        const pts=values.map((v,i)=>[pad+i*(width-2*pad)/Math.max(1,values.length-1),height-pad-(v-low)/span*(height-2*pad)]);
+        const path=document.createElementNS(ns,'polyline');path.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+        path.setAttribute('fill','none');path.setAttribute('stroke','#d7aa64');path.setAttribute('stroke-width','3');svg.appendChild(path);
+        pts.forEach(([x,y],i)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','4');c.setAttribute('fill','#2ad761');const t=document.createElementNS(ns,'title');t.textContent=records[i].data+' · '+values[i].toFixed(1);c.appendChild(t);svg.appendChild(c)});
+        chart.appendChild(svg);
+      }
+      const recent=document.getElementById('sp-recent-records');recent.replaceChildren();
+      if(!history.length)recent.textContent='Nenhum registro de carga salvo.';
+      else for(const rec of [...history].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,10)){
+        const row=document.createElement('div');row.className='sp-recent-row';
+        const name=document.createElement('span');name.textContent=(byId.get(String(rec.exercicioId))?.nome||'Exercício')+' · '+rec.data.split('-').reverse().join('/');
+        const value=document.createElement('span');value.textContent=Number(rec.peso)+' kg · '+(rec.series||3)+'×'+(rec.reps||12);
+        row.append(name,value);recent.appendChild(row);
+      }
+      document.querySelectorAll('#sp-progress-tabs button').forEach(b=>b.classList.toggle('selected',b.dataset.mode===spProgressMode));
     }
     document.getElementById('mapa-voltar')?.addEventListener('click',()=>abrirTela('view-dashboard'));
+    document.querySelectorAll('#sp-map-modes button').forEach(b=>b.addEventListener('click',()=>{spMode=b.dataset.mode;spRenderStats()}));
+    document.querySelectorAll('#sp-periods button').forEach(b=>b.addEventListener('click',()=>{spPeriod=b.dataset.period;spRenderStats()}));
+    document.querySelectorAll('#sp-activity-tabs button').forEach(b=>b.addEventListener('click',()=>{spActivityMode=b.dataset.mode;spRenderStats()}));
+    document.querySelectorAll('#sp-progress-tabs button').forEach(b=>b.addEventListener('click',()=>{spProgressMode=b.dataset.mode;spProgress()}));
+    document.getElementById('sp-exercise-select')?.addEventListener('change',e=>{spExercise=e.target.value;spProgress()});
+    function renderizarMapaMuscular(){spRenderStats()}
     function init() {
       popularSeletoresConfiguracao();
       if (!estado.pagamento.liberado) {
