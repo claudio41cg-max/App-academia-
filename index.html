@@ -806,6 +806,9 @@ body{background:#030304}
   color:#21170c!important;
   border:1px solid #f0c989!important;
 }
+
+/* Card de aquecimento: mesma grade, paleta ouro e descrição preservada */
+#view-categorias .cat-card:last-child b { color:#dcb16d!important; }
 </style>
 </head>
 <body>
@@ -1826,6 +1829,37 @@ body{background:#030304}
       });
     }
 
+
+    // Aquecimento cardiovascular: IDs próprios, sem alterar os 100 exercícios existentes.
+    // Os minutos ficam no campo numérico de duração (reps) apenas para preservar o formato já salvo.
+    function imagemCardio(tipo) {
+      const esteira = tipo === 'esteira';
+      const icon = esteira
+        ? '<path d="M18 85h92l-8 12H11zM26 85l12-31h44l13 31M47 42l13-14 16 13M60 28l-5 29 19 14M55 57L39 77" fill="none" stroke="#e2b76c" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><circle cx="61" cy="17" r="10" fill="#e2b76c"/>'
+        : '<circle cx="33" cy="78" r="20" fill="none" stroke="#e2b76c" stroke-width="7"/><circle cx="99" cy="78" r="20" fill="none" stroke="#e2b76c" stroke-width="7"/><path d="M33 78l22-38 21 38H33M76 78l23-34M79 35h14M55 40h-7M55 40l7-18" fill="none" stroke="#e2b76c" stroke-width="7" stroke-linecap="round"/><circle cx="68" cy="14" r="9" fill="#e2b76c"/>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 108"><rect width="132" height="108" rx="12" fill="#242428"/>' + icon + '</svg>');
+    }
+    DATABASE_EXERCICIOS.push(
+      {
+        id:'cardio-esteira',nome:'Caminhada na Esteira',grupo:'CARDIO',
+        aparelho:'Esteira ergométrica',musculo:'Aquecimento cardiovascular',
+        familia:'AQUECIMENTO',foco:'Preparação para a musculação',popular:false,
+        gif:imagemCardio('esteira'),gifFallback:FALLBACK_IMG,
+        instrucao:'Comece com uma caminhada confortável por 5 a 10 minutos. Aumente a velocidade gradualmente, mantendo uma intensidade em que ainda consiga conversar. Use o corrimão apenas quando necessário e reduza a velocidade antes de sair.',
+        errosComuns:'Começar muito rápido; segurar constantemente nos apoios; tentar acompanhar velocidade acima do confortável.',
+        series:1,reps:8,descanso:60,peso:0,cardio:true
+      },
+      {
+        id:'cardio-bicicleta',nome:'Bicicleta Ergométrica',grupo:'CARDIO',
+        aparelho:'Bicicleta ergométrica',musculo:'Aquecimento cardiovascular',
+        familia:'AQUECIMENTO',foco:'Preparação para a musculação',popular:false,
+        gif:imagemCardio('bicicleta'),gifFallback:FALLBACK_IMG,
+        instrucao:'Ajuste a altura do banco para pedalar sem esticar totalmente o joelho. Pedale por 5 a 10 minutos em ritmo leve a moderado, aumentando a cadência gradualmente, sem forçar a resistência.',
+        errosComuns:'Banco desregulado; resistência excessiva no início; começar com intensidade alta.',
+        series:1,reps:8,descanso:60,peso:0,cardio:true
+      }
+    );
+
     const PEITO_INFO = {
       e3: {
         ordem: 1, familia: "SUPINO", foco: "Peitoral médio",
@@ -2717,7 +2751,8 @@ body{background:#030304}
         { id: 'triceps', nome: 'Triceps' }, { id: 'perna', nome: 'Perna' },
         { id: 'abdomen', nome: 'Abdomen' }, { id: 'ombro', nome: 'Ombro' },
         { id: 'costas', nome: 'Costas' }, { id: 'trapezio', nome: 'Trapezio' },
-        { id: 'gluteo', nome: 'Gluteo' }, { id: 'panturrilha', nome: 'Panturrilha' }
+        { id: 'gluteo', nome: 'Gluteo' }, { id: 'panturrilha', nome: 'Panturrilha' },
+        { id: 'cardio', nome: 'Cardio' }
       ];
       container.innerHTML = '';
       categorias.forEach(cat => {
@@ -2790,6 +2825,18 @@ body{background:#030304}
 
       try {
         popularSeletoresConfiguracao();
+        const ehCardio = ex.grupo === 'CARDIO';
+        const labels = document.querySelectorAll('#view-detalhe-exercicio .metric-edit-item label');
+        if (labels.length >= 4) {
+          labels[0].textContent = ehCardio ? 'Blocos' : 'Séries';
+          labels[1].textContent = ehCardio ? 'Duração (min)' : 'Repetições';
+          labels[2].textContent = 'Peso (kg)';
+          labels[3].textContent = 'Descanso';
+          // Duração é medida em minutos para cardio, nunca contagem de repetições.
+          document.querySelectorAll('#edit-reps option').forEach(o => {
+            o.textContent = o.value + (ehCardio ? ' min' : ' reps');
+          });
+        }
 
         const setText = (id, value) => {
           const el = document.getElementById(id);
@@ -2822,8 +2869,8 @@ body{background:#030304}
         const peso = document.getElementById('edit-peso-exercicio');
         const descanso = document.getElementById('edit-descanso');
 
-        if (series) series.value = custom.series || ex.series || 3;
-        if (reps) reps.value = custom.reps || ex.reps || 12;
+        if (series) series.value = custom.series ?? ex.series ?? 3;
+        if (reps) reps.value = custom.reps ?? ex.reps ?? 12;
         if (peso) {
           const ultimoRegistro = registrosCargaDoExercicio(ex.id)[0];
           const pesoAtual = custom.peso !== undefined ? custom.peso : (ultimoRegistro ? Number(ultimoRegistro.peso) : 0);
