@@ -3059,17 +3059,9 @@ body{background:#030304}
         atualizarDiasDoDetalhe();
       });
     });
-    document.querySelectorAll('#day-selector .day-btn').forEach(botao => {
-      botao.addEventListener('click', () => {
-        botao.classList.toggle('active');
-        botao.setAttribute('aria-pressed', String(botao.classList.contains('active')));
-      });
-    });
     document.getElementById('btn-toggle-treino')?.addEventListener('click', function() {
       if (!diasSelecionadosDetalhe.size) { mostrarToast('Selecione pelo menos um dia da semana.'); return; }
       if (!exercicioAtualId) return;
-      const diasMarcados = Array.from(document.querySelectorAll('#day-selector .day-btn.active')).map(b=>Number(b.dataset.day));
-      if (!diasMarcados.length) { mostrarToast('Selecione pelo menos um dia da semana'); return; }
       if (!estado.customExercicios) estado.customExercicios = {};
       if (!estado.treinoPorDia) estado.treinoPorDia = { 0:[],1:[],2:[],3:[],4:[],5:[],6:[] };
 
