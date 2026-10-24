@@ -725,6 +725,79 @@ body{background:#030304}
     /* Integra o fundo preto da arte ao grafite do card, sem mudar os outros cards. */
     #btn-menu-muscular .icon-stage { background: #29292c; isolation: isolate; }
     #btn-menu-muscular .icon-stage img { mix-blend-mode: screen; }
+
+/* Smart Physical | Harmonia dourado, branco e verde — telas Perfil e Histórico.
+   Escopo visual: não altera dados, handlers, dias selecionados nem treinos. */
+#view-perfil, #view-treinos {
+  --gold:#d8ad68;
+  --gold-glow:rgba(216,173,104,.13);
+  --sp-white:#f3f1ed;
+  --sp-soft:#b6b6bc;
+  --sp-green:#36b966;
+}
+#view-perfil .internal-title, #view-treinos .internal-title {color:var(--sp-white)!important;}
+#view-perfil .back-btn, #view-treinos .back-btn {
+  color:var(--gold)!important;border-color:#9a7843!important;
+  background:#222125!important;box-shadow:none!important;
+}
+#view-perfil .perfil-edit .campo label {
+  color:#d5c6ac!important;letter-spacing:.075em;
+}
+#view-perfil .perfil-edit h4 {
+  color:#e5b967!important;font-size:18px!important;
+}
+#view-perfil .perfil-edit .campo input,
+#view-perfil .perfil-edit .campo textarea {
+  color:var(--sp-white)!important;background:#242428!important;
+  border:1px solid #404046!important;
+}
+#view-perfil .perfil-edit .campo input:focus,
+#view-perfil .perfil-edit .campo textarea:focus {
+  border-color:#d8ad68!important;
+}
+#view-perfil .btn-salvar-perfil {
+  background:#2bbb68!important;color:#09150c!important;
+  border:1px solid #51cf83!important;box-shadow:none!important;
+}
+#view-perfil .btn-whatsapp:not(#btn-exportar-backup) {
+  background:#29342d!important;border:1px solid #438455!important;
+  color:#f0f4ef!important;box-shadow:none!important;
+}
+#view-perfil #btn-exportar-backup {
+  background:#29282a!important;border:1px solid #8a6c44!important;
+  color:#e8d5b9!important;box-shadow:none!important;
+}
+#view-treinos .cal-container {
+  background:#242427!important;border-color:#414147!important;
+}
+#view-treinos .cal-header h3 {color:#e4b86c!important;}
+#view-treinos .cal-nav-btn {
+  color:#e7b970!important;background:#302c2b!important;
+  border-color:#67543d!important;
+}
+#view-treinos #cal-frequencia-registrada {color:#e8e6e1!important;}
+#view-treinos .cal-day-cell.tem-treino-cal {
+  color:#eac17c!important;background:#372b1c!important;
+  border-color:#bd944e!important;
+}
+#view-treinos .cal-day-cell.hoje {border-color:#59bd7b!important;}
+#view-treinos .cal-day-label {color:#c0c0c4!important;}
+#view-treinos .dia-vertical-item {background:#242427!important;border-color:#3c3c42!important;}
+#view-treinos .dia-vertical-item.tem-treino {
+  background:linear-gradient(125deg,#2b261e,#222429)!important;
+  border:1.5px solid #b99555!important;
+  box-shadow:0 3px 15px rgba(213,164,75,.08)!important;
+}
+#view-treinos .dia-vertical-item .dia-nome {color:#f6f5f2!important;}
+#view-treinos .dia-vertical-item.tem-treino .dia-nome {color:#e7bc72!important;}
+#view-treinos .dia-vertical-item .dia-status-badge {color:#d5c4a6!important;}
+#view-treinos .dia-vertical-item.tem-treino .dia-qtd {
+  color:#16130b!important;background:#d9ad65!important;
+  border:1px solid #ebcb91!important;
+}
+#view-treinos .dia-vertical-item:not(.tem-treino) .dia-qtd {
+  color:#b9b9c0!important;background:#1c1c20!important;
+}
 </style>
 </head>
 <body>
