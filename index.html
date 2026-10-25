@@ -813,6 +813,15 @@ body{background:#030304}
 /* Crédito obrigatório da fonte de imagens de cardio; não interfere nos cards. */
 #view-categorias .cardio-image-credit{font-size:11px;text-align:center;color:#9e9ea5;padding:4px 16px 20px;line-height:1.5}
 #view-categorias .cardio-image-credit a{color:#d6ad69;text-decoration:underline;text-underline-offset:2px}
+
+    /* Bônus: tipografia discreta sobre o mesmo grafite dos cards vizinhos. */
+    #btn-menu-bonus .icon-stage { background:#29292c!important; }
+    #btn-menu-bonus .icon-stage::after { display:none!important; }
+    #btn-menu-bonus .bonus-wordmark {
+      position:relative;z-index:1;
+      color:#d7ab65;font-size:25px;font-weight:800;letter-spacing:.035em;
+      line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.25);
+    }
 </style>
 </head>
 <body>
@@ -1032,7 +1041,7 @@ body{background:#030304}
         </div>
         <div class="btn-dash" id="btn-menu-bonus">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><img src="assets/bonus-card-minimalista.webp" alt="Bônus em letras douradas" style="display:block;width:150px;max-width:92%;height:84px;object-fit:contain;margin:auto;border-radius:5px;" loading="eager"></div>
+          <div class="icon-stage"><span class="bonus-wordmark">BÔNUS</span></div>
           <div class="card-body"><div class="label">Bônus</div><div class="card-sub">Conteúdos exclusivos</div></div>
         </div>
       </div>
