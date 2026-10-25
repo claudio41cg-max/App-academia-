@@ -822,6 +822,13 @@ body{background:#030304}
       color:#d7ab65;font-size:25px;font-weight:800;letter-spacing:.035em;
       line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.25);
     }
+
+/* Gráfico embutido: sem camada, retângulo ou fundo diferente dos outros ícones. */
+#btn-menu-muscular .icon-stage .muscle-graph-icon {
+  width:82px;height:69px;max-width:75%;
+  background:none!important;filter:none!important;
+  display:block;position:relative;z-index:1;
+}
 </style>
 </head>
 <body>
@@ -1031,7 +1038,12 @@ body{background:#030304}
         </div>
         <div class="btn-dash" id="btn-menu-muscular">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><img src="assets/desempenho-muscular-grafico.svg" alt="Gráfico verde crescente com seta branca" style="display:block;width:110px;height:79px;max-width:82%;object-fit:contain;margin:auto;" loading="eager"></div>
+          <div class="icon-stage"><svg class="muscle-graph-icon" viewBox="0 0 128 96" role="img" aria-label="Gráfico de desempenho com seta crescente" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#3bbd3f" stroke="#75e654" stroke-width="3.5" stroke-linejoin="round">
+              <path d="M18 79V61L38 44V79Z"/><path d="M44 79V59L62 42V79Z"/><path d="M68 79V42L86 25V79Z"/><path d="M92 79V33L109 17V79Z"/>
+            </g>
+            <path d="M10 57L34 36L48 47L72 24L84 35L113 8M94 8H113V27" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="square" stroke-linejoin="miter"/>
+          </svg></div>
           <div class="card-body"><div class="label">Desempenho Muscular</div><div class="card-sub">Mapa muscular e evolução</div></div>
         </div>
         <div class="btn-dash" id="btn-menu-dietas">
