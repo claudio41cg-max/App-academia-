@@ -825,9 +825,9 @@ body{background:#030304}
 
 /* Gráfico embutido: sem camada, retângulo ou fundo diferente dos outros ícones. */
 #btn-menu-muscular .icon-stage .muscle-graph-icon {
-  width:82px;height:69px;max-width:75%;
-  background:none!important;filter:none!important;
-  display:block;position:relative;z-index:1;
+  width:108px;height:79px;max-width:80%;
+  background:transparent!important;filter:none!important;
+  display:block;position:relative;z-index:1;overflow:visible;
 }
 </style>
 </head>
@@ -1038,11 +1038,17 @@ body{background:#030304}
         </div>
         <div class="btn-dash" id="btn-menu-muscular">
           <div class="arrow-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-          <div class="icon-stage"><svg class="muscle-graph-icon" viewBox="0 0 128 96" role="img" aria-label="Gráfico de desempenho com seta crescente" xmlns="http://www.w3.org/2000/svg">
-            <g fill="#3bbd3f" stroke="#75e654" stroke-width="3.5" stroke-linejoin="round">
-              <path d="M18 79V61L38 44V79Z"/><path d="M44 79V59L62 42V79Z"/><path d="M68 79V42L86 25V79Z"/><path d="M92 79V33L109 17V79Z"/>
+          <div class="icon-stage"><svg class="muscle-graph-icon" viewBox="0 0 148 108" role="img" aria-label="Gráfico de desempenho crescente dourado com seta branca" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sp-graph-gold" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#6a4720"/><stop offset=".56" stop-color="#b7893f"/><stop offset="1" stop-color="#e6c47f"/></linearGradient>
+              <filter id="sp-graph-soft-glow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="2.2"/></filter>
+            </defs>
+            <g fill="url(#sp-graph-gold)" stroke="#d8ab60" stroke-width="3.4" stroke-linejoin="miter">
+              <path d="M32 94V72L54 51V94Z"/><path d="M58 94V75L80 55V94Z"/><path d="M84 94V51L106 32V94Z"/><path d="M110 94V40L132 20V94Z"/>
             </g>
-            <path d="M10 57L34 36L48 47L72 24L84 35L113 8M94 8H113V27" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="square" stroke-linejoin="miter"/>
+            <path d="M12 82L48 49L64 64L91 38L105 51L136 13" fill="none" stroke="#f8f6ee" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter" opacity=".38" filter="url(#sp-graph-soft-glow)"/>
+            <path d="M12 82L48 49L64 64L91 38L105 51L136 13" fill="none" stroke="#f7f7f5" stroke-width="5.5" stroke-linecap="square" stroke-linejoin="miter"/>
+            <path d="M119 12L137 11L136 30" fill="none" stroke="#f7f7f5" stroke-width="5.5" stroke-linejoin="miter" stroke-linecap="square"/>
           </svg></div>
           <div class="card-body"><div class="label">Desempenho Muscular</div><div class="card-sub">Mapa muscular e evolução</div></div>
         </div>
